@@ -4,9 +4,12 @@ title: "Bündnis Ost"
 
 ## Gemeinsam für eine bessere Zukunft
 
-Dies ist Bündnis Ost.
+{{< event-map >}}
 
-Wir setzen uns ein für:  
-- Klimaschutz  
-- Soziale Gerechtigkeit  
-- Demokratie und Teilhabe
+## Ostgeschichten
+
+Hier Geschichten hinterlegen
+
+## Osten Digital
+
+Hier sind die Social Media Aktivitäten zu finden
