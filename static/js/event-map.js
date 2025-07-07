@@ -29,7 +29,19 @@ document.addEventListener('DOMContentLoaded', function() {
     let linksHtml = '';
     const links = [];
 
-    links.push(`<a href='https://maps.google.com/?q=${ev.Geolocation.Latitude},${ev.Geolocation.Longitude}' target='_blank' rel='noopener' style='color:#376287;text-decoration:underline;'>📍 Auf Karte öffnen</a>`);
+    // Universeller Karten-Link: geo: für mobile Apps, OSM als Fallback
+    const latitude = ev.Geolocation.Latitude;
+    const longitude = ev.Geolocation.Longitude;
+    const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    let mapUrl;
+    if (isMobile) {
+      mapUrl = `geo:${latitude},${longitude}?q=${latitude},${longitude}`;
+    } else {
+      mapUrl = `https://www.openstreetmap.org/?mlat=${latitude}&mlon=${longitude}&zoom=15`;
+    }
+
+    links.push(`<a href='${mapUrl}' target='_blank' rel='noopener' style='color:#376287;text-decoration:underline;'>📍 Auf Karte öffnen</a>`);
 
     if (ev.Website && ev.Website.trim() !== '') {
       links.push(`<a href='${ev.Website}' target='_blank' rel='noopener' style='color:#487eca;text-decoration:underline;'>Website</a>`);
