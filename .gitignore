@@ -1,0 +1,54 @@
+###############################################################################
+# 1) Betriebssystem-Artefakte (macOS & Windows)
+###############################################################################
+.DS_Store
+.AppleDouble
+.LSOverride
+._*                 # Resource Forks
+Icon?
+Thumbs.db
+ehthumbs.db
+
+###############################################################################
+# 2) Hugo-Generates: fertige Ausgabeverzeichnisse & Caches
+###############################################################################
+/public/            # Static-Site-Output (wird von `hugo` gebaut)
+/resources/_gen/    # Automatisch generierte Bild-/SCSS-Assets
+hugo_stats.json     # Optional: Hugo „build stats“
+.hugo_build.lock
+
+###############################################################################
+# 3) Abhängigkeiten & Build-Artefakte (Node, Go, etc.)
+###############################################################################
+node_modules/
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+.sass-cache/
+/dist/
+/build/
+/*.log
+
+###############################################################################
+# 4) Editor- & IDE-Verzeichnisse
+###############################################################################
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+###############################################################################
+# 5) Temporäre/Backup-Dateien
+###############################################################################
+*~
+*.swp
+*.swo
+*.tmp
+*.bak
+*.orig
+
+###############################################################################
+# 6) Umgebungs- & Geheimdateien
+###############################################################################
+.env
+.env.*
