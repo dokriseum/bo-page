@@ -1,0 +1,99 @@
+<div class="map-page">
+  <h2 style="text-align:center;margin:1em 0 .5em;">CSD-Termine in Ostdeutschland</h2>
+  <div class="map-weeks" id="mapWeeks">
+    <div class="week-slide" style="background:#fff;color:#233748;">KW 17</div>
+    <div class="week-slide" style="background:#b1e2cb;color:#204457;">KW 20</div>
+    <div class="week-slide" style="background:#f7b1b1;color:#7d2323;">KW 22</div>
+    <div class="week-slide" style="background:#e0eafc;color:#376287;">KW 24</div>
+    <div class="week-slide" style="background:#fff;color:#233748;">KW 26</div>
+    <div class="week-slide" style="background:#b1e2cb;color:#204457;">KW 28</div>
+    <div class="week-slide" style="background:#f7b1b1;color:#7d2323;">KW 30</div>
+    <div class="week-slide" style="background:#e0eafc;color:#376287;">KW 32</div>
+    <div class="week-slide" style="background:#fff;color:#233748;">KW 34</div>
+    <div class="week-slide" style="background:#b1e2cb;color:#204457;">KW 36</div>
+    <div class="week-slide" style="background:#f7b1b1;color:#7d2323;">KW 38</div>
+    <div class="week-slide" style="background:#e0eafc;color:#376287;">KW 40</div>
+    <div class="week-slide" style="background:#fff;color:#233748;">KW 42</div>
+  </div>
+  <div id="map" class="event-map"></div>
+  <section id="event-info" class="event-info" style="display:none;"></section>
+</div>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Leaflet-Karte mit Event-Markern für Ostdeutschland
+  async function fetchEvents() {
+    const response = await fetch('/events.json');
+    return await response.json();
+  }
+
+  function createMap() {
+    return L.map('map', {
+      zoomControl: true,
+      attributionControl: false
+    }).setView([51.2, 12.5], 6);
+  }
+
+  function addTileLayer(map) {
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 16,
+      minZoom: 5,
+      attribution: '© OpenStreetMap-Mitwirkende'
+    }).addTo(map);
+  }
+
+  function renderEventInfo(ev) {
+    const eventDate = new Date(ev.Time).toLocaleDateString('de-DE', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    });
+
+    return `
+      <b>${ev.Organizer.Name}</b><br>
+      <span style='color:#4976ce;'>${eventDate}</span> – ${ev.Location}<br>
+      <div style='margin-top:.5em;'>${ev.Description}</div>
+      <div style='margin-top:1em;'>
+        <a href='https://maps.google.com/?q=${ev.Geolocation.Latitude},${ev.Geolocation.Longitude}' target='_blank' rel='noopener' style='color:#376287;text-decoration:underline;'>📍 Auf Karte öffnen</a>
+        ${ev.Wolke ? ` | <a href='${ev.Wolke}' target='_blank' rel='noopener' style='color:#487eca;text-decoration:underline;'>Wolke</a>` : ''}
+      </div>
+      <button onclick="window.open('${ev.Wolke || '#'}','_blank')" style="margin-top:1.2em;padding:.7em 2em;background:#376287;color:#fff;border:none;border-radius:22px;font-size:1.08em;cursor:pointer;box-shadow:0 2px 8px #b6d0f7a0;">Mehr Infos</button>
+    `;
+  }
+
+  function addEventMarkers(map, events) {
+    const info = document.getElementById('event-info');
+    events.forEach(ev => {
+      const marker = L.circleMarker([ev.Geolocation.Latitude, ev.Geolocation.Longitude], {
+        radius: 10,
+        color: '#487eca',
+        fillColor: '#b6d0f7',
+        fillOpacity: 0.95,
+        weight: 2
+      }).addTo(map);
+      marker.on('click', () => {
+        info.innerHTML = renderEventInfo(ev);
+        info.style.display = 'block';
+        info.scrollIntoView({behavior:'smooth', block:'center'});
+      });
+      marker.bindTooltip(ev.Organizer.Name, {permanent: false, direction: 'top'});
+    });
+  }
+
+  async function initEventMap() {
+    const map = createMap();
+    addTileLayer(map);
+    try {
+      const events = await fetchEvents();
+      addEventMarkers(map, events);
+    } catch (error) {
+      console.log('Events konnten nicht geladen werden:', error);
+      // Fallback ohne Events
+    }
+  }
+
+  initEventMap();
+});
+</script>

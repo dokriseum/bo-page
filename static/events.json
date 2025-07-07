@@ -1,0 +1,855 @@
+[
+  {
+    "Location": "Pößneck, Deutschland",
+    "Time": "2025-06-07T00:00:00+02:00",
+    "Geolocation": { "Latitude": 50.5792, "Longitude": 11.7272 },
+    "Organizer": {
+      "Name": "CSD Pößneck",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-poessneck.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Jena, Deutschland",
+    "Time": "2025-06-21T00:00:00+02:00",
+    "Geolocation": { "Latitude": 50.9271, "Longitude": 11.5892 },
+    "Organizer": {
+      "Name": "CSD Jena",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-jena.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Nordhausen, Deutschland",
+    "Time": "2025-07-12T00:00:00+02:00",
+    "Geolocation": { "Latitude": 51.5020, "Longitude": 10.7837 },
+    "Organizer": {
+      "Name": "CSD Nordhausen",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-nordhausen.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Sonneberg, Deutschland",
+    "Time": "2025-07-19T00:00:00+02:00",
+    "Geolocation": { "Latitude": 50.3547, "Longitude": 11.2307 },
+    "Organizer": {
+      "Name": "CSD Sonneberg",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-sonneberg.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Mühlhausen, Deutschland",
+    "Time": "2025-07-26T00:00:00+02:00",
+    "Geolocation": { "Latitude": 51.2172, "Longitude": 10.4537 },
+    "Organizer": {
+      "Name": "CSD Mühlhausen",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-muehlhausen.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Suhl, Deutschland",
+    "Time": "2025-08-30T00:00:00+02:00",
+    "Geolocation": { "Latitude": 50.6096, "Longitude": 10.6965 },
+    "Organizer": {
+      "Name": "CSD Suhl",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-suhl.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Erfurt, Deutschland",
+    "Time": "2025-09-06T00:00:00+02:00",
+    "Geolocation": { "Latitude": 50.9848, "Longitude": 11.0299 },
+    "Organizer": {
+      "Name": "CSD Erfurt",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-erfurt.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Eisenach (Thür), Deutschland",
+    "Time": "2025-09-13T00:00:00+02:00",
+    "Geolocation": { "Latitude": 50.9792, "Longitude": 10.3156 },
+    "Organizer": {
+      "Name": "CSD Eisenach",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-eisenach.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Ilmenau, Deutschland",
+    "Time": "2025-09-14T00:00:00+02:00",
+    "Geolocation": { "Latitude": 50.6833, "Longitude": 10.9167 },
+    "Organizer": {
+      "Name": "CSD Ilmenau",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-ilmenau.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Schönebeck, Deutschland",
+    "Time": "2025-04-26T00:00:00+02:00",
+    "Geolocation": { "Latitude": 51.8189, "Longitude": 11.7409 },
+    "Organizer": {
+      "Name": "CSD Schönebeck",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-schoenebeck.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Dessau-Rosslau, Deutschland",
+    "Time": "2025-05-17T00:00:00+02:00",
+    "Geolocation": { "Latitude": 51.8351, "Longitude": 12.2476 },
+    "Organizer": {
+      "Name": "CSD Dessau-Rosslau",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-dessau-rosslau.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Wernigerode, Deutschland",
+    "Time": "2025-06-07T00:00:00+02:00",
+    "Geolocation": { "Latitude": 51.8361, "Longitude": 10.7815 },
+    "Organizer": {
+      "Name": "CSD Wernigerode",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-wernigerode.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Merseburg, Deutschland",
+    "Time": "2025-06-14T00:00:00+02:00",
+    "Geolocation": { "Latitude": 51.3667, "Longitude": 11.9667 },
+    "Organizer": {
+      "Name": "CSD Merseburg",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-merseburg.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Lutherstadt Wittenberg, Deutschland",
+    "Time": "2025-06-21T00:00:00+02:00",
+    "Geolocation": { "Latitude": 51.8667, "Longitude": 12.6500 },
+    "Organizer": {
+      "Name": "CSD Lutherstadt Wittenberg",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-lutherstadt-wittenberg.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Köthen, Deutschland",
+    "Time": "2025-07-12T00:00:00+02:00",
+    "Geolocation": { "Latitude": 51.7500, "Longitude": 11.9667 },
+    "Organizer": {
+      "Name": "CSD Köthen",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-koethen.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Naumburg (Saale), Deutschland",
+    "Time": "2025-08-16T00:00:00+02:00",
+    "Geolocation": { "Latitude": 51.1500, "Longitude": 11.8000 },
+    "Organizer": {
+      "Name": "CSD Naumburg (Saale)",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-naumburg-saale.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Magdeburg, Deutschland",
+    "Time": "2025-08-23T00:00:00+02:00",
+    "Geolocation": { "Latitude": 52.1205, "Longitude": 11.6276 },
+    "Organizer": {
+      "Name": "CSD Magdeburg",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-magdeburg.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Halle (Saale), Deutschland",
+    "Time": "2025-09-13T00:00:00+02:00",
+    "Geolocation": { "Latitude": 51.4969, "Longitude": 11.9686 },
+    "Organizer": {
+      "Name": "CSD Halle (Saale)",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-halle-saale.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Stendal, Deutschland",
+    "Time": "2025-09-27T00:00:00+02:00",
+    "Geolocation": { "Latitude": 52.6036, "Longitude": 11.8610 },
+    "Organizer": {
+      "Name": "CSD Stendal",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-stendal.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Limbach‑Oberfrohna, Deutschland",
+    "Time": "2025-05-24T00:00:00+02:00",
+    "Geolocation": { "Latitude": 50.8400, "Longitude": 12.7840 },
+    "Organizer": {
+      "Name": "CSD Limbach Oberfrohna",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd‑termine.de/deutschland/csd-pride-limbach-oberfrohna.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Dresden, Deutschland",
+    "Time": "2025-05-31T00:00:00+02:00",
+    "Geolocation": { "Latitude": 51.0504, "Longitude": 13.7373 },
+    "Organizer": {
+      "Name": "CSD Dresden",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd‑termine.de/deutschland/csd-pride-dresden.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Stollberg, Deutschland",
+    "Time": "2025-06-07T00:00:00+02:00",
+    "Geolocation": { "Latitude": 50.6073, "Longitude": 12.6500 },
+    "Organizer": {
+      "Name": "CSD Stollberg",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd‑termine.de/deutschland/csd-pride-stollberg.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Riesa, Deutschland",
+    "Time": "2025-06-07T00:00:00+02:00",
+    "Geolocation": { "Latitude": 51.3124, "Longitude": 13.2714 },
+    "Organizer": {
+      "Name": "CSD Riesa",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd‑termine.de/deutschland/csd-pride‑riesa.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Borna, Deutschland",
+    "Time": "2025-06-21T00:00:00+02:00",
+    "Geolocation": { "Latitude": 51.0667, "Longitude": 12.4667 },
+    "Organizer": {
+      "Name": "CSD Borna",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd‑termine.de/deutschland/csd-pride-borna.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Leipzig, Deutschland",
+    "Time": "2025-06-28T00:00:00+02:00",
+    "Geolocation": { "Latitude": 51.3397, "Longitude": 12.3731 },
+    "Organizer": {
+      "Name": "CSD Leipzig",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd‑termine.de/deutschland/csd-pride-leipzig.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Pirna, Deutschland",
+    "Time": "2025-07-12T00:00:00+02:00",
+    "Geolocation": { "Latitude": 50.9583, "Longitude": 13.9416 },
+    "Organizer": {
+      "Name": "CSD Pirna",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd‑termine.de/deutschland/csd-pride-pirna.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Chemnitz, Deutschland",
+    "Time": "2025-07-26T00:00:00+02:00",
+    "Geolocation": { "Latitude": 50.8278, "Longitude": 12.9214 },
+    "Organizer": {
+      "Name": "CSD Chemnitz",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd‑termine.de/deutschland/csd-pride-chemnitz.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Frankenberg, Deutschland",
+    "Time": "2025-08-03T00:00:00+02:00",
+    "Geolocation": { "Latitude": 50.9287, "Longitude": 13.2636 },
+    "Organizer": {
+      "Name": "CSD Frankenberg",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd‑termine.de/deutschland/csd-pride-frankenberg.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Bautzen, Deutschland",
+    "Time": "2025-08-10T00:00:00+02:00",
+    "Geolocation": { "Latitude": 51.1800, "Longitude": 14.4333 },
+    "Organizer": {
+      "Name": "CSD Bautzen",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd‑termine.de/deutschland/csd-pride-bautzen.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Plauen, Deutschland",
+    "Time": "2025-08-16T00:00:00+02:00",
+    "Geolocation": { "Latitude": 50.4976, "Longitude": 12.1371 },
+    "Organizer": {
+      "Name": "CSD Plauen",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd‑termine.de/deutschland/csd-pride-plauen.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Zwickau, Deutschland",
+    "Time": "2025-08-30T00:00:00+02:00",
+    "Geolocation": { "Latitude": 50.7189, "Longitude": 12.4880 },
+    "Organizer": {
+      "Name": "CSD Zwickau",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd‑termine.de/deutschland/csd-pride-zwickau.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Freiberg, Deutschland",
+    "Time": "2025-09-06T00:00:00+02:00",
+    "Geolocation": { "Latitude": 50.9167, "Longitude": 13.3397 },
+    "Organizer": {
+      "Name": "CSD Freiberg",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd‑termine.de/deutschland/csd-pride‑freiberg.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Döbeln, Deutschland",
+    "Time": "2025-09-20T00:00:00+02:00",
+    "Geolocation": { "Latitude": 51.1103, "Longitude": 13.0974 },
+    "Organizer": {
+      "Name": "CSD Döbeln",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd‑termine.de/deutschland/csd-pride‑doebeln.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Görlitz, Deutschland",
+    "Time": "2025-09-27T00:00:00+02:00",
+    "Geolocation": { "Latitude": 51.1523, "Longitude": 14.9871 },
+    "Organizer": {
+      "Name": "CSD Görlitz",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd‑termine.de/deutschland/csd-pride‑goerlitz.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Marzahn, Deutschland",
+    "Time": "2025-06-21T00:00:00+02:00",
+    "Geolocation": {
+      "Latitude": 52.5500,
+      "Longitude": 13.5500
+    },
+    "Organizer": {
+      "Name": "CSD Marzahn",
+      "Contact": {
+        "Email": null,
+        "Phone": null
+      },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-marzahn.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Berlin, Deutschland",
+    "Time": "2025-07-26T00:00:00+02:00",
+    "Geolocation": {
+      "Latitude": 52.5200,
+      "Longitude": 13.4050
+    },
+    "Organizer": {
+      "Name": "CSD Berlin",
+      "Contact": {
+        "Email": null,
+        "Phone": null
+      },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-berlin.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Potsdam, Deutschland",
+    "Time": "2025-05-17T00:00:00+02:00",
+    "Geolocation": { "Latitude": 52.3969, "Longitude": 13.0581 },
+    "Organizer": {
+      "Name": "CSD Potsdam",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-potsdam.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Angermünde, Deutschland",
+    "Time": "2025-05-17T00:00:00+02:00",
+    "Geolocation": { "Latitude": 53.0129, "Longitude": 13.9214 },
+    "Organizer": {
+      "Name": "CSD Angermünde",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-angermuende.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Brandenburg an der Havel, Deutschland",
+    "Time": "2025-05-24T00:00:00+02:00",
+    "Geolocation": { "Latitude": 52.4064, "Longitude": 12.5509 },
+    "Organizer": {
+      "Name": "CSD Brandenburg an der Havel",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-brandenburg-an-der-havel.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Rheinsberg, Deutschland",
+    "Time": "2025-05-31T00:00:00+02:00",
+    "Geolocation": { "Latitude": 53.0973, "Longitude": 12.9309 },
+    "Organizer": {
+      "Name": "CSD Rheinsberg",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-rheinsberg.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Eberswalde, Deutschland",
+    "Time": "2025-06-21T00:00:00+02:00",
+    "Geolocation": { "Latitude": 52.8383, "Longitude": 13.8226 },
+    "Organizer": {
+      "Name": "CSD Eberswalde",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-eberswalde.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Falkensee, Deutschland",
+    "Time": "2025-07-05T00:00:00+02:00",
+    "Geolocation": { "Latitude": 52.5452, "Longitude": 13.0833 },
+    "Organizer": {
+      "Name": "CSD Falkensee",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-falkensee.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Wittenberge, Deutschland",
+    "Time": "2025-07-05T00:00:00+02:00",
+    "Geolocation": { "Latitude": 53.0000, "Longitude": 11.7500 },
+    "Organizer": {
+      "Name": "CSD Wittenberge",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-wittenberge.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Luckenwalde, Deutschland",
+    "Time": "2025-07-12T00:00:00+02:00",
+    "Geolocation": { "Latitude": 52.1000, "Longitude": 13.3221 },
+    "Organizer": {
+      "Name": "CSD Luckenwalde",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-luckenwalde.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Neuruppin, Deutschland",
+    "Time": "2025-07-12T00:00:00+02:00",
+    "Geolocation": { "Latitude": 52.8014, "Longitude": 12.8416 },
+    "Organizer": {
+      "Name": "CSD Neuruppin",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-neuruppin.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Bad Belzig, Deutschland",
+    "Time": "2025-07-12T00:00:00+02:00",
+    "Geolocation": { "Latitude": 52.1350, "Longitude": 12.4053 },
+    "Organizer": {
+      "Name": "CSD Bad Belzig",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-bad-belzig.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Bernau bei Berlin, Deutschland",
+    "Time": "2025-07-12T00:00:00+02:00",
+    "Geolocation": { "Latitude": 52.6798, "Longitude": 13.5870 },
+    "Organizer": {
+      "Name": "CSD Bernau bei Berlin",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-bernau-bei-berlin.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Ludwigsfelde, Deutschland",
+    "Time": "2025-08-09T00:00:00+02:00",
+    "Geolocation": { "Latitude": 52.3247, "Longitude": 13.2547 },
+    "Organizer": {
+      "Name": "CSD Ludwigsfelde",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-ludwigsfelde.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Rathenow, Deutschland",
+    "Time": "2025-08-30T00:00:00+02:00",
+    "Geolocation": { "Latitude": 52.6017, "Longitude": 12.2900 },
+    "Organizer": {
+      "Name": "CSD Rathenow",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-rathenow.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Frankfurt (Oder), Deutschland",
+    "Time": "2025-09-13T00:00:00+02:00",
+    "Geolocation": { "Latitude": 52.3396, "Longitude": 14.5530 },
+    "Organizer": {
+      "Name": "CSD Frankfurt (Oder)",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-frankfurt-oder.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Eisenhüttenstadt, Deutschland",
+    "Time": "2025-09-13T00:00:00+02:00",
+    "Geolocation": { "Latitude": 52.1478, "Longitude": 14.6303 },
+    "Organizer": {
+      "Name": "CSD Eisenhüttenstadt",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-eisenhuettenstadt.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Oberhavel (Oranienburg), Deutschland",
+    "Time": "2025-09-27T00:00:00+02:00",
+    "Geolocation": { "Latitude": 52.7534, "Longitude": 13.2399 },
+    "Organizer": {
+      "Name": "CSD Oberhavel",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-oberhavel.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Cottbus, Deutschland",
+    "Time": "2025-10-25T00:00:00+02:00",
+    "Geolocation": { "Latitude": 51.7573, "Longitude": 14.3289 },
+    "Organizer": {
+      "Name": "CSD Cottbus",
+      "Contact": { "Email": null, "Phone": null },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-cottbus.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Schwerin, Deutschland",
+    "Time": "2025-06-07T00:00:00+02:00",
+    "Geolocation": {
+      "Latitude": 53.6294,
+      "Longitude": 11.4146
+    },
+    "Organizer": {
+      "Name": "CSD Schwerin",
+      "Contact": {
+        "Email": null,
+        "Phone": null
+      },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-schwerin.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Greifswald, Deutschland",
+    "Time": "2025-06-14T00:00:00+02:00",
+    "Geolocation": {
+      "Latitude": 54.0917,
+      "Longitude": 13.3808
+    },
+    "Organizer": {
+      "Name": "CSD Greifswald",
+      "Contact": {
+        "Email": null,
+        "Phone": null
+      },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-greifswald.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Greifswald, Deutschland",
+    "Time": "2025-10-12T00:00:00+02:00",
+    "Geolocation": {
+      "Latitude": 54.0917,
+      "Longitude": 13.3808
+    },
+    "Organizer": {
+      "Name": "CSD Greifswald",
+      "Contact": {
+        "Email": null,
+        "Phone": null
+      },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-greifswald.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Parchim, Deutschland",
+    "Time": "2025-06-28T00:00:00+02:00",
+    "Geolocation": {
+      "Latitude": 53.4268,
+      "Longitude": 11.8703
+    },
+    "Organizer": {
+      "Name": "CSD Parchim",
+      "Contact": {
+        "Email": null,
+        "Phone": null
+      },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-parchim.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Rostock, Deutschland",
+    "Time": "2025-07-19T00:00:00+02:00",
+    "Geolocation": {
+      "Latitude": 54.0924,
+      "Longitude": 12.0991
+    },
+    "Organizer": {
+      "Name": "CSD Rostock",
+      "Contact": {
+        "Email": null,
+        "Phone": null
+      },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-rostock.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Rostock, Deutschland",
+    "Time": "2025-07-26T00:00:00+02:00",
+    "Geolocation": {
+      "Latitude": 54.0924,
+      "Longitude": 12.0991
+    },
+    "Organizer": {
+      "Name": "CSD Rostock",
+      "Contact": {
+        "Email": null,
+        "Phone": null
+      },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-rostock.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Neubrandenburg, Deutschland",
+    "Time": "2025-08-02T00:00:00+02:00",
+    "Geolocation": {
+      "Latitude": 53.5560,
+      "Longitude": 13.2671
+    },
+    "Organizer": {
+      "Name": "CSD Neubrandenburg",
+      "Contact": {
+        "Email": null,
+        "Phone": null
+      },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-neubrandenburg.html",
+    "SocialMediaLinks": []
+  },
+  {
+    "Location": "Grevesmühlen, Deutschland",
+    "Time": "2025-09-13T00:00:00+02:00",
+    "Geolocation": {
+      "Latitude": 53.8570,
+      "Longitude": 11.1710
+    },
+    "Organizer": {
+      "Name": "CSD Grevesmühlen",
+      "Contact": {
+        "Email": null,
+        "Phone": null
+      },
+      "SocialMediaLinks": []
+    },
+    "Description": "Keine Beschreibung verfügbar",
+    "Wolke": "https://www.csd-termine.de/deutschland/csd-pride-grevesmuehlen.html",
+    "SocialMediaLinks": []
+  }
+]
