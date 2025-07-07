@@ -23,7 +23,6 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  // Leaflet-Karte mit Event-Markern für Ostdeutschland
   async function fetchEvents() {
     const response = await fetch('/events.json');
     return await response.json();
@@ -51,15 +50,32 @@ document.addEventListener('DOMContentLoaded', function() {
       year: 'numeric'
     });
 
+    let linksHtml = '';
+    const links = [];
+
+    links.push(`<a href='https://maps.google.com/?q=${ev.Geolocation.Latitude},${ev.Geolocation.Longitude}' target='_blank' rel='noopener' style='color:#376287;text-decoration:underline;'>📍 Auf Karte öffnen</a>`);
+
+    if (ev.Website && ev.Website.trim() !== '') {
+      links.push(`<a href='${ev.Website}' target='_blank' rel='noopener' style='color:#487eca;text-decoration:underline;'>Website</a>`);
+    }
+
+    if (ev.Wolke && ev.Wolke.trim() !== '') {
+      links.push(`<a href='${ev.Wolke}' target='_blank' rel='noopener' style='color:#487eca;text-decoration:underline;'>Wolke</a>`);
+    }
+
+    if (links.length > 0) {
+      linksHtml = `<div style='margin-top:1em;'>${links.join(' | ')}</div>`;
+    }
+
+    const buttonLink = (ev.Website && ev.Website.trim() !== '') ? ev.Website :
+                       (ev.Wolke && ev.Wolke.trim() !== '') ? ev.Wolke : '#';
+
     return `
       <b>${ev.Organizer.Name}</b><br>
       <span style='color:#4976ce;'>${eventDate}</span> – ${ev.Location}<br>
       <div style='margin-top:.5em;'>${ev.Description}</div>
-      <div style='margin-top:1em;'>
-        <a href='https://maps.google.com/?q=${ev.Geolocation.Latitude},${ev.Geolocation.Longitude}' target='_blank' rel='noopener' style='color:#376287;text-decoration:underline;'>📍 Auf Karte öffnen</a>
-        ${ev.Wolke ? ` | <a href='${ev.Wolke}' target='_blank' rel='noopener' style='color:#487eca;text-decoration:underline;'>Wolke</a>` : ''}
-      </div>
-      <button onclick="window.open('${ev.Wolke || '#'}','_blank')" style="margin-top:1.2em;padding:.7em 2em;background:#376287;color:#fff;border:none;border-radius:22px;font-size:1.08em;cursor:pointer;box-shadow:0 2px 8px #b6d0f7a0;">Mehr Infos</button>
+      ${linksHtml}
+      <button onclick="window.open('${buttonLink}','_blank')" style="margin-top:1.2em;padding:.7em 2em;background:#376287;color:#fff;border:none;border-radius:22px;font-size:1.08em;cursor:pointer;box-shadow:0 2px 8px #b6d0f7a0;">Mehr Infos</button>
     `;
   }
 
@@ -90,7 +106,6 @@ document.addEventListener('DOMContentLoaded', function() {
       addEventMarkers(map, events);
     } catch (error) {
       console.log('Events konnten nicht geladen werden:', error);
-      // Fallback ohne Events
     }
   }
 
