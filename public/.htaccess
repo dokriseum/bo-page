@@ -1,0 +1,4 @@
+AuthType Basic
+AuthName "Bündnis Ost - Restricted Area"
+AuthUserFile /var/www/virtual/bo/html/.htpasswd
+Require valid-user
