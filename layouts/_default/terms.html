@@ -1,0 +1,19 @@
+{{ define "main" }}
+<main>
+    <h1>{{ .Title }}</h1>
+    
+    {{ if .Content }}
+        <div class="content">
+            {{ .Content }}
+        </div>
+    {{ end }}
+    
+    {{ $data := .Data }}
+    {{ range $key, $value := .Data.Terms.ByCount }}
+        <div class="term">
+            <h2><a href="{{ .Page.RelPermalink }}">{{ .Page.Title }}</a></h2>
+            <p>{{ .Count }} {{ if eq .Count 1 }}Artikel{{ else }}Artikel{{ end }}</p>
+        </div>
+    {{ end }}
+</main>
+{{ end }}
