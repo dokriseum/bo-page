@@ -58,7 +58,8 @@ xdg-open http://localhost:1313 # Linux
 | Variante | Befehl |
 |----------|--------|
 | **Snap (empfohlen)** | `doas snap install hugo --channel=extended` |
-| **APT-Repo** | ```echo "deb [trusted=yes] https://apt.gohugo.io/ /" \| doas tee /etc/apt/sources.list.d/hugo.list && doas apt update && doas apt install hugo``` |
+| **APT-Repo** | `echo "deb [trusted=yes] https://apt.gohugo.io/ /" &#124; doas tee /etc/apt/sources.list.d/hugo.list` \n `doas apt update && doas apt install hugo` |
+| **APT-Repo** | ```echo "deb [trusted=yes] https://apt.gohugo.io/ /" &#124; doas tee /etc/apt/sources.list.d/hugo.list` <br> `doas apt update && doas apt install hugo` |
 | **Manuell** | Aktuelle `.deb` oder `.tar.gz` von <https://github.com/gohugoio/hugo/releases> laden und mit `dpkg -i …` (bzw. entpacken) installieren |
 
 
