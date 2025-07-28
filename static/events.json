@@ -849,26 +849,6 @@
     "SocialMediaLinks": []
   },
   {
-    "Location": "Greifswald, Deutschland",
-    "Time": "2025-10-12T00:00:00+02:00",
-    "Geolocation": {
-      "Latitude": 54.0917,
-      "Longitude": 13.3808
-    },
-    "Organizer": {
-      "Name": "CSD Greifswald",
-      "Contact": {
-        "Email": null,
-        "Phone": null
-      },
-      "SocialMediaLinks": []
-    },
-    "Description": "Keine Beschreibung verfügbar",
-    "Wolke": "",
-    "Website": "https://www.csd-termine.de/deutschland/csd-pride-greifswald.html",
-    "SocialMediaLinks": []
-  },
-  {
     "Location": "Parchim, Deutschland",
     "Title": "CSD Parchim",
     "Time": "2025-06-28T00:00:00+02:00",
@@ -910,21 +890,6 @@
     "Website": "https://www.csd-termine.de/deutschland/csd-pride-rostock.html",
     "SocialMediaLinks": []
   },
-  {
-    "Location": "Rostock, Deutschland",
-    "Time": "2025-07-26T00:00:00+02:00",
-    "Geolocation": {
-      "Latitude": 54.0924,
-      "Longitude": 12.0991
-    },
-    "Organizer": {
-      "Name": "CSD Rostock",
-      "Contact": {
-        "Email": null,
-        "Phone": null
-      },
-      "SocialMediaLinks": []
-    },
     "Description": "Keine Beschreibung verfügbar",
     "Wolke": "",
     "Website": "https://www.csd-termine.de/deutschland/csd-pride-rostock.html",
