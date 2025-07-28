@@ -13,16 +13,37 @@
 </head>
 <body>
   <h1 class="dev">Event-Admin</h1>
-  <ul id="event-list"></ul>
   <div class="actions">
-    <button id="delete-btn">Ausgewählte Events löschen</button>
+    <button id="download-btn">Download ausgewählte Events als events.json</button>
+  </div>
+
+  <ul id="event-list"></ul>
+  
+  <div class="actions">
+    <button id="download-btn">Download ausgewählte Events als events.json</button>
   </div>
   <script src="/dev-event-tools/events-lib.js"></script>
   <script>
     (async function() {
       const eventManager = new EventManager('/events.json');
       await eventManager.loadEvents();
-      new EventUI(eventManager, '#event-list', '#delete-btn');
+      const eventUI = new EventUI(eventManager, '#event-list', null);
+      document.getElementById('download-btn').addEventListener('click', () => {
+        const selected = Array.from(eventUI.selectedIndices).sort((a, b) => a - b);
+        const allEvents = eventManager.getEvents();
+        const selectedEvents = selected.map(idx => allEvents[idx]);
+        const blob = new Blob([JSON.stringify(selectedEvents, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'events.json';
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(() => {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }, 100);
+      });
     })();
   </script>
 </body>

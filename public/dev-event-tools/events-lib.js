@@ -30,22 +30,18 @@ class EventUI {
   constructor(eventManager, listSelector, deleteBtnSelector) {
     this.eventManager = eventManager;
     this.listEl = document.querySelector(listSelector);
-    this.deleteBtn = document.querySelector(deleteBtnSelector);
     this.selectedIndices = new Set();
     this.init();
   }
 
   async init() {
     await this.renderList();
-    this.deleteBtn.addEventListener('click', () => this.handleDelete());
   }
 
   async renderList() {
     const events = this.eventManager.getEvents();
-    // Sort events by date ascending
     const now = new Date();
     const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-    // Parse and sort
     const eventsWithIndex = events.map((event, idx) => ({ event, idx }));
     eventsWithIndex.sort((a, b) => {
       const ta = a.event.Time ? new Date(a.event.Time).getTime() : 0;
@@ -63,29 +59,32 @@ class EventUI {
       }
     });
     this.listEl.innerHTML = '';
-    // Render past events section if any
-    if (past.length > 0) {
-      const pastDiv = document.createElement('div');
-      pastDiv.style.border = '2px solid #ccc';
-      pastDiv.style.padding = '0.5em';
-      pastDiv.style.marginBottom = '1em';
-      pastDiv.style.background = '#f9f9f9';
-      const title = document.createElement('div');
-      title.textContent = 'Vergangene Events (älter als 1 Woche)';
-      title.style.fontWeight = 'bold';
-      title.style.marginBottom = '0.5em';
-      pastDiv.appendChild(title);
-      past.forEach(({ event, idx }) => {
+    const renderEventListSection = (arr, checked, sectionTitle = null, sectionStyle = null) => {
+      if (arr.length === 0) 
+        return;
+      let container = this.listEl;
+      if (sectionTitle) {
+        const div = document.createElement('div');
+        if (sectionStyle) 
+            Object.assign(div.style, sectionStyle);
+        const title = document.createElement('div');
+        title.textContent = sectionTitle;
+        title.style.fontWeight = 'bold';
+        title.style.marginBottom = '0.5em';
+        div.appendChild(title);
+        container.appendChild(div);
+        container = div;
+      }
+      arr.forEach(({ event, idx }) => {
         const li = document.createElement('li');
         li.innerHTML = `
           <label>
-            <input type="checkbox" data-idx="${idx}" checked>
+            <input type="checkbox" data-idx="${idx}"${checked ? ' checked' : ''}>
             <strong>${event.Title || 'No title'}</strong> –
             <span>${event.Time ? new Date(event.Time).toLocaleDateString() : ''}</span> –
             <span>${event.Location || ''}</span>
           </label>
         `;
-        // Checkbox is checked by default
         li.querySelector('input[type=checkbox]').addEventListener('change', (e) => {
           if (e.target.checked) {
             this.selectedIndices.add(idx);
@@ -93,32 +92,19 @@ class EventUI {
             this.selectedIndices.delete(idx);
           }
         });
-        // Add to selectedIndices by default
-        this.selectedIndices.add(idx);
-        pastDiv.appendChild(li);
+        if (checked) this.selectedIndices.add(idx);
+        container.appendChild(li);
       });
-      this.listEl.appendChild(pastDiv);
-    }
-    // Render future events
-    future.forEach(({ event, idx }) => {
-      const li = document.createElement('li');
-      li.innerHTML = `
-        <label>
-          <input type="checkbox" data-idx="${idx}">
-          <strong>${event.Title || 'No title'}</strong> –
-          <span>${event.Time ? new Date(event.Time).toLocaleDateString() : ''}</span> –
-          <span>${event.Location || ''}</span>
-        </label>
-      `;
-      li.querySelector('input[type=checkbox]').addEventListener('change', (e) => {
-        if (e.target.checked) {
-          this.selectedIndices.add(idx);
-        } else {
-          this.selectedIndices.delete(idx);
-        }
-      });
-      this.listEl.appendChild(li);
-    });
+    };
+    // Render past events (checked)
+    renderEventListSection(
+      past,
+      false,
+      'Vergangene Events (älter als 1 Woche)',
+      { border: '2px solid #ccc', padding: '0.5em', marginBottom: '1em', background: '#f9f9f9' }
+    );
+    // Render future events (unchecked)
+    renderEventListSection(future, true);
   }
 
   async handleDelete() {
