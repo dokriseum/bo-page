@@ -1,6 +1,7 @@
 [
   {
     "Location": "Pößneck, Deutschland",
+    "Title": "CSD Pößneck",
     "Time": "2025-06-07T00:00:00+02:00",
     "Geolocation": { "Latitude": 50.5792, "Longitude": 11.7272 },
     "Organizer": {
@@ -15,6 +16,7 @@
   },
   {
     "Location": "Jena, Deutschland",
+    "Title": "CSD Jena",
     "Time": "2025-06-21T00:00:00+02:00",
     "Geolocation": { "Latitude": 50.9271, "Longitude": 11.5892 },
     "Organizer": {
@@ -29,6 +31,7 @@
   },
   {
     "Location": "Nordhausen, Deutschland",
+    "Title": "CSD Nordhausen",
     "Time": "2025-07-12T00:00:00+02:00",
     "Geolocation": { "Latitude": 51.5020, "Longitude": 10.7837 },
     "Organizer": {
@@ -43,6 +46,7 @@
   },
   {
     "Location": "Sonneberg, Deutschland",
+    "Title": "CSD Sonneberg",
     "Time": "2025-07-19T00:00:00+02:00",
     "Geolocation": { "Latitude": 50.3547, "Longitude": 11.2307 },
     "Organizer": {
@@ -57,6 +61,7 @@
   },
   {
     "Location": "Mühlhausen, Deutschland",
+    "Title": "CSD Mühlhausen",
     "Time": "2025-07-26T00:00:00+02:00",
     "Geolocation": { "Latitude": 51.2172, "Longitude": 10.4537 },
     "Organizer": {
@@ -71,6 +76,7 @@
   },
   {
     "Location": "Suhl, Deutschland",
+    "Title": "CSD Suhl",
     "Time": "2025-08-30T00:00:00+02:00",
     "Geolocation": { "Latitude": 50.6096, "Longitude": 10.6965 },
     "Organizer": {
@@ -85,6 +91,7 @@
   },
   {
     "Location": "Erfurt, Deutschland",
+    "Title": "CSD Erfurt",
     "Time": "2025-09-06T00:00:00+02:00",
     "Geolocation": { "Latitude": 50.9848, "Longitude": 11.0299 },
     "Organizer": {
@@ -99,6 +106,7 @@
   },
   {
     "Location": "Eisenach (Thür), Deutschland",
+    "Title": "CSD Eisenach (Thür)",
     "Time": "2025-09-13T00:00:00+02:00",
     "Geolocation": { "Latitude": 50.9792, "Longitude": 10.3156 },
     "Organizer": {
@@ -113,6 +121,7 @@
   },
   {
     "Location": "Ilmenau, Deutschland",
+    "Title": "CSD Ilmenau",
     "Time": "2025-09-14T00:00:00+02:00",
     "Geolocation": { "Latitude": 50.6833, "Longitude": 10.9167 },
     "Organizer": {
@@ -127,6 +136,7 @@
   },
   {
     "Location": "Schönebeck, Deutschland",
+    "Title": "CSD Schönebeck",
     "Time": "2025-04-26T00:00:00+02:00",
     "Geolocation": { "Latitude": 51.8189, "Longitude": 11.7409 },
     "Organizer": {
@@ -141,6 +151,7 @@
   },
   {
     "Location": "Dessau-Rosslau, Deutschland",
+    "Title": "CSD Dessau-Rosslau",
     "Time": "2025-05-17T00:00:00+02:00",
     "Geolocation": { "Latitude": 51.8351, "Longitude": 12.2476 },
     "Organizer": {
@@ -155,6 +166,7 @@
   },
   {
     "Location": "Wernigerode, Deutschland",
+    "Title": "CSD Wernigerode",
     "Time": "2025-06-07T00:00:00+02:00",
     "Geolocation": { "Latitude": 51.8361, "Longitude": 10.7815 },
     "Organizer": {
@@ -169,6 +181,7 @@
   },
   {
     "Location": "Merseburg, Deutschland",
+    "Title": "CSD Merseburg",
     "Time": "2025-06-14T00:00:00+02:00",
     "Geolocation": { "Latitude": 51.3667, "Longitude": 11.9667 },
     "Organizer": {
@@ -183,6 +196,7 @@
   },
   {
     "Location": "Lutherstadt Wittenberg, Deutschland",
+    "Title": "CSD Lutherstadt Wittenberg",
     "Time": "2025-06-21T00:00:00+02:00",
     "Geolocation": { "Latitude": 51.8667, "Longitude": 12.6500 },
     "Organizer": {
@@ -197,6 +211,7 @@
   },
   {
     "Location": "Köthen, Deutschland",
+    "Title": "CSD Köthen",
     "Time": "2025-07-12T00:00:00+02:00",
     "Geolocation": { "Latitude": 51.7500, "Longitude": 11.9667 },
     "Organizer": {
@@ -211,6 +226,7 @@
   },
   {
     "Location": "Naumburg (Saale), Deutschland",
+    "Title": "CSD Naumburg (Saale)",
     "Time": "2025-08-16T00:00:00+02:00",
     "Geolocation": { "Latitude": 51.1500, "Longitude": 11.8000 },
     "Organizer": {
@@ -225,6 +241,7 @@
   },
   {
     "Location": "Magdeburg, Deutschland",
+    "Title": "CSD Magdeburg",
     "Time": "2025-08-23T00:00:00+02:00",
     "Geolocation": { "Latitude": 52.1205, "Longitude": 11.6276 },
     "Organizer": {
@@ -239,6 +256,7 @@
   },
   {
     "Location": "Halle (Saale), Deutschland",
+    "Title": "CSD Halle (Saale)",
     "Time": "2025-09-13T00:00:00+02:00",
     "Geolocation": { "Latitude": 51.4969, "Longitude": 11.9686 },
     "Organizer": {
@@ -253,6 +271,7 @@
   },
   {
     "Location": "Stendal, Deutschland",
+    "Title": "CSD Stendal",
     "Time": "2025-09-27T00:00:00+02:00",
     "Geolocation": { "Latitude": 52.6036, "Longitude": 11.8610 },
     "Organizer": {
@@ -267,6 +286,7 @@
   },
   {
     "Location": "Limbach‑Oberfrohna, Deutschland",
+    "Title": "CSD Limbach‑Oberfrohna",
     "Time": "2025-05-24T00:00:00+02:00",
     "Geolocation": { "Latitude": 50.8400, "Longitude": 12.7840 },
     "Organizer": {
@@ -281,6 +301,7 @@
   },
   {
     "Location": "Dresden, Deutschland",
+    "Title": "CSD Dresden",
     "Time": "2025-05-31T00:00:00+02:00",
     "Geolocation": { "Latitude": 51.0504, "Longitude": 13.7373 },
     "Organizer": {
@@ -295,6 +316,7 @@
   },
   {
     "Location": "Stollberg, Deutschland",
+    "Title": "CSD Stollberg",
     "Time": "2025-06-07T00:00:00+02:00",
     "Geolocation": { "Latitude": 50.6073, "Longitude": 12.6500 },
     "Organizer": {
@@ -309,6 +331,7 @@
   },
   {
     "Location": "Riesa, Deutschland",
+    "Title": "CSD Riesa",
     "Time": "2025-06-07T00:00:00+02:00",
     "Geolocation": { "Latitude": 51.3124, "Longitude": 13.2714 },
     "Organizer": {
@@ -323,6 +346,7 @@
   },
   {
     "Location": "Borna, Deutschland",
+    "Title": "CSD Borna",
     "Time": "2025-06-21T00:00:00+02:00",
     "Geolocation": { "Latitude": 51.0667, "Longitude": 12.4667 },
     "Organizer": {
@@ -337,6 +361,7 @@
   },
   {
     "Location": "Leipzig, Deutschland",
+    "Title": "CSD Leipzig",
     "Time": "2025-06-28T00:00:00+02:00",
     "Geolocation": { "Latitude": 51.3397, "Longitude": 12.3731 },
     "Organizer": {
@@ -351,6 +376,7 @@
   },
   {
     "Location": "Pirna, Deutschland",
+    "Title": "CSD Pirna",
     "Time": "2025-07-12T00:00:00+02:00",
     "Geolocation": { "Latitude": 50.9583, "Longitude": 13.9416 },
     "Organizer": {
@@ -365,6 +391,7 @@
   },
   {
     "Location": "Chemnitz, Deutschland",
+    "Title": "CSD Chemnitz",
     "Time": "2025-07-26T00:00:00+02:00",
     "Geolocation": { "Latitude": 50.8278, "Longitude": 12.9214 },
     "Organizer": {
@@ -379,6 +406,7 @@
   },
   {
     "Location": "Frankenberg, Deutschland",
+    "Title": "CSD Frankenberg",
     "Time": "2025-08-03T00:00:00+02:00",
     "Geolocation": { "Latitude": 50.9287, "Longitude": 13.2636 },
     "Organizer": {
@@ -393,6 +421,7 @@
   },
   {
     "Location": "Bautzen, Deutschland",
+    "Title": "CSD Bautzen",
     "Time": "2025-08-10T00:00:00+02:00",
     "Geolocation": { "Latitude": 51.1800, "Longitude": 14.4333 },
     "Organizer": {
@@ -407,6 +436,7 @@
   },
   {
     "Location": "Plauen, Deutschland",
+    "Title": "CSD Plauen",
     "Time": "2025-08-16T00:00:00+02:00",
     "Geolocation": { "Latitude": 50.4976, "Longitude": 12.1371 },
     "Organizer": {
@@ -421,6 +451,7 @@
   },
   {
     "Location": "Zwickau, Deutschland",
+    "Title": "CSD Zwickau",
     "Time": "2025-08-30T00:00:00+02:00",
     "Geolocation": { "Latitude": 50.7189, "Longitude": 12.4880 },
     "Organizer": {
@@ -435,6 +466,7 @@
   },
   {
     "Location": "Freiberg, Deutschland",
+    "Title": "CSD Freiberg",
     "Time": "2025-09-06T00:00:00+02:00",
     "Geolocation": { "Latitude": 50.9167, "Longitude": 13.3397 },
     "Organizer": {
@@ -449,6 +481,7 @@
   },
   {
     "Location": "Döbeln, Deutschland",
+    "Title": "CSD Döbeln",
     "Time": "2025-09-20T00:00:00+02:00",
     "Geolocation": { "Latitude": 51.1103, "Longitude": 13.0974 },
     "Organizer": {
@@ -463,6 +496,7 @@
   },
   {
     "Location": "Görlitz, Deutschland",
+    "Title": "CSD Görlitz",
     "Time": "2025-09-27T00:00:00+02:00",
     "Geolocation": { "Latitude": 51.1523, "Longitude": 14.9871 },
     "Organizer": {
@@ -477,6 +511,7 @@
   },
   {
     "Location": "Marzahn, Deutschland",
+    "Title": "CSD Marzahn",
     "Time": "2025-06-21T00:00:00+02:00",
     "Geolocation": {
       "Latitude": 52.5500,
@@ -497,6 +532,7 @@
   },
   {
     "Location": "Berlin, Deutschland",
+    "Title": "CSD Berlin",
     "Time": "2025-07-26T00:00:00+02:00",
     "Geolocation": {
       "Latitude": 52.5200,
@@ -517,6 +553,7 @@
   },
   {
     "Location": "Potsdam, Deutschland",
+    "Title": "CSD Potsdam",
     "Time": "2025-05-17T00:00:00+02:00",
     "Geolocation": { "Latitude": 52.3969, "Longitude": 13.0581 },
     "Organizer": {
@@ -531,6 +568,7 @@
   },
   {
     "Location": "Angermünde, Deutschland",
+    "Title": "CSD Angermünde",
     "Time": "2025-05-17T00:00:00+02:00",
     "Geolocation": { "Latitude": 53.0129, "Longitude": 13.9214 },
     "Organizer": {
@@ -545,6 +583,7 @@
   },
   {
     "Location": "Brandenburg an der Havel, Deutschland",
+    "Title": "CSD Brandenburg an der Havel",
     "Time": "2025-05-24T00:00:00+02:00",
     "Geolocation": { "Latitude": 52.4064, "Longitude": 12.5509 },
     "Organizer": {
@@ -559,6 +598,7 @@
   },
   {
     "Location": "Rheinsberg, Deutschland",
+    "Title": "CSD Rheinsberg",
     "Time": "2025-05-31T00:00:00+02:00",
     "Geolocation": { "Latitude": 53.0973, "Longitude": 12.9309 },
     "Organizer": {
@@ -573,6 +613,7 @@
   },
   {
     "Location": "Eberswalde, Deutschland",
+    "Title": "CSD Eberswalde",
     "Time": "2025-06-21T00:00:00+02:00",
     "Geolocation": { "Latitude": 52.8383, "Longitude": 13.8226 },
     "Organizer": {
@@ -587,6 +628,7 @@
   },
   {
     "Location": "Falkensee, Deutschland",
+    "Title": "CSD Falkensee",
     "Time": "2025-07-05T00:00:00+02:00",
     "Geolocation": { "Latitude": 52.5452, "Longitude": 13.0833 },
     "Organizer": {
@@ -601,6 +643,7 @@
   },
   {
     "Location": "Wittenberge, Deutschland",
+    "Title": "CSD Wittenberge",
     "Time": "2025-07-05T00:00:00+02:00",
     "Geolocation": { "Latitude": 53.0000, "Longitude": 11.7500 },
     "Organizer": {
@@ -615,6 +658,7 @@
   },
   {
     "Location": "Luckenwalde, Deutschland",
+    "Title": "CSD Luckenwalde",
     "Time": "2025-07-12T00:00:00+02:00",
     "Geolocation": { "Latitude": 52.1000, "Longitude": 13.3221 },
     "Organizer": {
@@ -629,6 +673,7 @@
   },
   {
     "Location": "Neuruppin, Deutschland",
+    "Title": "CSD Neuruppin",
     "Time": "2025-07-12T00:00:00+02:00",
     "Geolocation": { "Latitude": 52.8014, "Longitude": 12.8416 },
     "Organizer": {
@@ -643,6 +688,7 @@
   },
   {
     "Location": "Bad Belzig, Deutschland",
+    "Title": "CSD Bad Belzig",
     "Time": "2025-07-12T00:00:00+02:00",
     "Geolocation": { "Latitude": 52.1350, "Longitude": 12.4053 },
     "Organizer": {
@@ -657,6 +703,7 @@
   },
   {
     "Location": "Bernau bei Berlin, Deutschland",
+    "Title": "CSD Bernau bei Berlin",
     "Time": "2025-07-12T00:00:00+02:00",
     "Geolocation": { "Latitude": 52.6798, "Longitude": 13.5870 },
     "Organizer": {
@@ -671,6 +718,7 @@
   },
   {
     "Location": "Ludwigsfelde, Deutschland",
+    "Title": "CSD Ludwigsfelde",
     "Time": "2025-08-09T00:00:00+02:00",
     "Geolocation": { "Latitude": 52.3247, "Longitude": 13.2547 },
     "Organizer": {
@@ -685,6 +733,7 @@
   },
   {
     "Location": "Rathenow, Deutschland",
+    "Title": "CSD Rathenow",
     "Time": "2025-08-30T00:00:00+02:00",
     "Geolocation": { "Latitude": 52.6017, "Longitude": 12.2900 },
     "Organizer": {
@@ -699,6 +748,7 @@
   },
   {
     "Location": "Frankfurt (Oder), Deutschland",
+    "Title": "CSD Frankfurt (Oder)",
     "Time": "2025-09-13T00:00:00+02:00",
     "Geolocation": { "Latitude": 52.3396, "Longitude": 14.5530 },
     "Organizer": {
@@ -713,6 +763,7 @@
   },
   {
     "Location": "Eisenhüttenstadt, Deutschland",
+    "Title": "CSD Eisenhüttenstadt",
     "Time": "2025-09-13T00:00:00+02:00",
     "Geolocation": { "Latitude": 52.1478, "Longitude": 14.6303 },
     "Organizer": {
@@ -727,6 +778,7 @@
   },
   {
     "Location": "Oberhavel (Oranienburg), Deutschland",
+    "Title": "CSD Oberhavel (Oranienburg)",
     "Time": "2025-09-27T00:00:00+02:00",
     "Geolocation": { "Latitude": 52.7534, "Longitude": 13.2399 },
     "Organizer": {
@@ -741,6 +793,7 @@
   },
   {
     "Location": "Cottbus, Deutschland",
+    "Title": "CSD Cottbus",
     "Time": "2025-10-25T00:00:00+02:00",
     "Geolocation": { "Latitude": 51.7573, "Longitude": 14.3289 },
     "Organizer": {
@@ -755,6 +808,7 @@
   },
   {
     "Location": "Schwerin, Deutschland",
+    "Title": "CSD Schwerin",
     "Time": "2025-06-07T00:00:00+02:00",
     "Geolocation": {
       "Latitude": 53.6294,
@@ -775,6 +829,7 @@
   },
   {
     "Location": "Greifswald, Deutschland",
+    "Title": "CSD Greifswald",
     "Time": "2025-06-14T00:00:00+02:00",
     "Geolocation": {
       "Latitude": 54.0917,
@@ -815,6 +870,7 @@
   },
   {
     "Location": "Parchim, Deutschland",
+    "Title": "CSD Parchim",
     "Time": "2025-06-28T00:00:00+02:00",
     "Geolocation": {
       "Latitude": 53.4268,
@@ -835,6 +891,7 @@
   },
   {
     "Location": "Rostock, Deutschland",
+    "Title": "CSD Rostock",
     "Time": "2025-07-19T00:00:00+02:00",
     "Geolocation": {
       "Latitude": 54.0924,
@@ -875,6 +932,7 @@
   },
   {
     "Location": "Neubrandenburg, Deutschland",
+    "Title": "CSD Neubrandenburg",
     "Time": "2025-08-02T00:00:00+02:00",
     "Geolocation": {
       "Latitude": 53.5560,
@@ -895,6 +953,7 @@
   },
   {
     "Location": "Grevesmühlen, Deutschland",
+    "Title": "CSD Grevesmühlen",
     "Time": "2025-09-13T00:00:00+02:00",
     "Geolocation": {
       "Latitude": 53.8570,

@@ -59,8 +59,8 @@ document.addEventListener('DOMContentLoaded', function() {
                        (ev.Wolke && ev.Wolke.trim() !== '') ? ev.Wolke : '#';
 
     return `
-      <b>${ev.Organizer.Name}</b><br>
-      <span style='color:#4976ce;'>${eventDate}</span> – ${ev.Location}<br>
+      <b>${ev.Title}</b><br>
+      <span style='color:#4976ce;'>${eventDate}</span> – ${ev.Organizer.Name}<br>
       <div style='margin-top:.5em;'>${ev.Description}</div>
       ${linksHtml}
       <button onclick="window.open('${buttonLink}','_blank')" style="margin-top:1.2em;padding:.7em 2em;background:#376287;color:#fff;border:none;border-radius:22px;font-size:1.08em;cursor:pointer;box-shadow:0 2px 8px #b6d0f7a0;">Mehr Infos</button>
@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', function() {
         info.style.display = 'block';
         info.scrollIntoView({behavior:'smooth', block:'center'});
       });
-      marker.bindTooltip(ev.Organizer.Name, {permanent: false, direction: 'top'});
+      marker.bindTooltip(ev.Title +" - "+ ev.Organizer.Name, {permanent: false, direction: 'top'});
     });
   }
 
