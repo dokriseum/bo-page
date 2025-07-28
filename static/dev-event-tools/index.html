@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Events Admin Page</title>
+  <style>
+    body { font-family: sans-serif; margin: 2em; }
+    .dev { color: #b00; font-weight: bold; }
+    ul { list-style: none; padding: 0; }
+    li { margin-bottom: 0.5em; }
+    .actions { margin-top: 1em; }
+  </style>
+</head>
+<body>
+  <h1 class="dev">Event-Admin</h1>
+  <ul id="event-list"></ul>
+  <div class="actions">
+    <button id="delete-btn">Ausgewählte Events löschen</button>
+  </div>
+  <script src="/dev-event-tools/events-lib.js"></script>
+  <script>
+    (async function() {
+      const eventManager = new EventManager('/events.json');
+      await eventManager.loadEvents();
+      new EventUI(eventManager, '#event-list', '#delete-btn');
+    })();
+  </script>
+</body>
+</html>
