@@ -544,5 +544,30 @@
     "Wolke": "",
     "Website": "https://www.csd-termine.de/deutschland/csd-pride-grevesmuehlen.html",
     "SocialMediaLinks": []
+  },
+  {
+    "Location": "Straße der Glasmacher, 02943, Weißwasser/O.L., Sachsen",
+    "Title": "Foobar",
+    "Time": "2025-06-27",
+    "Geolocation": {
+      "Latitude": 51.505087,
+      "Longitude": 14.64469
+    },
+    "Organizer": {
+      "Name": "Rob Mustermann",
+      "Contact": {
+        "Email": "rob@foobar.de",
+        "Phone": "111111111112222222222"
+      }
+    },
+    "EventType": "Infostand mit Adenauer SRP+",
+    "Description": "# Politische EntscheiderInnen mit ostdeutsche Lebenserfahrung  Eine kleine übersicht, die zeigt, welche aktuell tätigen PolitikerInnen ostdeutsche Lebserfahrung haben.",
+    "Wolke": "https://wolke.netzbegruenung.de/apps/deck/board/27020",
+    "Chatbegruenung": "chatbegrünung",
+    "SocialMediaLinks": "github.com/rob\nfacebook.com/rob\n",
+    "EventStatus": {
+      "HelpersNeededMinimum": 0,
+      "SpecialRequirements": "Dies, das, Ananas"
+    }
   }
 ]
