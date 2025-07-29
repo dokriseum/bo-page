@@ -1,6 +1,39 @@
 // events-lib.js
 
+/**
+ * Validates and parses a JSON string for new events.
+ * Returns { valid: boolean, error: string|null, events: array|null, previewHtml: string }
+ */
+function parseAndPreviewEvents(jsonString) {
+  let parsed;
+  try {
+    parsed = JSON.parse(jsonString);
+  } catch (e) {
+    return { valid: false, error: 'Ungültiges JSON: ' + e.message, events: null, previewHtml: '' };
+  }
+  const arr = Array.isArray(parsed) ? parsed : [parsed];
+  const previewHtml = arr.map(ev =>
+    `<div style="margin-bottom:0.5em; border-bottom:1px solid #eee;">
+      <strong>${ev.Title || 'No title'}</strong><br>
+      <span>${ev.Time ? new Date(ev.Time).toLocaleDateString() : ''}</span><br>
+      <span>${ev.Location || ''}</span>
+    </div>`
+  ).join('');
+  return { valid: true, error: null, events: arr, previewHtml };
+}
+
 class EventManager {
+  /**
+   * Adds new events to the list. Validates that each event is an object.
+   * @param {Array} newEvents
+   */
+  addEventsToList(newEvents) {
+    if (!Array.isArray(newEvents)) throw new Error('newEvents muss ein Array sein');
+    for (const ev of newEvents) {
+      if (typeof ev !== 'object' || ev === null) throw new Error('Jedes Event muss ein Objekt sein');
+    }
+    this.events.push(...newEvents);
+  }
   constructor(jsonUrl) {
     this.jsonUrl = jsonUrl;
     this.events = [];
@@ -106,20 +139,8 @@ class EventUI {
     // Render future events (unchecked)
     renderEventListSection(future, true);
   }
-
-  async handleDelete() {
-    if (this.selectedIndices.size === 0) return;
-    if (!confirm('Really delete selected events?')) return;
-    try {
-      await this.eventManager.deleteEventsByIndices([...this.selectedIndices]);
-      this.selectedIndices.clear();
-      await this.renderList();
-      alert('Events deleted (only in API environment).');
-    } catch (err) {
-      alert(err.message);
-    }
-  }
 }
 
 window.EventManager = EventManager;
 window.EventUI = EventUI;
+window.parseAndPreviewEvents = parseAndPreviewEvents;
