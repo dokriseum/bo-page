@@ -1,4 +1,24 @@
-// events-lib.js
+/** 
+ * @file events-lib.js
+ * @description
+ * Utility functions and classes for managing events.
+ * Provides functionality to parse JSON, validate events, and manage event lists.
+*/
+
+/**
+ * Formats a date string as ISO (YYYY-MM-DD).
+ * @param {*} dateString 
+ * @returns 
+ */
+function formatDateISO(dateString) {
+  if (!dateString) return '';
+  const d = new Date(dateString);
+  if (isNaN(d)) return '';
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
 
 /**
  * Validates and parses a JSON string for new events.
@@ -15,7 +35,7 @@ function parseAndPreviewEvents(jsonString) {
   const previewHtml = arr.map(ev =>
     `<div style="margin-bottom:0.5em; border-bottom:1px solid #eee;">
       <strong>${ev.Title || 'No title'}</strong><br>
-      <span>${ev.Time ? new Date(ev.Time).toLocaleDateString() : ''}</span><br>
+      <span>${ev.Time ? formatDateISO(ev.Time) : ''}</span><br>
       <span>${ev.Location || ''}</span>
     </div>`
   ).join('');
@@ -48,14 +68,6 @@ class EventManager {
 
   getEvents() {
     return this.events;
-  }
-
-  async deleteEventsByIndices(indices) {
-    this.events = this.events.filter((_, i) => !indices.includes(i));
-    await this.saveEvents();
-  }
-
-  async saveEvents() {
   }
 }
 
@@ -113,8 +125,8 @@ class EventUI {
         li.innerHTML = `
           <label>
             <input type="checkbox" data-idx="${idx}"${checked ? ' checked' : ''}>
+            <span>${event.Time ? formatDateISO(event.Time) : ''}</span> –
             <strong>${event.Title || 'No title'}</strong> –
-            <span>${event.Time ? new Date(event.Time).toLocaleDateString() : ''}</span> –
             <span>${event.Location || ''}</span>
           </label>
         `;
@@ -144,3 +156,4 @@ class EventUI {
 window.EventManager = EventManager;
 window.EventUI = EventUI;
 window.parseAndPreviewEvents = parseAndPreviewEvents;
+window.formatDateISO = formatDateISO;

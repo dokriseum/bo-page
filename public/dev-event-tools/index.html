@@ -70,7 +70,6 @@
         const result = window.parseAndPreviewEvents(val);
         if (result.valid) {
           lintMsg.textContent = '';
-          // Checkboxen für jedes Event
           parsed = result.events;
           preview.innerHTML = parsed.map((ev, i) =>
             `<div style="margin-bottom:0.5em; border-bottom:1px solid #eee;">
@@ -94,10 +93,11 @@
 
       document.getElementById('add-form').addEventListener('submit', async (e) => {
         e.preventDefault();
-        if (!parsed) return;
-        // Finde alle angehakten Checkboxen
+        if (!parsed) 
+          return;
         const checked = Array.from(document.querySelectorAll('.add-preview-checkbox:checked'));
-        if (checked.length === 0) return;
+        if (checked.length === 0) 
+          return;
         const indices = checked.map(cb => parseInt(cb.getAttribute('data-idx'), 10));
         const toAdd = indices.map(i => parsed[i]);
         try {
