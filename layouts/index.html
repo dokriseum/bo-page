@@ -1,8 +1,215 @@
 {{ define "main" }}
-<section class="hero">
-  <h1>{{ .Title }}</h1>
-  <div class="intro">
-    {{ .Content }}
-  </div>
-</section>
+<!-- Desktop Sidebar (nur auf Desktop sichtbar) -->
+<div class="desktop-sidebar">
+    <div class="sidebar-nav">
+        <a href="#" class="sidebar-item active" onclick="showView('main')">
+            <span class="sidebar-icon">🔍</span>
+            <span>Startseite</span>
+        </a>
+        <a href="#" class="sidebar-item" onclick="showView('events')">
+            <span class="sidebar-icon">📅</span>
+            <span>Veranstaltungen</span>
+        </a>
+        <a href="#" class="sidebar-item" onclick="showView('calendar')">
+            <span class="sidebar-icon">🗺️</span>
+            <span>Karte</span>
+        </a>
+        <a href="#" class="sidebar-item">
+            <span class="sidebar-icon">👤</span>
+            <span>Geschichten</span>
+        </a>
+    </div>
+</div>
+
+<!-- Main Content Area -->
+<div class="main-content">
+    <!-- Main Events View -->
+    <div id="main-view">
+        <div class="header">
+            <span class="page-title">Startseite</span>
+            <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
+        </div>
+        
+        <!-- Mobile Burger Menu -->
+        <div id="burger-overlay" class="burger-overlay hidden">
+            <div class="burger-content">
+                <div class="burger-header">
+                    <span class="burger-title">Menü</span>
+                    <button class="burger-close" onclick="toggleBurgerMenu()">×</button>
+                </div>
+                <nav class="burger-nav">
+                    <a href="#" class="burger-item active" onclick="showView('main'); toggleBurgerMenu();">
+                        <span class="burger-icon">🔍</span>
+                        <span>Startseite</span>
+                    </a>
+                    <a href="#" class="burger-item" onclick="showView('events'); toggleBurgerMenu();">
+                        <span class="burger-icon">📅</span>
+                        <span>Veranstaltungen</span>
+                    </a>
+                    <a href="#" class="burger-item" onclick="showView('calendar'); toggleBurgerMenu();">
+                        <span class="burger-icon">🗺️</span>
+                        <span>Karte</span>
+                    </a>
+                    <a href="#" class="burger-item" onclick="showView('stories'); toggleBurgerMenu();">
+                        <span class="burger-icon">👤</span>
+                        <span>Geschichten</span>
+                    </a>
+                </nav>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="section-header">
+                <h2 class="section-title">Aktuelle Veranstaltungen</h2>
+                <a href="#" class="section-link" onclick="showView('search')">Alle ansehen ▶</a>
+            </div>
+
+            <div class="events-grid">
+                {{ range first 6 (where site.RegularPages "Section" "events") }}
+                    {{ partial "event-card.html" . }}
+                {{ end }}
+            </div>
+
+            <div class="cta-section">
+                <h2 class="cta-title">Mach mit!</h2>
+                <p class="cta-subtitle">Jetzt deine Veranstaltung eintragen.</p>
+                <button class="cta-btn" onclick="alert('Event eintragen')">EINTRAGEN</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Results View -->
+    <div id="search-view" class="hidden">
+        <div class="header">
+            <button class="back-btn" onclick="showView('main')">←</button>
+            <span class="page-title">Suchergebnisse</span>
+            <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
+        </div>
+        
+        <div class="content">
+            <input type="text" class="search-bar" placeholder="Suche">
+            <div class="event-list-grid">
+                {{ range where site.RegularPages "Section" "events" }}
+                    {{ partial "event-list-item.html" . }}
+                {{ end }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Calendar View -->
+    <div id="calendar-view" class="hidden">
+        <div class="header">
+            <button class="back-btn" onclick="showView('main')">←</button>
+            <span class="page-title">Unser Kalender</span>
+            <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
+        </div>
+        
+        <div class="content">
+            <div class="view-toggle">
+                <button class="toggle-btn active">Kartenansicht</button>
+                <button class="toggle-btn">Kalenderansicht</button>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active">Ostdeutschland</button>
+                <button class="tab">Berlin</button>
+                <button class="tab">Brandenburg</button>
+                <button class="tab">Mecklenburg-Vorpommern</button>
+                <button class="tab">Sachsen</button>
+                <button class="tab">Sachsen-Anhalt</button>
+                <button class="tab">Thüringen</button>
+            </div>
+
+            <div class="map-container">
+                <div class="map-marker marker-1">🎵</div>
+                <div class="map-marker marker-2">⚡</div>
+                <div class="map-marker marker-3">✈️</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Event Details View -->
+    <div id="event-details" class="hidden">
+        {{ with (index (where site.RegularPages "Section" "events") 0) }}
+        <div class="event-header-image">
+            <button class="back-btn" onclick="showView('main')" style="position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.9); border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer;">←</button>
+            <button class="bookmark-btn" style="top: 20px; right: 20px;">🔖</button>
+            
+            <div class="event-actions">
+                <button class="action-btn map-btn">📍 Auf Karte öffnen</button>
+                <button class="action-btn join-btn">Ich bin dabei!</button>
+            </div>
+        </div>
+
+        <div class="event-meta">
+            <h1 class="event-meta-title">{{ .Title }}</h1>
+            
+            <div class="meta-item">
+                <div class="meta-icon date-icon">📅</div>
+                <div class="meta-text">
+                    <h4>{{ .Date.Format "02.01.2006" }}</h4>
+                    <p>{{ .Date.Format "Monday, 15:04" }} bis {{ .Params.endTime }} Uhr</p>
+                </div>
+            </div>
+
+            <div class="meta-item">
+                <div class="meta-icon location-icon">📍</div>
+                <div class="meta-text">
+                    <h4>{{ .Params.location }}</h4>
+                    <p>{{ .Params.address }}</p>
+                </div>
+            </div>
+
+            <div class="meta-item">
+                <div class="meta-icon organizer-icon">👤</div>
+                <div class="meta-text">
+                    <h4>{{ .Params.organizer }}</h4>
+                    <p>Organizer</p>
+                </div>
+                <button class="contact-btn">Kontakt</button>
+            </div>
+
+            <div class="description">
+                <h3>Beschreibung</h3>
+                <p>{{ .Content }}</p>
+            </div>
+        </div>
+        {{ end }}
+    </div>
+
+    <!-- Events List View -->
+    <div id="events-view" class="hidden">
+        <div class="header">
+            <button class="back-btn" onclick="showView('main')">←</button>
+            <span class="page-title">Veranstaltungen</span>
+            <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
+        </div>
+        
+        <div class="content">
+            <div class="tabs">
+                <button class="tab active">Kommende Veranstaltungen</button>
+                <button class="tab">Veranstaltung eintragen</button>
+            </div>
+
+            {{ $events := where site.RegularPages "Section" "events" }}
+            {{ if $events }}
+                <div class="event-list-grid">
+                    {{ range $events }}
+                        {{ partial "event-list-item.html" . }}
+                    {{ end }}
+                </div>
+            {{ else }}
+                <div class="no-events">
+                    <div class="no-events-icon">📅</div>
+                    <h3>Keine Veranstaltungen</h3>
+                    <p style="color: #666; margin-top: 8px;">Aktuell finden keine Events statt.</p>
+                    <button class="cta-btn" style="margin-top: 20px;" onclick="showView('main')">EXPLORE EVENTS</button>
+                </div>
+            {{ end }}
+        </div>
+    </div>
+</div>
+
+<!-- Floating Action Button -->
+<button class="floating-btn" onclick="alert('Event erstellen')">+</button>
 {{ end }}

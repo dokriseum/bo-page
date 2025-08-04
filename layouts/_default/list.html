@@ -1,0 +1,11 @@
+{{ define "main" }}
+  <section class="p-4">
+    {{ range .Paginator.Pages }}
+      <h2 class="mb-2">
+        <a href="{{ .RelPermalink }}" class="text-blue-600 hover:underline">
+          {{ .Title }}
+        </a>
+      </h2>
+    {{ end }}
+  </section>
+{{ end }}
