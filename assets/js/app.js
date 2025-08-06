@@ -100,6 +100,22 @@ class EventApp {
 
     createEventCard(event, template) {
         const card = template.content.cloneNode(true).querySelector('.event-card');
+        const imageContainer = card.querySelector('.event-image');
+        const bgImage = card.querySelector('.event-bg-image');
+
+        // Bild setzen falls vorhanden
+        if (event.image) {
+            bgImage.src = event.image;
+            bgImage.alt = event.title;
+            bgImage.onload = () => {
+                bgImage.style.display = 'block';
+                imageContainer.style.background = 'none';
+            };
+            bgImage.onerror = () => {
+                // Fallback zu Gradient
+                imageContainer.style.background = event.fallbackGradient || 'var(--default-gradient)';
+            };
+        }
 
         // Daten setzen
         card.setAttribute('data-category', event.category);

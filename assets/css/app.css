@@ -34,10 +34,12 @@ body {
 .date-badge { position: absolute; top: 16px; left: 16px; background: var(--accent); color: var(--white); padding: 8px 12px; border-radius: 8px; font-weight: 600; text-align: center; }
 .date-badge .day { font-size: 20px; line-height: 1; }
 .date-badge .month { font-size: 12px; text-transform: uppercase; }
+.date-badge, .bookmark-btn { z-index: 2; }
 .bookmark-btn { position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.9); border: none; width: 40px; height: 40px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
 
 .event-info { padding: var(--spacing); }
 .event-title { font-size: 18px; font-weight: 600; margin-bottom: 8px; line-height: 1.3; }
+.event-bg-image { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: 1; }
 .event-location { color: var(--text-light); font-size: 14px; display: flex; align-items: center; gap: 6px; }
 
 .event-list-item { display: flex; align-items: center; padding: 16px; margin-bottom: 12px; background: var(--white); border-radius: var(--radius); box-shadow: var(--shadow); cursor: pointer; }

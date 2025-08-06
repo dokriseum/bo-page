@@ -3,6 +3,8 @@
     {
         "id": "csd_berlin_2025",
         "title": "CSD Berlin 2025",
+        "image": "/images/events/default.jpg",
+        "fallbackGradient": "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
         "date": "2025-07-26T12:00:00+02:00",
         "location": "Berlin",
         "startTime": "12:00",
@@ -17,6 +19,8 @@
     {
         "id": "csd_dresden_2025",
         "title": "CSD Dresden 2025",
+        "image": "/images/events/default.jpg",
+        "fallbackGradient": "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
         "date": "2025-05-31T12:00:00+02:00",
         "location": "Dresden",
         "startTime": "12:00",
@@ -31,6 +35,8 @@
     {
         "id": "csd_erfurt_2025",
         "title": "CSD Erfurt 2025",
+        "image": "/images/events/default.jpg",
+        "fallbackGradient": "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
         "date": "2025-09-06T13:00:00+02:00",
         "location": "Erfurt",
         "startTime": "13:00",
@@ -45,6 +51,8 @@
     {
         "id": "csd_leipzig_2025",
         "title": "CSD Leipzig 2025",
+        "image": "/images/events/default.jpg",
+        "fallbackGradient": "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
         "date": "2025-06-28T13:00:00+02:00",
         "location": "Leipzig",
         "startTime": "13:00",
@@ -59,6 +67,8 @@
     {
         "id": "csd_magdeburg_2025",
         "title": "CSD Magdeburg 2025",
+        "image": "/images/events/default.jpg",
+        "fallbackGradient": "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
         "date": "2025-08-23T13:00:00+02:00",
         "location": "Magdeburg",
         "startTime": "13:00",
@@ -73,6 +83,8 @@
     {
         "id": "csd_potsdam_2025",
         "title": "CSD Potsdam 2025",
+        "image": "/images/events/default.jpg",
+        "fallbackGradient": "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
         "date": "2025-05-17T12:00:00+02:00",
         "location": "Potsdam",
         "startTime": "12:00",
@@ -87,6 +99,8 @@
     {
         "id": "csd_rostock_2025",
         "title": "CSD Rostock 2025",
+        "image": "/images/events/default.jpg",
+        "fallbackGradient": "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
         "date": "2025-07-19T12:30:00+02:00",
         "location": "Rostock",
         "startTime": "12:30",
@@ -101,6 +115,8 @@
     {
         "id": "csd_schwerin_2025",
         "title": "CSD Schwerin 2025",
+        "image": "/images/events/default.jpg",
+        "fallbackGradient": "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
         "date": "2025-06-07T14:00:00+02:00",
         "location": "Schwerin",
         "startTime": "14:00",
@@ -115,6 +131,8 @@
     {
         "id": "ostkongress_elbe_2025",
         "title": "Ostkongress ELBE 2025",
+        "image": "/images/events/default.jpg",
+        "fallbackGradient": "linear-gradient(135deg, #fa709a 0%, #fee140 100%)",
         "date": "2025-09-12T10:00:00+02:00",
         "location": "Wittenberg",
         "startTime": "10:00",
