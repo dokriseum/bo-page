@@ -15,7 +15,20 @@ class EventApp {
         window.showView = this.showView.bind(this);
         window.showEventDetails = this.showEventDetails.bind(this);
         window.toggleBurgerMenu = this.toggleBurgerMenu.bind(this);
+        window.toggleTheme = this.toggleTheme.bind(this);
     }
+
+    toggleTheme() {
+        const root = document.documentElement;
+        const key  = 'bo-theme';
+        const newTheme = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', newTheme);
+        localStorage.setItem(key, newTheme);
+        // Meta theme-color updaten (mobile Browser-Chrome)
+        document.querySelector('meta[name="theme-color"]').content =
+            newTheme === 'dark' ? '#121212' : '#f8f9fa';
+    }
+
 
     bindEvents() {
         // Tab switching mit Event Delegation
@@ -77,3 +90,4 @@ class EventApp {
 }
 
 document.addEventListener('DOMContentLoaded', () => new EventApp());
+document.getElementById('theme-toggle')?.addEventListener('click', () => toggleTheme());

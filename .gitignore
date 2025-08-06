@@ -16,6 +16,9 @@ ehthumbs.db
 /resources/_gen/    # Automatisch generierte Bild-/SCSS-Assets
 hugo_stats.json     # Optional: Hugo „build stats“
 .hugo_build.lock
+public/
+resources/
+resources/_gen/
 
 ###############################################################################
 # 3) Abhängigkeiten & Build-Artefakte (Node, Go, etc.)
@@ -52,3 +55,5 @@ yarn.lock
 ###############################################################################
 .env
 .env.*
+
+merged_output.md
