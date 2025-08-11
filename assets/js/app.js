@@ -46,8 +46,7 @@ class EventApp {
     async loadEvents() {
         try {
             const response = await fetch('/events.json');
-            const data = await response.json();
-            this.eventsData = data.events || [];
+            this.eventsData =  await response.json() || [];
             this.renderEvents();
         } catch (error) {
             console.error('Error loading events:', error);
@@ -68,11 +67,10 @@ class EventApp {
 
         if (!container || !template) return;
 
-        // Alte Events entfernen (außer Template)
         container.querySelectorAll('.event-card').forEach(card => card.remove());
 
-        // Gefilterte Events (max 6 für Hauptseite)
-        const events = this.getFilteredEvents().slice(0, 6);
+        const maxEventsStartpage = 6;
+        const events = this.getFilteredEvents().slice(0, maxEventsStartpage);
 
         events.forEach(event => {
             const card = this.createEventCard(event, template);
@@ -104,31 +102,27 @@ class EventApp {
         const bgImage = card.querySelector('.event-bg-image');
 
         // Bild setzen falls vorhanden
-        if (event.image) {
-            bgImage.src = event.image;
-            bgImage.alt = event.title;
+        if (event.Image) {
+            bgImage.src = event.Image;
+            bgImage.alt = event.Title;
             bgImage.onload = () => {
                 bgImage.style.display = 'block';
                 imageContainer.style.background = 'none';
             };
             bgImage.onerror = () => {
-                // Fallback zu Gradient
-                imageContainer.style.background = event.fallbackGradient || 'var(--default-gradient)';
+                imageContainer.style.background = event.FallbackGradient || 'var(--default-gradient)';
             };
         }
 
-        // Daten setzen
         card.setAttribute('data-category', event.category);
         card.setAttribute('data-event-id', event.id);
 
-        // Datum formatieren
-        const date = new Date(event.date);
+        const date = new Date(event.Time);
         card.querySelector('.day').textContent = date.getDate().toString().padStart(2, '0');
         card.querySelector('.month').textContent = date.toLocaleDateString('de-DE', { month: 'short' }).toUpperCase();
 
-        // Titel und Ort
-        card.querySelector('.event-title').textContent = event.title;
-        card.querySelector('.event-location span').textContent = event.location;
+        card.querySelector('.event-title').textContent = event.Title;
+        card.querySelector('.event-location span').textContent = event.Location;
 
         return card;
     }
@@ -136,46 +130,36 @@ class EventApp {
     createEventListItem(event, template) {
         const listItem = template.content.cloneNode(true).querySelector('.event-list-item');
 
-        // Daten setzen
         listItem.setAttribute('data-event-id', event.id);
         listItem.querySelector('.event-list-image').setAttribute('data-category', event.category);
 
-        // Datum formatieren
-        const date = new Date(event.date);
+        const date = new Date(event.Time);
         listItem.querySelector('.event-list-date').textContent =
             date.toLocaleDateString('de-DE', { weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' });
 
-        // Titel
-        listItem.querySelector('h4').textContent = event.title;
+        listItem.querySelector('h4').textContent = event.Title;
 
         return listItem;
     }
 
     getFilteredEvents() {
         let filtered = this.eventsData.filter(event => !event.draft);
-
-        // Nach Kategorie filtern
         if (this.currentFilter !== 'all') {
             filtered = filtered.filter(event => event.category === this.currentFilter);
         }
-
-        // Nach Datum sortieren
-        return filtered.sort((a, b) => new Date(a.date) - new Date(b.date));
+        return filtered.sort((a, b) => new Date(a.Time) - new Date(b.Time));
     }
 
     showView(viewName) {
-        // Hide all views
         document.querySelectorAll('[id$="-view"], #event-details').forEach(view =>
             view.classList.add('hidden'));
 
-        // Show target view
         const targetView = document.getElementById(`${viewName}-view`);
         if (targetView) {
             targetView.classList.remove('hidden');
             this.updateNavigation(viewName);
             this.currentView = viewName;
 
-            // View-spezifische Aktionen
             if (viewName === 'search') {
                 this.renderEventList('event-list-grid');
             } else if (viewName === 'events') {
@@ -203,28 +187,22 @@ class EventApp {
         const detailsView = document.getElementById('event-details');
         if (!detailsView) return;
 
-        // Header Image Kategorie
         detailsView.querySelector('.event-header-image').setAttribute('data-category', event.category);
 
-        // Titel
-        detailsView.querySelector('.event-meta-title').textContent = event.title;
+        detailsView.querySelector('.event-meta-title').textContent = event.Title;
 
-        // Datum
-        const date = new Date(event.date);
+        const date = new Date(event.Time);
         detailsView.querySelector('.event-date').textContent =
             date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' });
         detailsView.querySelector('.event-time').textContent =
-            `${date.toLocaleDateString('de-DE', { weekday: 'long' })}, ${event.startTime} bis ${event.endTime} Uhr`;
+            `${date.toLocaleDateString('de-DE', { weekday: 'long' })}, ${event.Time} Uhr`;
 
-        // Location
-        detailsView.querySelector('.event-location-name').textContent = event.location;
-        detailsView.querySelector('.event-address').textContent = event.address;
+        detailsView.querySelector('.event-location-name').textContent = event.Location;
+        detailsView.querySelector('.event-address').textContent = event.Geolocation.Latitude;
 
-        // Organizer
-        detailsView.querySelector('.event-organizer').textContent = event.organizer;
+        detailsView.querySelector('.event-organizer').textContent = event.Organizer.Name;
 
-        // Description
-        detailsView.querySelector('.event-description').textContent = event.description || 'Keine Beschreibung verfügbar.';
+        detailsView.querySelector('.event-description').textContent = event.Description || 'Keine Beschreibung verfügbar.';
     }
 
     toggleBurgerMenu() {
@@ -238,7 +216,6 @@ class EventApp {
         const index = navMapping[viewName];
 
         if (index !== undefined) {
-            // Update burger menu and sidebar
             document.querySelectorAll('.burger-item, .sidebar-item').forEach((item, i) => {
                 item.classList.toggle('active', i === index);
             });
@@ -257,9 +234,9 @@ class EventApp {
             const event = this.eventsData.find(e => e.id === eventId);
 
             if (event) {
-                const matches = event.title.toLowerCase().includes(term) ||
-                    event.location.toLowerCase().includes(term) ||
-                    event.organizer.toLowerCase().includes(term);
+                const matches = event.Title.toLowerCase().includes(term) ||
+                    event.Location.toLowerCase().includes(term) ||
+                    event.Organizer.Name.toLowerCase().includes(term);
 
                 item.style.display = matches ? 'flex' : 'none';
             }
@@ -270,7 +247,6 @@ class EventApp {
         this.currentFilter = category;
         this.renderEvents();
 
-        // Tab aktiv setzen
         const tabs = document.querySelectorAll('.tabs .tab');
         tabs.forEach((tab, index) => {
             const categories = ['all', 'be', 'bb', 'mv', 'sn', 'st', 'th'];
@@ -279,5 +255,4 @@ class EventApp {
     }
 }
 
-// App initialisieren
 document.addEventListener('DOMContentLoaded', () => new EventApp());
