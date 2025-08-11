@@ -143,13 +143,7 @@
                 <button class="tab" onclick="filterByCategory('st')">Sachsen-Anhalt</button>
                 <button class="tab" onclick="filterByCategory('th')">Thüringen</button>
             </div>
-
-            <div class="map-container">
-                <div class="map-marker marker-1">🎵</div>
-                <div class="map-marker marker-2">⚡</div>
-                <div class="map-marker marker-3">✈️</div>
-            </div>
-        </div>
+            {{ partial "event-map.html" . }}
     </div>
 
     <!-- Event Details View -->
