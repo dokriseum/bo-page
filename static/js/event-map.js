@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   async function fetchEvents() {
-    const response = await fetch('/rob.events.json');
+    const response = await fetch('/events.json');
     const json = await response.json();
     return json;
   }
