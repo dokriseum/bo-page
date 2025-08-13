@@ -98,5 +98,39 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  initEventMap();
+  let mapInitialized = false;
+
+  function initMapWhenVisible() {
+    const mapContainer = document.getElementById('map');
+    if (!mapContainer) return;
+    if (mapInitialized) return;
+
+    // polling fallback for older browsers
+    function fallbackPoll() {
+      if (mapInitialized) return;
+      if (mapContainer.offsetParent !== null) {
+        mapInitialized = true;
+        initEventMap();
+      } else {
+        setTimeout(fallbackPoll, 200);
+      }
+    }
+
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !mapInitialized) {
+            mapInitialized = true;
+            initEventMap();
+            obs.disconnect();
+          }
+        });
+      }, { threshold: 0.1 });
+      observer.observe(mapContainer);
+    } else {
+      fallbackPoll();
+    }
+  }
+
+  initMapWhenVisible();
 });
