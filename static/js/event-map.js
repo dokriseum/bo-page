@@ -1,9 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-  async function fetchEvents() {
-    const response = await fetch('/events.json');
-    const json = await response.json();
-    return json;
-  }
+  let stateSelectionLayer = null;
 
   function createMap() {
     return L.map('map', {
@@ -72,10 +68,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const info = document.getElementById('event-info');
     events.forEach(ev => {
       const marker = L.circleMarker([ev.Geolocation.Latitude, ev.Geolocation.Longitude], {
-        radius: 10,
-        color: '#487eca',
-        fillColor: '#b6d0f7',
-        fillOpacity: 0.95,
+        radius: 6,
+        color: 'var(--eventMarkerColor)',
+        fillColor: 'var(--eventMarkerFillColor)',
+        fillOpacity: 'var(--eventMarkerFillOpacity)',
         weight: 2
       }).addTo(map);
       marker.on('click', () => {
@@ -88,11 +84,12 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   async function initEventMap() {
-    const map = createMap();
-    addTileLayer(map);
+    const m = createMap();
+    window._eventMap = m;
+    addTileLayer(window._eventMap);
+
     try {
-      const events = await fetchEvents();
-      addEventMarkers(map, events);
+      addEventMarkers(window._eventMap,  window._eventsJson);
     } catch (error) {
       console.log('Events konnten nicht geladen werden:', error);
     }
@@ -131,6 +128,46 @@ document.addEventListener('DOMContentLoaded', function() {
       fallbackPoll();
     }
   }
+
+  // Grenzen eines Bundeslands anzeigen/entfernen
+  async function ShowStateBorders(mapFile) {
+    if (!window._eventMap)
+      return;
+
+   if (stateSelectionLayer) {
+      window._eventMap.removeLayer(stateSelectionLayer);
+      stateSelectionLayer = null;
+    }
+    if (mapFile === 'all') {
+      let centerOfTheEast = [52.5, 12.45];
+      window._eventMap.setView(centerOfTheEast, 6);
+      return;
+    }
+
+    try {
+      const mapFilePath = `/data/${mapFile}.geojson`;
+      const response = await fetch(mapFilePath);
+      if (!response.ok) throw new Error(`GeoJSON not found: ${mapFilePath}`);
+      const geojson = await response.json();
+
+      stateSelectionLayer = L.geoJSON(geojson, {
+        style: {
+          color: 'var(--stateSelectionColor)',
+          weight: 2,
+          fillOpacity: 0.05
+        }
+      }).addTo(window._eventMap);
+
+      // zoom to state boundaries
+      const bounds = stateSelectionLayer.getBounds();
+      if (bounds && bounds.isValid()) {
+        window._eventMap.fitBounds(bounds, { padding: [20, 20] });
+      }
+    } catch (e) {
+      console.error('Konnte Bundesland-Grenzen nicht laden:', e);
+    }
+  }
+  window._ShowStateBorders = ShowStateBorders;
 
   initMapWhenVisible();
 });

@@ -1,4 +1,13 @@
-/* Event-Karte Styles */
+/* Event-Map Styles */
+:root {
+  --stateSelectionColor: #4a90e2;
+
+  /* Event Marker */
+  --eventMarkerColor: #487eca;
+  --eventMarkerFillColor: #b6d0f7;
+  --eventMarkerFillOpacity: 0.7;
+}
+
 .event-map {
   width: 100%;
   min-height: 340px;

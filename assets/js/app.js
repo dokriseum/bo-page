@@ -2,7 +2,6 @@ class EventApp {
     constructor() {
         this.currentView = 'main';
         this.isDesktop = window.innerWidth >= 1024;
-        this.eventsData = [];
         this.selectedEvent = null;
         this.currentFilter = 'all';
         this.init();
@@ -46,12 +45,12 @@ class EventApp {
     async loadEvents() {
         try {
             const response = await fetch('/events.json');
-            this.eventsData =  await response.json() || [];
+            window._eventsJson =  await response.json() || [];
             this.renderEvents();
         } catch (error) {
             console.error('Error loading events:', error);
             // Fallback zu leerer Liste
-            this.eventsData = [];
+             window._eventsJson = [];
         }
     }
 
@@ -143,7 +142,7 @@ class EventApp {
     }
 
     getFilteredEvents() {
-        let filtered = this.eventsData.filter(event => !event.draft);
+        let filtered = window._eventsJson.filter(event => !event.draft);
         if (this.currentFilter !== 'all') {
             filtered = filtered.filter(event => event.category === this.currentFilter);
         }
@@ -170,7 +169,7 @@ class EventApp {
 
     showEventDetails(element) {
         const eventId = element.getAttribute('data-event-id');
-        const event = this.eventsData.find(e => e.id === eventId);
+        const event =  window._eventsJson.find(e => e.id === eventId);
 
         if (!event) return;
 
@@ -231,7 +230,7 @@ class EventApp {
 
         items.forEach(item => {
             const eventId = item.getAttribute('data-event-id');
-            const event = this.eventsData.find(e => e.id === eventId);
+            const event =  window._eventsJson.find(e => e.id === eventId);
 
             if (event) {
                 const matches = event.Title.toLowerCase().includes(term) ||
@@ -244,14 +243,30 @@ class EventApp {
     }
 
     filterByCategory(category) {
+        const categories = ['all', 'be', 'bb', 'mv', 'sn', 'st', 'th'];
+        const mapBorderFiles = {
+            all: 'all',
+            be: 'berlin',
+            bb: 'brandenburg',
+            mv: 'mecklenburg-vorpommern',
+            sn: 'sachsen',
+            st: 'sachsen-anhalt',
+            th: 'thueringen'
+        };
+
         this.currentFilter = category;
         this.renderEvents();
 
         const tabs = document.querySelectorAll('.tabs .tab');
         tabs.forEach((tab, index) => {
-            const categories = ['all', 'be', 'bb', 'mv', 'sn', 'st', 'th'];
             tab.classList.toggle('active', categories[index] === category);
         });
+
+        // Grenzen nur zeichnen, wenn Karte initialisiert ist und Funktion existiert
+        if (window._eventMap && typeof window._ShowStateBorders === 'function') {
+            const file = mapBorderFiles[category] || 'all';
+            window._ShowStateBorders(file);
+        }
     }
 }
 
