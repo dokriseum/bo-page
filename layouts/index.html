@@ -14,7 +14,7 @@
             <span class="sidebar-icon">🗺️</span>
             <span>Karte</span>
         </a>
-        <a href="#" class="sidebar-item">
+        <a href="#" class="sidebar-item" onclick="showView('stories')">
             <span class="sidebar-icon">👤</span>
             <span>Geschichten</span>
         </a>
@@ -215,6 +215,78 @@
     </div>
 </div>
 
+    <!-- East Stories View -->
+    <div id="stories-view" class="hidden">
+        <div class="header">
+            <button class="back-btn" onclick="showView('main')">←</button>
+            <span class="page-title">Geschichten aus dem Osten</span>
+            <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
+        </div>
+
+        <div class="content">
+            <div class="section-header">
+                <p class="section-subtitle">Hier sammeln wir persönliche Geschichten von Menschen aus den neuen Bundesländern. Diese Erzählungen zeigen die Vielfalt der Erfahrungen und den Mut der Menschen, die den Wandel nach 1989 mitgestaltet haben.</p>
+            </div>
+            
+            {{ $stories := site.Data.stories }}
+            <div class="stories-container">
+                <div class="stories-grid">
+                    {{ range $stories }}
+                    {{ $storyId := .name | urlize }}
+                    <div class="story-card" data-story-id="{{ $storyId }}">
+                        <div class="story-header">
+                            <h3>{{ .name }}</h3>
+                            {{ if ne .location "--" }}
+                            <span class="story-location">{{ .location }}</span>
+                            {{ end }}
+                            {{ if ne .age "--" }}
+                            <span class="story-age">{{ .age }} Jahre</span>
+                            {{ end }}
+                        </div>
+                        
+                        <div class="story-content">
+                            <p class="story-excerpt">{{ .excerpt }}</p>
+                            {{ if .image }}
+                                {{ $imagePath := .image }}
+                                {{ $imageExists := false }}
+                                {{ with resources.Get (strings.TrimPrefix "/" $imagePath) }}
+                                    {{ $imageExists = true }}
+                                {{ else }}
+                                    {{ $staticImagePath := printf "static%s" $imagePath }}
+                                    {{ if fileExists $staticImagePath }}
+                                        {{ $imageExists = true }}
+                                    {{ end }}
+                                {{ end }}
+                                {{ if $imageExists }}
+                                <div class="story-image">
+                                    {{ $altText := .name }}
+                                    {{ if index . "image-alt-text" }}
+                                        {{ $altText = index . "image-alt-text" }}
+                                    {{ end }}
+                                    <img src="{{ .image }}" alt="{{ $altText }}" loading="lazy">
+                                </div>
+                                {{ end }}
+                            {{ end }}
+                            
+                            <div class="story-full hidden">
+                                <p>{{ .fullText }}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="story-actions">
+                            <button class="btn-expand" onclick="toggleStory('{{ $storyId }}')">
+                                <span class="expand-text">Mehr lesen</span>
+                                <span class="collapse-text hidden">Weniger anzeigen</span>
+                            </button>
+                        </div>
+                    </div>
+                    {{ end }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Floating Action Button -->
 <button class="floating-btn" onclick="alert('Event erstellen')">+</button>
 
@@ -222,5 +294,31 @@
 <script>
     // Events JSON wird hier eingefügt oder per fetch geladen
     window.eventsData = null;
+    
+    // Stories Toggle Functionality
+    function toggleStory(storyId) {
+        const card = document.querySelector(`[data-story-id="${storyId}"]`);
+        const fullText = card.querySelector('.story-full');
+        const excerpt = card.querySelector('.story-excerpt');
+        const expandText = card.querySelector('.expand-text');
+        const collapseText = card.querySelector('.collapse-text');
+        const button = card.querySelector('.btn-expand');
+        
+        if (fullText.classList.contains('hidden')) {
+            // Erweitern
+            fullText.classList.remove('hidden');
+            excerpt.classList.add('hidden');
+            expandText.classList.add('hidden');
+            collapseText.classList.remove('hidden');
+            button.classList.add('expanded');
+        } else {
+            // Zusammenklappen
+            fullText.classList.add('hidden');
+            excerpt.classList.remove('hidden');
+            expandText.classList.remove('hidden');
+            collapseText.classList.add('hidden');
+            button.classList.remove('expanded');
+        }
+    }
 </script>
 {{ end }}

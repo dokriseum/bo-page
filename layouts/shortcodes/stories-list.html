@@ -1,0 +1,61 @@
+{{ $stories := site.Data.stories }}
+<div class="stories-container">
+    <div class="stories-grid">
+        {{ range $stories }}
+        <div class="story-card" data-story-id="{{ .id }}">
+            <div class="story-header">
+                <h3>{{ .name }}</h3>
+                <span class="story-location">{{ .location }}</span>
+                <span class="story-age">{{ .age }} Jahre</span>
+            </div>
+            
+            <div class="story-content">
+                <p class="story-excerpt">{{ .excerpt }}</p>
+                {{ if .image }}
+                <div class="story-image">
+                    <img src="{{ .image }}" alt="{{ .name }}" loading="lazy">
+                </div>
+                {{ end }}
+                
+                <div class="story-full hidden">
+                    <p>{{ .fullText }}</p>
+                </div>
+            </div>
+            
+            <div class="story-actions">
+                <button class="btn-expand" onclick="toggleStory('{{ .id }}')">
+                    <span class="expand-text">Mehr lesen</span>
+                    <span class="collapse-text hidden">Weniger anzeigen</span>
+                </button>
+            </div>
+        </div>
+        {{ end }}
+    </div>
+</div>
+
+<script>
+function toggleStory(storyId) {
+    const card = document.querySelector(`[data-story-id="${storyId}"]`);
+    const fullText = card.querySelector('.story-full');
+    const excerpt = card.querySelector('.story-excerpt');
+    const expandText = card.querySelector('.expand-text');
+    const collapseText = card.querySelector('.collapse-text');
+    const button = card.querySelector('.btn-expand');
+    
+    if (fullText.classList.contains('hidden')) {
+        // Erweitern
+        fullText.classList.remove('hidden');
+        excerpt.classList.add('hidden');
+        expandText.classList.add('hidden');
+        collapseText.classList.remove('hidden');
+        button.classList.add('expanded');
+    } else {
+        // Zusammenklappen
+        fullText.classList.add('hidden');
+        excerpt.classList.remove('hidden');
+        expandText.classList.remove('hidden');
+        collapseText.classList.add('hidden');
+        button.classList.remove('expanded');
+    }
+}
+</script>
