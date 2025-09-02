@@ -18,6 +18,23 @@
             <span class="sidebar-icon">👤</span>
             <span>Geschichten</span>
         </a>
+        <div class="sidebar-divider"></div>
+        <a href="#" class="sidebar-item" onclick="showView('about')">
+            <span class="sidebar-icon">🏢</span>
+            <span>Das Bündnis Ost</span>
+        </a>
+        <a href="#" class="sidebar-item" onclick="showView('values')">
+            <span class="sidebar-icon">💭</span>
+            <span>Selbstverständnis</span>
+        </a>
+        <a href="#" class="sidebar-item" onclick="showView('goals')">
+            <span class="sidebar-icon">🎯</span>
+            <span>Ziele</span>
+        </a>
+        <a href="#" class="sidebar-item" onclick="showView('imprint')">
+            <span class="sidebar-icon">📄</span>
+            <span>Impressum</span>
+        </a>
     </div>
 </div>
 
@@ -53,6 +70,23 @@
                     <a href="#" class="burger-item" onclick="showView('stories'); toggleBurgerMenu();">
                         <span class="burger-icon">👤</span>
                         <span>Geschichten</span>
+                    </a>
+                    <div class="burger-divider"></div>
+                    <a href="#" class="burger-item" onclick="showView('about'); toggleBurgerMenu();">
+                        <span class="burger-icon">🏢</span>
+                        <span>Das Bündnis Ost</span>
+                    </a>
+                    <a href="#" class="burger-item" onclick="showView('values'); toggleBurgerMenu();">
+                        <span class="burger-icon">💭</span>
+                        <span>Selbstverständnis</span>
+                    </a>
+                    <a href="#" class="burger-item" onclick="showView('goals'); toggleBurgerMenu();">
+                        <span class="burger-icon">🎯</span>
+                        <span>Ziele</span>
+                    </a>
+                    <a href="#" class="burger-item" onclick="showView('imprint'); toggleBurgerMenu();">
+                        <span class="burger-icon">📄</span>
+                        <span>Impressum</span>
                     </a>
                 </nav>
             </div>
@@ -281,6 +315,86 @@
                     </div>
                     {{ end }}
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About View -->
+    <div id="about-view" class="hidden">
+        <div class="header">
+            <button class="back-btn" onclick="showView('main')">←</button>
+            <span class="page-title">Das Bündnis Ost</span>
+            <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
+        </div>
+        <div class="content">
+            <div class="page-content">
+                {{ $aboutPage := site.GetPage "das-buendnis-ost" }}
+                {{ if $aboutPage }}
+                    {{ $aboutPage.Content }}
+                {{ else }}
+                    <h1>Das Bündnis Ost</h1>
+                    <p>Inhalt wird geladen...</p>
+                {{ end }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Values View -->
+    <div id="values-view" class="hidden">
+        <div class="header">
+            <button class="back-btn" onclick="showView('main')">←</button>
+            <span class="page-title">Selbstverständnis</span>
+            <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
+        </div>
+        <div class="content">
+            <div class="page-content">
+                {{ $valuesPage := site.GetPage "selbstverstaendnis" }}
+                {{ if $valuesPage }}
+                    {{ $valuesPage.Content }}
+                {{ else }}
+                    <h1>Selbstverständnis</h1>
+                    <p>Inhalt wird geladen...</p>
+                {{ end }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Goals View -->
+    <div id="goals-view" class="hidden">
+        <div class="header">
+            <button class="back-btn" onclick="showView('main')">←</button>
+            <span class="page-title">Ziele</span>
+            <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
+        </div>
+        <div class="content">
+            <div class="page-content">
+                {{ $goalsPage := site.GetPage "ziele" }}
+                {{ if $goalsPage }}
+                    {{ $goalsPage.Content }}
+                {{ else }}
+                    <h1>Unsere Ziele</h1>
+                    <p>Inhalt wird geladen...</p>
+                {{ end }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Imprint View -->
+    <div id="imprint-view" class="hidden">
+        <div class="header">
+            <button class="back-btn" onclick="showView('main')">←</button>
+            <span class="page-title">Impressum</span>
+            <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
+        </div>
+        <div class="content">
+            <div class="page-content">
+                {{ $imprintPage := site.GetPage "impressum" }}
+                {{ if $imprintPage }}
+                    {{ $imprintPage.Content }}
+                {{ else }}
+                    <h1>Impressum</h1>
+                    <p>Inhalt wird geladen...</p>
+                {{ end }}
             </div>
         </div>
     </div>
