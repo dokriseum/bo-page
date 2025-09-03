@@ -14,6 +14,10 @@
             <span class="sidebar-icon">🗺️</span>
             <span>Karte</span>
         </a>
+        <a href="#" class="sidebar-item" onclick="showView('search')">
+            <span class="sidebar-icon">🔍</span>
+            <span>Suche</span>
+        </a>
         <a href="#" class="sidebar-item" onclick="showView('stories')">
             <span class="sidebar-icon">👤</span>
             <span>Geschichten</span>
@@ -67,6 +71,10 @@
                         <span class="burger-icon">🗺️</span>
                         <span>Karte</span>
                     </a>
+                    <a href="#" class="burger-item" onclick="showView('search'); toggleBurgerMenu();">
+                        <span class="burger-icon">🔍</span>
+                        <span>Suche</span>
+                    </a>
                     <a href="#" class="burger-item" onclick="showView('stories'); toggleBurgerMenu();">
                         <span class="burger-icon">👤</span>
                         <span>Geschichten</span>
@@ -95,7 +103,6 @@
         <div class="content">
             <div class="section-header">
                 <h2 class="section-title">Aktuelle Veranstaltungen</h2>
-                <a href="#" class="section-link" onclick="showView('search')">Alle ansehen ▶</a>
             </div>
 
             <!-- Event Grid Container (wird per JS befüllt) -->
