@@ -142,8 +142,6 @@ body {
 .description { margin-top: var(--spacing); }
 .description h3 { font-size: 18px; font-weight: 600; margin-bottom: 12px; }
 
-.tabs, .view-toggle { display: flex; gap: 8px; margin-bottom: var(--spacing); }
-.view-toggle { background: #f0f0f0; border-radius: 24px; padding: 4px; }
 .tab, .toggle-btn { padding: 8px 16px; border: none; border-radius: 20px; background: #f5f5f5; color: var(--text-light); cursor: pointer; font-size: 14px; }
 .toggle-btn { flex: 1; background: transparent; }
 .tab.active, .toggle-btn.active { background: var(--primary); color: var(--white); }
