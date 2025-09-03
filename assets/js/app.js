@@ -69,7 +69,8 @@ class EventApp {
         container.querySelectorAll('.event-card').forEach(card => card.remove());
 
         const maxEventsStartpage = 6;
-        const events = this.getFilteredEvents().slice(0, maxEventsStartpage);
+        const allEvents = window._eventsJson.filter(event => !event.draft);
+        const events = allEvents.sort((a, b) => new Date(a.Time) - new Date(b.Time)).slice(0, maxEventsStartpage);
 
         events.forEach(event => {
             const card = this.createEventCard(event, template);
@@ -86,8 +87,16 @@ class EventApp {
         // Alte Events entfernen
         container.querySelectorAll('.event-list-item').forEach(item => item.remove());
 
-        // Alle gefilterten Events
-        const events = this.getFilteredEvents();
+        // Unterscheidung zwischen verschiedenen Listen
+        let events;
+        if (containerId === 'event-list-grid') {
+            // Search View: Filter respektieren
+            events = this.getFilteredEvents();
+        } else {
+            // Events List View: Alle Events zeigen
+            const allEvents = window._eventsJson.filter(event => !event.draft);
+            events = allEvents.sort((a, b) => new Date(a.Time) - new Date(b.Time));
+        }
 
         events.forEach(event => {
             const listItem = this.createEventListItem(event, template);
@@ -257,7 +266,7 @@ class EventApp {
         this.currentFilter = category;
         this.renderEvents();
 
-        const tabs = document.querySelectorAll('.tabs .tab');
+        const tabs = document.querySelectorAll('.tabs .map-state-selection');
         tabs.forEach((tab, index) => {
             tab.classList.toggle('active', categories[index] === category);
         });

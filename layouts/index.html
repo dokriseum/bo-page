@@ -171,13 +171,13 @@
 
         <div class="content">
             <div class="tabs">
-                <button class="tab active" onclick="filterByCategory('all')">Ostdeutschland</button>
-                <button class="tab" onclick="filterByCategory('be')">Berlin</button>
-                <button class="tab" onclick="filterByCategory('bb')">Brandenburg</button>
-                <button class="tab" onclick="filterByCategory('mv')">Mecklenburg-Vorpommern</button>
-                <button class="tab" onclick="filterByCategory('sn')">Sachsen</button>
-                <button class="tab" onclick="filterByCategory('st')">Sachsen-Anhalt</button>
-                <button class="tab" onclick="filterByCategory('th')">Thüringen</button>
+                <button class="map-state-selection active" onclick="filterByCategory('all')">Ostdeutschland</button>
+                <button class="map-state-selection" onclick="filterByCategory('be')">Berlin</button>
+                <button class="map-state-selection" onclick="filterByCategory('bb')">Brandenburg</button>
+                <button class="map-state-selection" onclick="filterByCategory('mv')">Mecklenburg-Vorpommern</button>
+                <button class="map-state-selection" onclick="filterByCategory('sn')">Sachsen</button>
+                <button class="map-state-selection" onclick="filterByCategory('st')">Sachsen-Anhalt</button>
+                <button class="map-state-selection" onclick="filterByCategory('th')">Thüringen</button>
             </div>
             {{ partial "event-map.html" . }}
         </div>
