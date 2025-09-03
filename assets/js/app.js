@@ -18,7 +18,6 @@ class EventApp {
         window.showView = this.showView.bind(this);
         window.showEventDetails = this.showEventDetails.bind(this);
         window.toggleBurgerMenu = this.toggleBurgerMenu.bind(this);
-        window.filterEvents = this.filterEvents.bind(this);
         window.filterByCategory = this.filterByCategory.bind(this);
     }
 
@@ -56,7 +55,6 @@ class EventApp {
 
     renderEvents() {
         this.renderEventGrid();
-        this.renderEventList('event-list-grid');
         this.renderEventList('events-list-container');
     }
 
@@ -87,16 +85,9 @@ class EventApp {
         // Alte Events entfernen
         container.querySelectorAll('.event-list-item').forEach(item => item.remove());
 
-        // Unterscheidung zwischen verschiedenen Listen
-        let events;
-        if (containerId === 'event-list-grid') {
-            // Search View: Filter respektieren
-            events = this.getFilteredEvents();
-        } else {
-            // Events List View: Alle Events zeigen
-            const allEvents = window._eventsJson.filter(event => !event.draft);
-            events = allEvents.sort((a, b) => new Date(a.Time) - new Date(b.Time));
-        }
+        // Events List View: Alle Events zeigen
+        const allEvents = window._eventsJson.filter(event => !event.draft);
+        const events = allEvents.sort((a, b) => new Date(a.Time) - new Date(b.Time));
 
         events.forEach(event => {
             const listItem = this.createEventListItem(event, template);
@@ -168,9 +159,7 @@ class EventApp {
             this.updateNavigation(viewName);
             this.currentView = viewName;
 
-            if (viewName === 'search') {
-                this.renderEventList('event-list-grid');
-            } else if (viewName === 'events') {
+            if (viewName === 'events') {
                 this.renderEventList('events-list-container');
             }
         }
@@ -220,7 +209,7 @@ class EventApp {
     }
 
     updateNavigation(viewName) {
-        const navMapping = { 'main': 0, 'events': 1, 'calendar': 2 };
+        const navMapping = { 'main': 0, 'events': 1, 'calendar': 2, 'stories': 3 };
         const index = navMapping[viewName];
 
         if (index !== undefined) {
@@ -228,27 +217,6 @@ class EventApp {
                 item.classList.toggle('active', i === index);
             });
         }
-    }
-
-    filterEvents(searchTerm) {
-        const container = document.getElementById('event-list-grid');
-        if (!container) return;
-
-        const items = container.querySelectorAll('.event-list-item');
-        const term = searchTerm.toLowerCase();
-
-        items.forEach(item => {
-            const eventId = item.getAttribute('data-event-id');
-            const event =  window._eventsJson.find(e => e.id === eventId);
-
-            if (event) {
-                const matches = event.Title.toLowerCase().includes(term) ||
-                    event.Location.toLowerCase().includes(term) ||
-                    event.Organizer.Name.toLowerCase().includes(term);
-
-                item.style.display = matches ? 'flex' : 'none';
-            }
-        });
     }
 
     filterByCategory(category) {

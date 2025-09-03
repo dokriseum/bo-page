@@ -14,10 +14,6 @@
             <span class="sidebar-icon">🗺️</span>
             <span>Karte</span>
         </a>
-        <a href="#" class="sidebar-item" onclick="showView('search')">
-            <span class="sidebar-icon">🔍</span>
-            <span>Suche</span>
-        </a>
         <a href="#" class="sidebar-item" onclick="showView('stories')">
             <span class="sidebar-icon">👤</span>
             <span>Geschichten</span>
@@ -70,10 +66,6 @@
                     <a href="#" class="burger-item" onclick="showView('calendar'); toggleBurgerMenu();">
                         <span class="burger-icon">🗺️</span>
                         <span>Karte</span>
-                    </a>
-                    <a href="#" class="burger-item" onclick="showView('search'); toggleBurgerMenu();">
-                        <span class="burger-icon">🔍</span>
-                        <span>Suche</span>
                     </a>
                     <a href="#" class="burger-item" onclick="showView('stories'); toggleBurgerMenu();">
                         <span class="burger-icon">👤</span>
@@ -130,33 +122,6 @@
                 <h2 class="cta-title">Mach mit!</h2>
                 <p class="cta-subtitle">Jetzt deine Veranstaltung eintragen.</p>
                 <button class="cta-btn" onclick="window.location.href='/event-submit.html'">EINTRAGEN</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Search Results View -->
-    <div id="search-view" class="hidden">
-        <div class="header">
-            <button class="back-btn" onclick="showView('main')">←</button>
-            <span class="page-title">Suchergebnisse</span>
-            <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
-        </div>
-
-        <div class="content">
-            <input type="text" class="search-bar" placeholder="Suche" oninput="filterEvents(this.value)">
-
-            <!-- Event List Container (wird per JS befüllt) -->
-            <div id="event-list-grid" class="event-list-grid">
-                <!-- Template für Event List Items -->
-                <template id="event-list-template">
-                    <div class="event-list-item" onclick="showEventDetails(this)" data-event-id="">
-                        <div class="event-list-image" data-category=""></div>
-                        <div class="event-list-info">
-                            <div class="event-list-date"></div>
-                            <h4></h4>
-                        </div>
-                    </div>
-                </template>
             </div>
         </div>
     </div>
@@ -240,6 +205,16 @@
 
         <div class="content">
             <div id="events-list-container" class="event-list-grid">
+                <!-- Template für Event List Items -->
+                <template id="event-list-template">
+                    <div class="event-list-item" onclick="showEventDetails(this)" data-event-id="">
+                        <div class="event-list-image" data-category=""></div>
+                        <div class="event-list-info">
+                            <div class="event-list-date"></div>
+                            <h4></h4>
+                        </div>
+                    </div>
+                </template>
             </div>
         </div>
     </div>
