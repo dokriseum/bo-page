@@ -162,6 +162,81 @@ class EventApp {
             if (viewName === 'events') {
                 this.renderEventList('events-list-container');
             }
+            
+            // Special handling for network view social media effects
+            if (viewName === 'network') {
+                this.enhanceNetworkView();
+            }
+        }
+    }
+
+    enhanceNetworkView() {
+        // Add click analytics for social media links
+        const networkView = document.getElementById('network-view');
+        if (!networkView) return;
+
+        const socialLinks = networkView.querySelectorAll('a[href*="mastodon"], a[href*="matrix"], a[href*="discord"]');
+        socialLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                // Add a nice click effect
+                const ripple = document.createElement('span');
+                ripple.style.cssText = `
+                    position: absolute;
+                    background: rgba(255,255,255,0.6);
+                    border-radius: 50%;
+                    transform: scale(0);
+                    animation: ripple 0.6s linear;
+                    pointer-events: none;
+                `;
+                
+                const rect = link.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
+                ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
+                
+                link.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // Add hover tooltips for social media platforms
+        const tooltips = {
+            'mastodon': '🐘 Folge uns auf Mastodon',
+            'matrix': '💬 Chatte mit uns auf Matrix',
+            'discord': '🎮 Join unseren Discord Server',
+            'mailto': '📧 Schreib uns eine E-Mail',
+            'ostdeutschland.info': '🌐 Besuche Ostdeutschland.info',
+            'kreuzer': '📰 Lies den Kreuzer Leipzig',
+            'mdr.de': '📺 Schau MDR Sachsen'
+        };
+
+        Object.entries(tooltips).forEach(([platform, text]) => {
+            const links = networkView.querySelectorAll(`a[href*="${platform}"]`);
+            links.forEach(link => {
+                link.setAttribute('title', text);
+                link.style.position = 'relative';
+            });
+        });
+
+        // Add live counter animation for hashtag section
+        const hashtagSection = Array.from(networkView.querySelectorAll('h2, h3'))
+            .find(h => h.textContent.includes('#'));
+        
+        if (hashtagSection && !hashtagSection.querySelector('.live-badge')) {
+            const counter = document.createElement('span');
+            counter.className = 'live-badge';
+            counter.style.cssText = `
+                background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
+                color: white;
+                padding: 0.2rem 0.5rem;
+                border-radius: 10px;
+                font-size: 0.7rem;
+                margin-left: 0.5rem;
+                animation: pulse 2s infinite;
+            `;
+            counter.textContent = 'LIVE';
+            hashtagSection.appendChild(counter);
         }
     }
 
@@ -209,7 +284,7 @@ class EventApp {
     }
 
     updateNavigation(viewName) {
-        const navMapping = { 'main': 0, 'events': 1, 'calendar': 2, 'stories': 3 };
+        const navMapping = { 'main': 0, 'events': 1, 'calendar': 2, 'stories': 3, 'network': 4 };
         const index = navMapping[viewName];
 
         if (index !== undefined) {

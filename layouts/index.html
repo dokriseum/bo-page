@@ -18,6 +18,10 @@
             <span class="sidebar-icon">👤</span>
             <span>Geschichten</span>
         </a>
+        <a href="#" class="sidebar-item" onclick="showView('network')">
+            <span class="sidebar-icon">🌐</span>
+            <span>Netzwerk</span>
+        </a>
         <div class="sidebar-divider"></div>
         <a href="#" class="sidebar-item" onclick="showView('about')">
             <span class="sidebar-icon">🏢</span>
@@ -72,6 +76,10 @@
                         <span>Geschichten</span>
                     </a>
                     <div class="burger-divider"></div>
+                    <a href="#" class="burger-item" onclick="showView('network'); toggleBurgerMenu();">
+                        <span class="burger-icon">🌐</span>
+                        <span>Netzwerk</span>
+                    </a>
                     <a href="#" class="burger-item" onclick="showView('about'); toggleBurgerMenu();">
                         <span class="burger-icon">🏢</span>
                         <span>Das Bündnis Ost</span>
@@ -286,6 +294,26 @@
                     </div>
                     {{ end }}
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Network View -->
+    <div id="network-view" class="hidden">
+        <div class="header">
+            <button class="back-btn" onclick="showView('main')">←</button>
+            <span class="page-title">Netzwerk</span>
+            <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
+        </div>
+        <div class="content">
+            <div class="page-content">
+                {{ $networkPage := site.GetPage "netzwerk" }}
+                {{ if $networkPage }}
+                    {{ $networkPage.Content }}
+                {{ else }}
+                    <h1>Netzwerk</h1>
+                    <p>Inhalt wird geladen...</p>
+                {{ end }}
             </div>
         </div>
     </div>
