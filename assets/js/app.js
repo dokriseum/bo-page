@@ -114,7 +114,7 @@ class EventApp {
         }
 
         card.setAttribute('data-category', event.category);
-        card.setAttribute('data-event-id', event.id);
+        card.setAttribute('data-event-id', event.Id);
 
         const date = new Date(event.Time);
         card.querySelector('.day').textContent = date.getDate().toString().padStart(2, '0');
@@ -129,7 +129,7 @@ class EventApp {
     createEventListItem(event, template) {
         const listItem = template.content.cloneNode(true).querySelector('.event-list-item');
 
-        listItem.setAttribute('data-event-id', event.id);
+        listItem.setAttribute('data-event-id', event.Id);
         listItem.querySelector('.event-list-image').setAttribute('data-category', event.category);
 
         const date = new Date(event.Time);
@@ -242,7 +242,7 @@ class EventApp {
 
     showEventDetails(element) {
         const eventId = element.getAttribute('data-event-id');
-        const event =  window._eventsJson.find(e => e.id === eventId);
+        const event =  window._eventsJson.find(e => e.Id === eventId);
 
         if (!event) return;
 
