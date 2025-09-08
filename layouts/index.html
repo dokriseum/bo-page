@@ -133,28 +133,6 @@
         </div>
     </div>
 
-    <!-- Calendar View -->
-    <div id="calendar-view" class="hidden">
-        <div class="header">
-            <button class="back-btn" onclick="showView('main')">←</button>
-            <span class="page-title">Veranstaltungen</span>
-            <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
-        </div>
-
-        <div class="content">
-            <div class="tabs">
-                <button class="map-state-selection active" onclick="filterByCategory('all')">Ostdeutschland</button>
-                <button class="map-state-selection" onclick="filterByCategory('be')">Berlin</button>
-                <button class="map-state-selection" onclick="filterByCategory('bb')">Brandenburg</button>
-                <button class="map-state-selection" onclick="filterByCategory('mv')">Mecklenburg-Vorpommern</button>
-                <button class="map-state-selection" onclick="filterByCategory('sn')">Sachsen</button>
-                <button class="map-state-selection" onclick="filterByCategory('st')">Sachsen-Anhalt</button>
-                <button class="map-state-selection" onclick="filterByCategory('th')">Thüringen</button>
-            </div>
-            {{ partial "event-map.html" . }}
-        </div>
-    </div>
-
     <!-- Event Details View -->
     <div id="event-details" class="hidden">
         <div class="event-header-image" data-category="">
@@ -210,6 +188,7 @@
             <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
         </div>
 
+        
         <div class="content">
             <div id="events-list-container" class="event-list-grid">
                 <!-- Template für Event List Items -->
@@ -225,6 +204,29 @@
             </div>
         </div>
     </div>
+    
+    <!-- Calendar View -->
+    <div id="calendar-view" class="hidden">
+        <div class="header">
+            <button class="back-btn" onclick="showView('main')">←</button>
+            <span class="page-title">Veranstaltungen</span>
+            <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
+        </div>
+        
+        <div class="content">
+            <div class="tabs">
+                <button class="map-state-selection active" onclick="filterByCategory('all')">Ostdeutschland</button>
+                <button class="map-state-selection" onclick="filterByCategory('be')">Berlin</button>
+                <button class="map-state-selection" onclick="filterByCategory('bb')">Brandenburg</button>
+                <button class="map-state-selection" onclick="filterByCategory('mv')">Mecklenburg-Vorpommern</button>
+                <button class="map-state-selection" onclick="filterByCategory('sn')">Sachsen</button>
+                <button class="map-state-selection" onclick="filterByCategory('st')">Sachsen-Anhalt</button>
+                <button class="map-state-selection" onclick="filterByCategory('th')">Thüringen</button>
+            </div>
+            {{ partial "event-map.html" . }}
+        </div>
+    </div>
+
 
     <!-- East Stories View -->
     <div id="stories-view" class="hidden">
@@ -402,7 +404,7 @@
 <!-- Floating Action Button -->
 <button class="floating-btn" onclick="window.location.href='/event-submit.html'">+</button>
 
-<!-- events.son als Script Tag laden -->
+<!-- events.json als Script Tag laden -->
 <script>
     // Events JSON wird hier eingefügt oder per fetch geladen
     window.eventsData = null;
