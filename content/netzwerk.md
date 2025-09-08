@@ -5,7 +5,7 @@ description: "Unser Social Network - Vernetze dich mit dem Osten!"
 
 # 🌐 Unser Netzwerk
 
-Vernetze dich mit dem Osten! Folge uns und unseren Partnern in den sozialen Medien.
+Vernetze dich mit dem Osten! Folge uns und unseren Partnern in den jeweiligen Netzwerken.
 
 ## 📱 Social Media Kanäle
 
@@ -20,7 +20,6 @@ Vernetze dich mit dem Osten! Folge uns und unseren Partnern in den sozialen Medi
 [Jetzt abonnieren](mailto:newsletter@buendnis-ost.de?subject=Newsletter%20Anmeldung)
 
 ## 🔗 Partner-Netzwerk
-
 ### Ostdeutsche Medien & Info-Portale
 
 **🌐 [ostdeutschland.info](https://ostdeutschland.info)**  
@@ -31,7 +30,16 @@ Vernetze dich mit dem Osten! Folge uns und unseren Partnern in den sozialen Medi
 [Spotify](https://open.spotify.com/show/5KG8fONRHB4eX2pcfs23gn) | 
 [Apple Podcasts](https://podcasts.apple.com/us/podcast/staatsb%C3%BCrgerkunde/id507846242?itsct=podcast_box&itscg=30200)
 
+**[Mitteldeutsche Stiftung Wissenschaft und Bildung](https://mitteldeutsche-stiftung.de/)**  
+*..fördert den Austausch von Forschungs- und Bildungseinrichtungen mit Wirtschaft und Zivilgesellschaft vorrangig in Mitteldeutschland*  
+
+**📢 [Werkstatt der Mutigen](https://werkstatt-der-mutigen.org/gestaltende-und-loesungen/)**  
+*Regionale Lösungen für bundesweite Veränderung*  
+
 ### Community Partner
+
+**🎮 [Pixelgrüne](https://pixelgruene.gg/)**  
+*Gaming Ccmmunity*  
 
 **🏛️ Bundeszentrale für politische Bildung**  
 [@bpb_de@mastodon.social](https://mastodon.social/@bpb_de)  
