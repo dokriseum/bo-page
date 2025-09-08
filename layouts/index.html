@@ -41,6 +41,54 @@
         </a>
     </div>
 </div>
+<!-- Mobile Burger Menu -->
+<div id="burger-overlay" class="burger-overlay hidden">
+    <div class="burger-content">
+        <div class="burger-header">
+            <span class="burger-title">Menü</span>
+            <button class="burger-close" onclick="toggleBurgerMenu()">×</button>
+        </div>
+        <nav class="burger-nav">
+            <a href="#" class="burger-item active" onclick="showView('main'); toggleBurgerMenu();">
+                <span class="burger-icon">🔍</span>
+                <span>Startseite</span>
+            </a>
+            <a href="#" class="burger-item" onclick="showView('events'); toggleBurgerMenu();">
+                <span class="burger-icon">📅</span>
+                <span>Veranstaltungen</span>
+            </a>
+            <a href="#" class="burger-item" onclick="showView('calendar'); toggleBurgerMenu();">
+                <span class="burger-icon">🗺️</span>
+                <span>Karte</span>
+            </a>
+            <a href="#" class="burger-item" onclick="showView('stories'); toggleBurgerMenu();">
+                <span class="burger-icon">👤</span>
+                <span>Geschichten</span>
+            </a>
+            <div class="burger-divider"></div>
+            <a href="#" class="burger-item" onclick="showView('network'); toggleBurgerMenu();">
+                <span class="burger-icon">🌐</span>
+                <span>Netzwerk</span>
+            </a>
+            <a href="#" class="burger-item" onclick="showView('about'); toggleBurgerMenu();">
+                <span class="burger-icon">🏢</span>
+                <span>Das Bündnis Ost</span>
+            </a>
+            <a href="#" class="burger-item" onclick="showView('values'); toggleBurgerMenu();">
+                <span class="burger-icon">💭</span>
+                <span>Selbstverständnis</span>
+            </a>
+            <a href="#" class="burger-item" onclick="showView('goals'); toggleBurgerMenu();">
+                <span class="burger-icon">🎯</span>
+                <span>Ziele</span>
+            </a>
+            <a href="#" class="burger-item" onclick="showView('imprint'); toggleBurgerMenu();">
+                <span class="burger-icon">📄</span>
+                <span>Impressum</span>
+            </a>
+        </nav>
+    </div>
+</div>
 
 <!-- Main Content Area -->
 <div class="main-content">
@@ -49,55 +97,6 @@
         <div class="header">
             <span class="page-title">Startseite</span>
             <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
-        </div>
-
-        <!-- Mobile Burger Menu -->
-        <div id="burger-overlay" class="burger-overlay hidden">
-            <div class="burger-content">
-                <div class="burger-header">
-                    <span class="burger-title">Menü</span>
-                    <button class="burger-close" onclick="toggleBurgerMenu()">×</button>
-                </div>
-                <nav class="burger-nav">
-                    <a href="#" class="burger-item active" onclick="showView('main'); toggleBurgerMenu();">
-                        <span class="burger-icon">🔍</span>
-                        <span>Startseite</span>
-                    </a>
-                    <a href="#" class="burger-item" onclick="showView('events'); toggleBurgerMenu();">
-                        <span class="burger-icon">📅</span>
-                        <span>Veranstaltungen</span>
-                    </a>
-                    <a href="#" class="burger-item" onclick="showView('calendar'); toggleBurgerMenu();">
-                        <span class="burger-icon">🗺️</span>
-                        <span>Karte</span>
-                    </a>
-                    <a href="#" class="burger-item" onclick="showView('stories'); toggleBurgerMenu();">
-                        <span class="burger-icon">👤</span>
-                        <span>Geschichten</span>
-                    </a>
-                    <div class="burger-divider"></div>
-                    <a href="#" class="burger-item" onclick="showView('network'); toggleBurgerMenu();">
-                        <span class="burger-icon">🌐</span>
-                        <span>Netzwerk</span>
-                    </a>
-                    <a href="#" class="burger-item" onclick="showView('about'); toggleBurgerMenu();">
-                        <span class="burger-icon">🏢</span>
-                        <span>Das Bündnis Ost</span>
-                    </a>
-                    <a href="#" class="burger-item" onclick="showView('values'); toggleBurgerMenu();">
-                        <span class="burger-icon">💭</span>
-                        <span>Selbstverständnis</span>
-                    </a>
-                    <a href="#" class="burger-item" onclick="showView('goals'); toggleBurgerMenu();">
-                        <span class="burger-icon">🎯</span>
-                        <span>Ziele</span>
-                    </a>
-                    <a href="#" class="burger-item" onclick="showView('imprint'); toggleBurgerMenu();">
-                        <span class="burger-icon">📄</span>
-                        <span>Impressum</span>
-                    </a>
-                </nav>
-            </div>
         </div>
 
         <div class="content">

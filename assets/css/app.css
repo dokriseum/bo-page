@@ -152,6 +152,12 @@ body {
 .section-title { font-size: 24px; font-weight: 700; }
 .section-link { color: var(--primary); text-decoration: none; font-size: 14px; font-weight: 500; }
 
+/* Mobile Styles - Ensure desktop sidebar is hidden */
+@media (max-width: 1023px) {
+  .desktop-sidebar { display: none !important; }
+  .app-container { grid-template-columns: 1fr; }
+}
+
 @media (min-width: 768px) { .app-container { max-width: 768px; } .content { padding: 30px; } .section-title { font-size: 28px; } .cta-title { font-size: 36px; } }
 @media (min-width: 1024px) {
   .app-container { max-width: 1200px; display: grid; grid-template-columns: 280px 1fr; box-shadow: 0 0 30px rgba(0,0,0,0.1); }
