@@ -187,9 +187,9 @@
             <span class="page-title">Veranstaltungen</span>
             <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
         </div>
-
         
         <div class="content">
+            <input type="text" id="events-search-input" placeholder="Events durchsuchen..." oninput="filterEventsByText(this.value)" class="event-search-input">
             <div id="events-list-container" class="event-list-grid">
                 <!-- Template für Event List Items -->
                 <template id="event-list-template">

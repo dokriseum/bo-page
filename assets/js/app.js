@@ -4,6 +4,7 @@ class EventApp {
         this.isDesktop = window.innerWidth >= 1024;
         this.selectedEvent = null;
         this.currentFilter = 'all';
+        this.currentTextFilter = '';
         this.init();
     }
 
@@ -19,6 +20,7 @@ class EventApp {
         window.showEventDetails = this.showEventDetails.bind(this);
         window.toggleBurgerMenu = this.toggleBurgerMenu.bind(this);
         window.filterByCategory = this.filterByCategory.bind(this);
+        window.filterEventsByText = this.filterEventsByText.bind(this);
     }
 
     bindEvents() {
@@ -85,9 +87,8 @@ class EventApp {
         // Alte Events entfernen
         container.querySelectorAll('.event-list-item').forEach(item => item.remove());
 
-        // Events List View: Alle Events zeigen
-        const allEvents = window._eventsJson.filter(event => !event.draft);
-        const events = allEvents.sort((a, b) => new Date(a.Time) - new Date(b.Time));
+        // Events List View: Gefilterte Events zeigen
+        const events = this.getFilteredEvents();
 
         events.forEach(event => {
             const listItem = this.createEventListItem(event, template);
@@ -143,9 +144,23 @@ class EventApp {
 
     getFilteredEvents() {
         let filtered = window._eventsJson.filter(event => !event.draft);
+        
+        // Filter by category
         if (this.currentFilter !== 'all') {
             filtered = filtered.filter(event => event.category === this.currentFilter);
         }
+        
+        // Filter by text search
+        if (this.currentTextFilter && this.currentTextFilter.trim() !== '') {
+            const searchTerm = this.currentTextFilter.toLowerCase().trim();
+            filtered = filtered.filter(event => 
+                event.Title.toLowerCase().includes(searchTerm) ||
+                event.Location.toLowerCase().includes(searchTerm) ||
+                (event.Description && event.Description.toLowerCase().includes(searchTerm)) ||
+                (event.Organizer && event.Organizer.Name && event.Organizer.Name.toLowerCase().includes(searchTerm))
+            );
+        }
+        
         return filtered.sort((a, b) => new Date(a.Time) - new Date(b.Time));
     }
 
@@ -160,7 +175,12 @@ class EventApp {
             this.currentView = viewName;
 
             if (viewName === 'events') {
+                // Reset search when switching to events view
+                this.resetSearchInput('events-search-input');
                 this.renderEventList('events-list-container');
+            } else if (viewName === 'calendar') {
+                // Reset search when switching to calendar view
+                this.resetSearchInput('calendar-search-input');
             }
             
             // Special handling for network view social media effects
@@ -318,6 +338,27 @@ class EventApp {
         if (window._eventMap && typeof window._ShowStateBorders === 'function') {
             const file = mapBorderFiles[category] || 'all';
             window._ShowStateBorders(file);
+        }
+    }
+
+    filterEventsByText(searchTerm) {
+        this.currentTextFilter = searchTerm;
+        
+        // Re-render events in current view
+        if (this.currentView === 'events') {
+            this.renderEventList('events-list-container');
+        } else if (this.currentView === 'calendar') {
+            // For calendar view, we might need to update map markers or other displays
+            // For now, we can call renderEvents to update any list displays
+            this.renderEvents();
+        }
+    }
+
+    resetSearchInput(inputId) {
+        const searchInput = document.getElementById(inputId);
+        if (searchInput) {
+            searchInput.value = '';
+            this.currentTextFilter = '';
         }
     }
 }

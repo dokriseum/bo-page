@@ -18,6 +18,28 @@ body {
 .content { padding: var(--spacing); }
 .hidden { display: none !important; }
 
+/* Event Search Input */
+.event-search-input {
+  width: 100%;
+  margin: 0 0 18px 0;
+  padding: 8px 12px;
+  border: 1px solid var(--border);
+  font-size: 14px;
+  background: var(--bg);
+  transition: all 0.2s;
+}
+
+.event-search-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(91, 108, 242, 0.1);
+}
+
+.event-search-input::placeholder {
+  color: var(--text-light);
+}
+
 /* Page Content Styling for Markdown */
 .page-content { 
   max-width: 800px; 
