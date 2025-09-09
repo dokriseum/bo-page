@@ -2,40 +2,40 @@
 <!-- Desktop Sidebar -->
 <div class="desktop-sidebar">
     <div class="sidebar-nav">
-        <a href="#" class="sidebar-item active" onclick="showView('main')">
+                <a href="javascript:void(0)" class="sidebar-item active" onclick="showView('main')">
             <span class="sidebar-icon">🏠</span>
             <span>Startseite</span>
         </a>
-        <a href="#" class="sidebar-item" onclick="showView('events')">
+        <a href="javascript:void(0)" class="sidebar-item" onclick="showView('events')">
             <span class="sidebar-icon">📅</span>
             <span>Veranstaltungen</span>
         </a>
-        <a href="#" class="sidebar-item" onclick="showView('calendar')">
+        <a href="javascript:void(0)" class="sidebar-item" onclick="showView('calendar')">
             <span class="sidebar-icon">🗺️</span>
             <span>Karte</span>
         </a>
-        <a href="#" class="sidebar-item" onclick="showView('stories')">
+        <a href="javascript:void(0)" class="sidebar-item" onclick="showView('stories')">
             <span class="sidebar-icon">👤</span>
             <span>Geschichten</span>
         </a>
-        <a href="#" class="sidebar-item" onclick="showView('network')">
+        <a href="javascript:void(0)" class="sidebar-item" onclick="showView('network')">
             <span class="sidebar-icon">🌐</span>
             <span>Netzwerk</span>
         </a>
         <div class="sidebar-divider"></div>
-        <a href="#" class="sidebar-item" onclick="showView('about')">
+        <a href="javascript:void(0)" class="sidebar-item" onclick="showView('about')">
             <span class="sidebar-icon">🏢</span>
             <span>Das Bündnis Ost</span>
         </a>
-        <a href="#" class="sidebar-item" onclick="showView('values')">
+        <a href="javascript:void(0)" class="sidebar-item" onclick="showView('values')">
             <span class="sidebar-icon">💭</span>
             <span>Selbstverständnis</span>
         </a>
-        <a href="#" class="sidebar-item" onclick="showView('goals')">
+        <a href="javascript:void(0)" class="sidebar-item" onclick="showView('goals')">
             <span class="sidebar-icon">🎯</span>
             <span>Ziele</span>
         </a>
-        <a href="#" class="sidebar-item" onclick="showView('imprint')">
+        <a href="javascript:void(0)" class="sidebar-item" onclick="showView('imprint')">
             <span class="sidebar-icon">📄</span>
             <span>Impressum</span>
         </a>
@@ -49,40 +49,40 @@
             <button class="burger-close" onclick="toggleBurgerMenu()">×</button>
         </div>
         <nav class="burger-nav">
-            <a href="#" class="burger-item active" onclick="showView('main'); toggleBurgerMenu();">
+            <a href="javascript:void(0)" class="burger-item active" onclick="showView('main'); toggleBurgerMenu();">
                 <span class="burger-icon">🔍</span>
                 <span>Startseite</span>
             </a>
-            <a href="#" class="burger-item" onclick="showView('events'); toggleBurgerMenu();">
+            <a href="javascript:void(0)" class="burger-item" onclick="showView('events'); toggleBurgerMenu();">
                 <span class="burger-icon">📅</span>
                 <span>Veranstaltungen</span>
             </a>
-            <a href="#" class="burger-item" onclick="showView('calendar'); toggleBurgerMenu();">
+            <a href="javascript:void(0)" class="burger-item" onclick="showView('calendar'); toggleBurgerMenu();">
                 <span class="burger-icon">🗺️</span>
                 <span>Karte</span>
             </a>
-            <a href="#" class="burger-item" onclick="showView('stories'); toggleBurgerMenu();">
+            <a href="javascript:void(0)" class="burger-item" onclick="showView('stories'); toggleBurgerMenu();">
                 <span class="burger-icon">👤</span>
                 <span>Geschichten</span>
             </a>
             <div class="burger-divider"></div>
-            <a href="#" class="burger-item" onclick="showView('network'); toggleBurgerMenu();">
+            <a href="javascript:void(0)" class="burger-item" onclick="showView('network'); toggleBurgerMenu();">
                 <span class="burger-icon">🌐</span>
                 <span>Netzwerk</span>
             </a>
-            <a href="#" class="burger-item" onclick="showView('about'); toggleBurgerMenu();">
+            <a href="javascript:void(0)" class="burger-item" onclick="showView('about'); toggleBurgerMenu();">
                 <span class="burger-icon">🏢</span>
                 <span>Das Bündnis Ost</span>
             </a>
-            <a href="#" class="burger-item" onclick="showView('values'); toggleBurgerMenu();">
+            <a href="javascript:void(0)" class="burger-item" onclick="showView('values'); toggleBurgerMenu();">
                 <span class="burger-icon">💭</span>
                 <span>Selbstverständnis</span>
             </a>
-            <a href="#" class="burger-item" onclick="showView('goals'); toggleBurgerMenu();">
+            <a href="javascript:void(0)" class="burger-item" onclick="showView('goals'); toggleBurgerMenu();">
                 <span class="burger-icon">🎯</span>
                 <span>Ziele</span>
             </a>
-            <a href="#" class="burger-item" onclick="showView('imprint'); toggleBurgerMenu();">
+            <a href="javascript:void(0)" class="burger-item" onclick="showView('imprint'); toggleBurgerMenu();">
                 <span class="burger-icon">📄</span>
                 <span>Impressum</span>
             </a>
@@ -214,6 +214,7 @@
         </div>
         
         <div class="content">
+            <input type="text" id="calendar-search-input" placeholder="Events durchsuchen..." oninput="filterEventsByText(this.value)" class="event-search-input">
             <div class="tabs">
                 <button class="map-state-selection active" onclick="filterByCategory('all')">Ostdeutschland</button>
                 <button class="map-state-selection" onclick="filterByCategory('be')">Berlin</button>

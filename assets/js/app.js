@@ -12,7 +12,8 @@ class EventApp {
         this.bindGlobalFunctions();
         this.bindEvents();
         await this.loadEvents();
-        this.showView('main');
+        this.initRouting();
+        this.loadViewFromUrl();
     }
 
     bindGlobalFunctions() {
@@ -41,6 +42,10 @@ class EventApp {
                 document.getElementById('burger-overlay')?.classList.add('hidden');
             }
         });
+
+        // URL-basierte Navigation (Hash/Query Parameter)
+        window.addEventListener('hashchange', () => this.loadViewFromUrl());
+        window.addEventListener('popstate', () => this.loadViewFromUrl());
     }
 
     async loadEvents() {
@@ -164,7 +169,7 @@ class EventApp {
         return filtered.sort((a, b) => new Date(a.Time) - new Date(b.Time));
     }
 
-    showView(viewName) {
+    showView(viewName, updateUrl = true) {
         document.querySelectorAll('[id$="-view"], #event-details').forEach(view =>
             view.classList.add('hidden'));
 
@@ -186,6 +191,11 @@ class EventApp {
             // Special handling for network view social media effects
             if (viewName === 'network') {
                 this.enhanceNetworkView();
+            }
+
+            // URL aktualisieren
+            if (updateUrl) {
+                this.updateUrlForView(viewName);
             }
         }
     }
@@ -273,6 +283,9 @@ class EventApp {
         document.querySelectorAll('[id$="-view"]').forEach(view =>
             view.classList.add('hidden'));
         document.getElementById('event-details')?.classList.remove('hidden');
+
+        // URL für Event-Details aktualisieren
+        this.updateUrlForEventDetails(eventId);
     }
 
     renderEventDetails(event) {
@@ -359,6 +372,80 @@ class EventApp {
         if (searchInput) {
             searchInput.value = '';
             this.currentTextFilter = '';
+        }
+    }
+
+    // URL-Routing Funktionen
+    initRouting() {
+        // Hash-basiertes Routing
+    }
+
+    loadViewFromUrl() {
+        const { view, eventId } = this.parseUrlForRouting();
+        
+        if (eventId) {
+            // Event-Details laden
+            const eventElement = document.querySelector(`[data-event-id="${eventId}"]`);
+            if (eventElement) {
+                this.showEventDetails(eventElement);
+            } else {
+                // Fallback: Event direkt laden
+                this.loadEventDetailsById(eventId);
+            }
+        } else if (view) {
+            // Normale View laden
+            this.showView(view, false); // updateUrl = false um Rekursion zu vermeiden
+        } else {
+            // Standard-View
+            this.showView('main', false);
+        }
+    }
+
+    parseUrlForRouting() {
+        const hash = window.location.hash.substring(1); // # entfernen
+        
+        let view = null;
+        let eventId = null;
+
+        if (hash) {
+            if (hash.includes('-')) {
+                // Event-Details: z.B. #detail-2025001
+                const parts = hash.split('-');
+                if (parts[0] === 'detail' && parts[1]) {
+                    eventId = parts[1];
+                }
+            } else {
+                // Normale View: z.B. #events
+                view = hash;
+            }
+        }
+
+        return { view, eventId };
+    }
+
+    updateUrlForView(viewName) {
+        // Hash-basiert: #events
+        window.location.hash = viewName === 'main' ? '' : viewName;
+    }
+
+    updateUrlForEventDetails(eventId) {
+        // Hash-basiert: #detail-2025001
+        window.location.hash = `detail-${eventId}`;
+    }
+
+    loadEventDetailsById(eventId) {
+        const event = window._eventsJson.find(e => e.Id === eventId);
+        if (event) {
+            this.selectedEvent = event;
+            this.renderEventDetails(event);
+            
+            // Alle Views verstecken und Details zeigen
+            document.querySelectorAll('[id$="-view"]').forEach(view =>
+                view.classList.add('hidden'));
+            document.getElementById('event-details')?.classList.remove('hidden');
+        } else {
+            // Event nicht gefunden, zurück zur Hauptseite
+            this.showView('main');
         }
     }
 }
