@@ -170,6 +170,7 @@ class EventApp {
     }
 
     showView(viewName, updateUrl = true) {
+        this.cleanFilters(viewName);
         document.querySelectorAll('[id$="-view"], #event-details').forEach(view =>
             view.classList.add('hidden'));
 
@@ -197,6 +198,12 @@ class EventApp {
             if (updateUrl) {
                 this.updateUrlForView(viewName);
             }
+        }
+    }
+
+    cleanFilters(viewName) {
+        if (viewName !== 'calendar') {
+            this.currentFilter = 'all';
         }
     }
 
