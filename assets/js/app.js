@@ -5,6 +5,7 @@ class EventApp {
         this.selectedEvent = null;
         this.currentFilter = 'all';
         this.currentTextFilter = '';
+        this.showPastEvents = false;
         this.init();
     }
 
@@ -22,6 +23,7 @@ class EventApp {
         window.toggleBurgerMenu = this.toggleBurgerMenu.bind(this);
         window.filterByCategory = this.filterByCategory.bind(this);
         window.filterEventsByText = this.filterEventsByText.bind(this);
+        window.togglePastEvents = this.togglePastEvents.bind(this);
     }
 
     bindEvents() {
@@ -150,6 +152,15 @@ class EventApp {
     getFilteredEvents() {
         let filtered = window._eventsJson.filter(event => !event.draft);
         
+        // Filter by past events
+        if (!this.showPastEvents) {
+            const now = new Date();
+            filtered = filtered.filter(event => {
+                const eventDate = new Date(event.Time);
+                return eventDate >= now;
+            });
+        }
+        
         // Filter by category
         if (this.currentFilter !== 'all') {
             filtered = filtered.filter(event => event.category === this.currentFilter);
@@ -205,6 +216,8 @@ class EventApp {
         if (viewName !== 'calendar') {
             this.currentFilter = 'all';
         }
+        this.showPastEvents = false;
+        this.resetPastEventsCheckboxes();
     }
 
     enhanceNetworkView() {
@@ -347,7 +360,12 @@ class EventApp {
         };
 
         this.currentFilter = category;
-        this.renderEvents();
+        
+        if (this.currentView === 'calendar') {
+            this.updateMapMarkers();
+        } else {
+            this.renderEvents();
+        }
 
         const tabs = document.querySelectorAll('.tabs .map-state-selection');
         tabs.forEach((tab, index) => {
@@ -368,9 +386,7 @@ class EventApp {
         if (this.currentView === 'events') {
             this.renderEventList('events-list-container');
         } else if (this.currentView === 'calendar') {
-            // For calendar view, we might need to update map markers or other displays
-            // For now, we can call renderEvents to update any list displays
-            this.renderEvents();
+            this.updateMapMarkers();
         }
     }
 
@@ -455,6 +471,41 @@ class EventApp {
             this.showView('main');
         }
     }
+    togglePastEvents(showPast) {
+        this.showPastEvents = showPast;
+        
+        // Synchronisiere beide Checkboxen
+        const eventsCheckbox = document.getElementById('events-show-past');
+        const calendarCheckbox = document.getElementById('calendar-show-past');
+        
+        if (eventsCheckbox) eventsCheckbox.checked = showPast;
+        if (calendarCheckbox) calendarCheckbox.checked = showPast;
+        
+        // Re-render events in current view
+        if (this.currentView === 'events') {
+            this.renderEventList('events-list-container');
+        } else if (this.currentView === 'calendar') {
+            this.updateMapMarkers();
+        }
+    }
+
+    resetPastEventsCheckboxes() {
+        const eventsCheckbox = document.getElementById('events-show-past');
+        const calendarCheckbox = document.getElementById('calendar-show-past');
+        
+        if (eventsCheckbox) eventsCheckbox.checked = false;
+        if (calendarCheckbox) calendarCheckbox.checked = false;
+    }
+
+    updateMapMarkers() {
+        // Verwende die globale Funktion aus event-map.js
+        if (typeof window.updateEventMarkers === 'function') {
+            const filteredEvents = this.getFilteredEvents();
+            window.updateEventMarkers(filteredEvents);
+        }
+    }
 }
 
-document.addEventListener('DOMContentLoaded', () => new EventApp());
+document.addEventListener('DOMContentLoaded', () => {
+    window.eventApp = new EventApp();
+});

@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
+  window.updateEventMarkers = updateEventMarkers;
+  window.addEventMarkers = addEventMarkers;
+  window.renderEventInfo = renderEventInfo;
+  
   let stateSelectionLayer = null;
 
   function createMap() {
@@ -64,9 +68,11 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
   }
 
-  function addEventMarkers(map, events) {
+  function addEventMarkers(map, events = null) {
+    const eventsToUse = events || window._eventsJson;
+
     const info = document.getElementById('event-info');
-    events.forEach(ev => {
+    eventsToUse.forEach(ev => {
       const marker = L.circleMarker([ev.Geolocation.Latitude, ev.Geolocation.Longitude], {
         radius: 6,
         color: 'var(--eventMarkerColor)',
@@ -83,13 +89,30 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  function updateEventMarkers(events = null) {
+    if (!window._eventMap) 
+        return;
+
+    window._eventMap.eachLayer((layer) => {
+      if (layer instanceof L.CircleMarker) {
+        window._eventMap.removeLayer(layer);
+      }
+    });
+
+    addEventMarkers(window._eventMap, events);
+  }
+
   async function initEventMap() {
     const m = createMap();
     window._eventMap = m;
     addTileLayer(window._eventMap);
 
     try {
-      addEventMarkers(window._eventMap,  window._eventsJson);
+      let eventsToShow = window._eventsJson;
+      if (window.eventApp && typeof window.eventApp.getFilteredEvents === 'function') {
+        eventsToShow = window.eventApp.getFilteredEvents();
+      }
+      addEventMarkers(window._eventMap, eventsToShow);
     } catch (error) {
       console.log('Events konnten nicht geladen werden:', error);
     }

@@ -190,6 +190,13 @@
         
         <div class="content">
             <input type="text" id="events-search-input" placeholder="Events durchsuchen..." oninput="filterEventsByText(this.value)" class="event-search-input">
+            <div class="filter-options">
+                <label class="checkbox-container">
+                    <input type="checkbox" id="events-show-past" onchange="togglePastEvents(this.checked)">
+                    <span class="checkmark"></span>
+                    Vergangene Veranstaltungen
+                </label>
+            </div>
             <div id="events-list-container" class="event-list-grid">
                 <!-- Template für Event List Items -->
                 <template id="event-list-template">
@@ -215,6 +222,13 @@
         
         <div class="content">
             <input type="text" id="calendar-search-input" placeholder="Events durchsuchen..." oninput="filterEventsByText(this.value)" class="event-search-input">
+            <div class="filter-options">
+                <label class="checkbox-container">
+                    <input type="checkbox" id="calendar-show-past" onchange="togglePastEvents(this.checked)">
+                    <span class="checkmark"></span>
+                    Vergangene Veranstaltungen
+                </label>
+            </div>
             <div class="tabs">
                 <button class="map-state-selection active" onclick="filterByCategory('all')">Ostdeutschland</button>
                 <button class="map-state-selection" onclick="filterByCategory('be')">Berlin</button>
