@@ -16,7 +16,7 @@ NC='\033[0m' # No Color
 
 # folders to be ignored during the rsync
 EXCLUDES=(
-  '--exclude=dev-event-tools/'
+  '--exclude=event-admin/'
 # '--exclude=next-folder/'
 )
 
