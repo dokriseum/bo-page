@@ -3,28 +3,10 @@ title: "Selbstverständnis"
 description: "Unsere Werte und unser Verständnis als Bündnis Ost"
 ---
 
-# Unser Selbstverständnis
+# Unser Ziel und unser Kompass
 
-Das Bündnis Ost versteht sich als eine Plattform für Menschen aus den ostdeutschen Bundesländern, die ihre Stimme erheben und aktiv an der Gestaltung unserer Gesellschaft mitwirken möchten.
+Unser Ziel ist es, Vertrauen in Politik zurückzugewinnen, indem wir sichtbar machen, dass Demokratie im Alltag funktioniert – vor Ort, solidarisch und überparteilich. Wir schaffen Verbindungen von den Erfahrungen an der Basis in den Kommunen zu Abgeordneten und anderen Entscheidungsträger\*innen, damit Ideen aus der Praxis in konkrete Politik einfließen können. Denn die Demokrat\*innen sind die Mehrheit – auch im Osten. Entscheidend ist, dass wir uns besser vernetzen, gemeinsam handeln und Spaltung entgegenwirken.
 
-## Unsere Werte
+Wir tun dies aus einem klaren Verständnis von Freiheit: Freiheit heißt für uns nicht Rückzug ins Private oder Herrschaft über andere, sondern Selbstbestimmung, Verantwortung füreinander und die Möglichkeit, Gesellschaft aktiv mitzugestalten.
 
-### Demokratie und Teilhabe
-Wir stehen für eine lebendige Demokratie, in der alle Menschen gleichberechtigt teilhaben können. Die Erfahrungen der friedlichen Revolution von 1989 sind für uns Motivation und Verpflichtung zugleich.
-
-### Vielfalt und Toleranz
-Ostdeutschland ist vielfältig - in seinen Menschen, Geschichten und Perspektiven. Diese Vielfalt ist unsere Stärke, die wir schützen und fördern wollen.
-
-### Solidarität und Zusammenhalt
-Wir stehen füreinander ein und unterstützen uns gegenseitig. Solidarität bedeutet für uns, dass niemand zurückgelassen wird.
-
-### Respekt und Dialog
-Auch bei unterschiedlichen Meinungen suchen wir den respektvollen Dialog. Nur durch ehrliche Auseinandersetzung können wir gemeinsam vorankommen.
-
-## Unsere Herkunft
-
-Als Menschen, die in der DDR geboren wurden oder die Zeit der Wende miterlebt haben, bringen wir besondere Erfahrungen mit:
-
-- **Transformationserfahrung:** Wir wissen, wie es ist, wenn sich alles grundlegend ändert
-- **Bürgermut:** Die friedliche Revolution hat gezeigt, was möglich ist, wenn Menschen zusammenstehen
-- **Pragmatismus:** Wir haben gelernt, mit Unsicherheiten umzugehen und Lösungen zu finden
+Ein zentrales Anliegen ist dabei der Schutz unserer Lebensgrundlagen. Nachhaltigkeit, ökologische Verantwortung und Klimagerechtigkeit gehören für uns untrennbar zu einer gerechten Zukunft. Gerade in Ostdeutschland, wo Strukturwandel, Naturreichtum und verletzliche Landschaften eng zusammenhängen, setzen wir uns dafür ein, dass Wandel fair, ökologisch und zukunftsfest gestaltet wird.
