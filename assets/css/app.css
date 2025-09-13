@@ -40,38 +40,55 @@ body {
 }
 
 /* ===== DIVERSITY HEADER STRIPES ===== */
-.app-container::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+.diversity-header {
   height: 150px;
   background: linear-gradient(45deg,
-  var(--diversity-green) 0%, var(--diversity-green) 5%,
-  var(--diversity-indigo) 5%, var(--diversity-indigo) 10%,
-  var(--diversity-red) 10%, var(--diversity-red) 15%,
-  var(--diversity-orange) 15%, var(--diversity-orange) 20%,
-  var(--diversity-yellow) 20%, var(--diversity-yellow) 25%,
-  var(--diversity-green) 25%, var(--diversity-green) 30%,
-  var(--diversity-turquoise) 30%, var(--diversity-turquoise) 35%,
-  var(--diversity-blue) 35%, var(--diversity-blue) 40%,
-  var(--diversity-purple) 40%, var(--diversity-purple) 45%,
-  var(--diversity-pink) 45%, var(--diversity-pink) 50%,
-  var(--diversity-orange) 50%, var(--diversity-orange) 55%,
-  var(--diversity-green) 55%, var(--diversity-green) 60%,
-  var(--diversity-indigo) 60%, var(--diversity-indigo) 65%,
-  var(--diversity-red) 65%, var(--diversity-red) 70%,
-  var(--diversity-yellow) 70%, var(--diversity-yellow) 75%,
-  var(--diversity-turquoise) 75%, var(--diversity-turquoise) 80%,
-  var(--diversity-blue) 80%, var(--diversity-blue) 85%,
-  var(--diversity-purple) 85%, var(--diversity-purple) 90%,
-  var(--diversity-pink) 90%, var(--diversity-pink) 95%,
-  var(--diversity-brown) 95%, var(--diversity-brown) 100%
+    var(--diversity-red) 0%,
+    var(--diversity-orange) 14.28%,
+    var(--diversity-yellow) 28.56%,
+    var(--diversity-green) 42.84%,
+    var(--diversity-turquoise) 57.12%,
+    var(--diversity-blue) 71.4%,
+    var(--diversity-purple) 85.68%,
+    var(--diversity-pink) 100%
   );
-  background-size: 200% 200%;
-  animation: stripeMove 20s linear infinite;
   z-index: 0;
+}
+
+@media (min-width: 1024px) {
+  .app-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 150px;
+    background: linear-gradient(45deg,
+    var(--diversity-green) 0%, var(--diversity-green) 5%,
+    var(--diversity-indigo) 5%, var(--diversity-indigo) 10%,
+    var(--diversity-red) 10%, var(--diversity-red) 15%,
+    var(--diversity-orange) 15%, var(--diversity-orange) 20%,
+    var(--diversity-yellow) 20%, var(--diversity-yellow) 25%,
+    var(--diversity-green) 25%, var(--diversity-green) 30%,
+    var(--diversity-turquoise) 30%, var(--diversity-turquoise) 35%,
+    var(--diversity-blue) 35%, var(--diversity-blue) 40%,
+    var(--diversity-purple) 40%, var(--diversity-purple) 45%,
+    var(--diversity-pink) 45%, var(--diversity-pink) 50%,
+    var(--diversity-orange) 50%, var(--diversity-orange) 55%,
+    var(--diversity-green) 55%, var(--diversity-green) 60%,
+    var(--diversity-indigo) 60%, var(--diversity-indigo) 65%,
+    var(--diversity-red) 65%, var(--diversity-red) 70%,
+    var(--diversity-yellow) 70%, var(--diversity-yellow) 75%,
+    var(--diversity-turquoise) 75%, var(--diversity-turquoise) 80%,
+    var(--diversity-blue) 80%, var(--diversity-blue) 85%,
+    var(--diversity-purple) 85%, var(--diversity-purple) 90%,
+    var(--diversity-pink) 90%, var(--diversity-pink) 95%,
+    var(--diversity-brown) 95%, var(--diversity-brown) 100%
+    );
+    background-size: 200% 200%;
+    animation: stripeMove 20s linear infinite;
+    z-index: 0;
+  }
 }
 
 @keyframes stripeMove {
@@ -935,4 +952,15 @@ body {
   color: var(--white);
   font-size: 12px;
   font-weight: bold;
+}
+
+/* Mobile-only utility */
+.mobile-only {
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  .mobile-only {
+    display: none !important;
+  }
 }
