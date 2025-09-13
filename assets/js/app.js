@@ -149,7 +149,27 @@ class EventApp {
         const listItem = template.content.cloneNode(true).querySelector('.event-list-item');
 
         listItem.setAttribute('data-event-id', event.Id);
-        listItem.querySelector('.event-list-image').setAttribute('data-category', event.category);
+        
+        const imageContainer = listItem.querySelector('.event-list-image');
+        const bgImage = listItem.querySelector('.event-list-bg-image');
+        
+        imageContainer.setAttribute('data-category', event.category);
+
+        // Bild setzen falls vorhanden (gleiche Logik wie bei Event Cards)
+        if (event.Image) {
+            bgImage.src = event.Image;
+            bgImage.alt = event.Title;
+            bgImage.onload = () => {
+                bgImage.style.display = 'block';
+                imageContainer.style.background = 'none';
+            };
+            bgImage.onerror = () => {
+                imageContainer.style.background = event.FallbackGradient || 'var(--default-gradient)';
+            };
+        } else {
+            // Fallback wenn kein Bild vorhanden
+            imageContainer.style.background = event.FallbackGradient || 'var(--default-gradient)';
+        }
 
         const date = new Date(event.Time);
         listItem.querySelector('.event-list-date').textContent =
