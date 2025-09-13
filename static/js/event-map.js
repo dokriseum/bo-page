@@ -164,6 +164,12 @@ document.addEventListener('DOMContentLoaded', function() {
     if (mapFile === 'all') {
       let centerOfTheEast = [52.5, 12.45];
       window._eventMap.setView(centerOfTheEast, 6);
+      
+      // Event-Marker wieder hinzufügen für "Ostdeutschland"
+      if (window.eventApp && typeof window.eventApp.getFilteredEvents === 'function') {
+        const filteredEvents = window.eventApp.getFilteredEvents();
+        updateEventMarkers(filteredEvents);
+      }
       return;
     }
 
@@ -185,6 +191,12 @@ document.addEventListener('DOMContentLoaded', function() {
       const bounds = stateSelectionLayer.getBounds();
       if (bounds && bounds.isValid()) {
         window._eventMap.fitBounds(bounds, { padding: [20, 20] });
+      }
+
+      // Event-Marker wieder hinzufügen nach dem Zeichnen der Grenzen
+      if (window.eventApp && typeof window.eventApp.getFilteredEvents === 'function') {
+        const filteredEvents = window.eventApp.getFilteredEvents();
+        updateEventMarkers(filteredEvents);
       }
     } catch (e) {
       console.error('Konnte Bundesland-Grenzen nicht laden:', e);

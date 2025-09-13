@@ -171,12 +171,7 @@ class EventApp {
                 return eventDate >= now;
             });
         }
-        
-        // Filter by category
-        if (this.currentFilter !== 'all') {
-            filtered = filtered.filter(event => event.category === this.currentFilter);
-        }
-        
+                
         // Filter by text search
         if (this.currentTextFilter && this.currentTextFilter.trim() !== '') {
             const searchTerm = this.currentTextFilter.toLowerCase().trim();
