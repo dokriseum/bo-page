@@ -76,8 +76,19 @@ class EventApp {
         container.querySelectorAll('.event-card').forEach(card => card.remove());
 
         const maxEventsStartpage = 6;
-        const allEvents = window._eventsJson.filter(event => !event.draft);
-        const events = allEvents.sort((a, b) => new Date(a.Time) - new Date(b.Time)).slice(0, maxEventsStartpage);
+        const now = new Date();
+        
+        // Filtere Events: nicht draft UND in der Zukunft
+        const allEvents = window._eventsJson.filter(event => {
+            if (event.draft) return false;
+            const eventDate = new Date(event.Time);
+            return eventDate >= now;
+        });
+        
+        // Sortiere nach Datum (nächste zuerst) und nimm die ersten 6
+        const events = allEvents
+            .sort((a, b) => new Date(a.Time) - new Date(b.Time))
+            .slice(0, maxEventsStartpage);
 
         events.forEach(event => {
             const card = this.createEventCard(event, template);
