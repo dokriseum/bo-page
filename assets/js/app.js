@@ -323,7 +323,7 @@ class EventApp {
         if (!event) return;
 
         this.selectedEvent = event;
-        this.renderEventDetails(event);
+        this.renderEventDetails(event, 'main'); // Standard: zurück zur Hauptseite
 
         // Alle Views verstecken und Details zeigen
         document.querySelectorAll('[id$="-view"]').forEach(view =>
@@ -334,7 +334,24 @@ class EventApp {
         this.updateUrlForEventDetails(eventId);
     }
 
-    renderEventDetails(event) {
+    showEventDetailsFromMap(eventId) {
+        const event = window._eventsJson.find(e => e.Id === eventId);
+
+        if (!event) return;
+
+        this.selectedEvent = event;
+        this.renderEventDetails(event, 'calendar'); // Von Karte: zurück zur Karte
+
+        // Alle Views verstecken und Details zeigen
+        document.querySelectorAll('[id$="-view"]').forEach(view =>
+            view.classList.add('hidden'));
+        document.getElementById('event-details')?.classList.remove('hidden');
+
+        // URL für Event-Details aktualisieren
+        this.updateUrlForEventDetails(eventId);
+    }
+
+    renderEventDetails(event, returnView = 'main') {
         const detailsView = document.getElementById('event-details');
         if (!detailsView) return;
 
@@ -354,6 +371,12 @@ class EventApp {
         detailsView.querySelector('.event-organizer').textContent = event.Organizer.Name;
 
         detailsView.querySelector('.event-description').textContent = event.Description || 'Keine Beschreibung verfügbar.';
+        
+        // Zurück-Button dynamisch anpassen
+        const backBtn = detailsView.querySelector('.back-btn');
+        if (backBtn) {
+            backBtn.setAttribute('onclick', `showView('${returnView}')`);
+        }
     }
 
     toggleBurgerMenu() {

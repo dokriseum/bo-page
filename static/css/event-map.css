@@ -14,10 +14,10 @@
 
 .event-map {
   width: 100%;
-  min-height: 340px;
-  height: 50vh;
+  min-height: 400px;
+  height: calc(100vh - 200px); /* Volle Höhe minus Header und Tabs */
   max-width: 900px;
-  margin: 0 auto 1.2em auto;
+  margin: 0 auto;
   border-radius: 18px;
   box-shadow: 0 2px 16px #b6d0f7a0;
   border: 1.5px solid #bdd0e6;
@@ -32,15 +32,4 @@
   font-family: inherit;
 }
 
-.event-info {
-  max-width: 600px;
-  margin: 0 auto 2em auto;
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 2px 12px #e4ebf492;
-  padding: 1.1em .9em .95em .9em;
-  font-size: 1.04em;
-  color: #233748;
-  border: 1.5px solid #bdd0e6;
-  z-index: 2;
-}
+

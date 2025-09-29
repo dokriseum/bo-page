@@ -71,7 +71,6 @@ document.addEventListener('DOMContentLoaded', function() {
   function addEventMarkers(map, events = null) {
     const eventsToUse = events || window._eventsJson;
 
-    const info = document.getElementById('event-info');
     eventsToUse.forEach(ev => {
       const marker = L.circleMarker([ev.Geolocation.Latitude, ev.Geolocation.Longitude], {
         radius: 6,
@@ -81,9 +80,10 @@ document.addEventListener('DOMContentLoaded', function() {
         weight: 2
       }).addTo(map);
       marker.on('click', () => {
-        info.innerHTML = renderEventInfo(ev);
-        info.style.display = 'block';
-        info.scrollIntoView({behavior:'smooth', block:'center'});
+        // Verwende die globale showEventDetails Funktion
+        if (window.eventApp && typeof window.eventApp.showEventDetailsFromMap === 'function') {
+          window.eventApp.showEventDetailsFromMap(ev.Id);
+        }
       });
       marker.bindTooltip(ev.Organizer.Name, {permanent: false, direction: 'top'});
     });
