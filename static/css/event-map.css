@@ -8,11 +8,15 @@
   --eventMarkerFillOpacity: 0.7;
 }
 
+.map-page {
+  margin-top: 1rem;
+}
+
 .event-map {
   width: 100%;
   min-height: 340px;
   height: 50vh;
-  max-width: 600px;
+  max-width: 900px;
   margin: 0 auto 1.2em auto;
   border-radius: 18px;
   box-shadow: 0 2px 16px #b6d0f7a0;
@@ -39,16 +43,4 @@
   color: #233748;
   border: 1.5px solid #bdd0e6;
   z-index: 2;
-}
-
-.week-slide {
-  padding: 0.5em 1em;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.week-slide:hover {
-  transform: scale(1.05);
 }
