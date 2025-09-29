@@ -1,7 +1,13 @@
 <div class="map-page">
-  <button>
-    <a href="/event-submit.html">Neues Event eintragen</a>
-  </button>
+  <div class="tabs">
+      <button class="map-state-selection active" onclick="filterByCategory('all')">Ostdeutschland</button>
+      <button class="map-state-selection" onclick="filterByCategory('be')">Berlin</button>
+      <button class="map-state-selection" onclick="filterByCategory('bb')">Brandenburg</button>
+      <button class="map-state-selection" onclick="filterByCategory('mv')">Mecklenburg-Vorpommern</button>
+      <button class="map-state-selection" onclick="filterByCategory('sn')">Sachsen</button>
+      <button class="map-state-selection" onclick="filterByCategory('st')">Sachsen-Anhalt</button>
+      <button class="map-state-selection" onclick="filterByCategory('th')">Thüringen</button>
+  </div>
   <div id="map" class="event-map"></div>
   <section id="event-info" class="event-info" style="display:none;"></section>
 </div>
