@@ -136,6 +136,21 @@ body {
 .content { padding: var(--spacing); }
 .hidden { display: none !important; }
 
+/* Spezielle Regel für Kalender-View: Nutze den gesamten verbleibenden Raum */
+#calendar-view .content {
+  height: 85vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#calendar-view {
+  flex-shrink: 0;
+}
+
+#calendar-view .map-page {
+  flex: 1; /* Nimmt den gesamten verbleibenden Raum ein */
+}
+
 /* Event Search Input */
 .event-search-input {
   width: 100%;

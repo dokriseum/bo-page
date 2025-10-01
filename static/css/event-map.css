@@ -9,25 +9,29 @@
 }
 
 .map-page {
-  margin-top: 1rem;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  /* display: flex;
+  flex-direction: column; */
 }
 
 .event-map {
   width: 100%;
+  flex: 1;
   min-height: 400px;
-  height: calc(100vh - 200px); /* Volle Höhe minus Header und Tabs */
-  max-width: 900px;
-  margin: 0 auto;
-  border-radius: 18px;
-  box-shadow: 0 2px 16px #b6d0f7a0;
-  border: 1.5px solid #bdd0e6;
+  max-width: none; 
+  margin: 0;
+  border-radius: 0; 
+  box-shadow: none; 
+  border: none;
   z-index: 1;
   overflow: hidden;
 }
 
 .leaflet-container {
   width: 100% !important;
-  height: 100% !important;
+  height: 75% !important;
   border-radius: 18px;
   font-family: inherit;
 }
