@@ -319,36 +319,33 @@ class EventApp {
     showEventDetails(element) {
         const eventId = element.getAttribute('data-event-id');
         const event =  window._eventsJson.find(e => e.Id === eventId);
-
-        if (!event) return;
+        if (!event) 
+            return;
 
         this.selectedEvent = event;
         this.renderEventDetails(event, 'main'); // Standard: zurück zur Hauptseite
-
-        // Alle Views verstecken und Details zeigen
-        document.querySelectorAll('[id$="-view"]').forEach(view =>
-            view.classList.add('hidden'));
-        document.getElementById('event-details')?.classList.remove('hidden');
-
-        // URL für Event-Details aktualisieren
+        this.hideAllViews();
         this.updateUrlForEventDetails(eventId);
     }
 
     showEventDetailsFromMap(eventId) {
         const event = window._eventsJson.find(e => e.Id === eventId);
 
-        if (!event) return;
+        if (!event) 
+            return;
 
         this.selectedEvent = event;
         this.renderEventDetails(event, 'calendar'); // Von Karte: zurück zur Karte
-
-        // Alle Views verstecken und Details zeigen
-        document.querySelectorAll('[id$="-view"]').forEach(view =>
-            view.classList.add('hidden'));
-        document.getElementById('event-details')?.classList.remove('hidden');
+        this.hideAllViews();
 
         // URL für Event-Details aktualisieren
         this.updateUrlForEventDetails(eventId);
+    }
+
+    hideAllViews() {
+        document.querySelectorAll('[id$="-view"]').forEach(view =>
+            view.classList.add('hidden'));
+        document.getElementById('event-details')?.classList.remove('hidden');
     }
 
     renderEventDetails(event, returnView = 'main') {
