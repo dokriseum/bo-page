@@ -20,14 +20,23 @@ EXCLUDES=(
 # '--exclude=next-folder/'
 )
 
+# Optionaler Parameter für direkte Auswahl (1 oder 2)
+choice_from_arg="${1-}"
+non_interactive="0"
+
 # Deployment-Ziel auswählen
 echo -e "${YELLOW}=== Bo-Page Deployment ===${NC}"
 echo ""
-echo "Wählen Sie das Deployment-Ziel:"
-echo "1) Development (${DEV_PATH})"
-echo "2) Production (${PROD_PATH})"
-echo ""
-read -p "Ihre Auswahl (1 oder 2): " choice
+if [[ "${choice_from_arg}" == "1" || "${choice_from_arg}" == "2" ]]; then
+    choice="${choice_from_arg}"
+    non_interactive="1"
+else
+    echo "Wählen Sie das Deployment-Ziel:"
+    echo "1) Development (${DEV_PATH})"
+    echo "2) Production (${PROD_PATH})"
+    echo ""
+    read -p "Ihre Auswahl (1 oder 2): " choice
+fi
 
 case $choice in
     1)
@@ -40,17 +49,18 @@ case $choice in
         ENVIRONMENT="Production"
         echo -e "${YELLOW}Production-Deployment ausgewählt${NC}"
         
-        # Sicherheitsabfrage für Production
-        echo ""
-        echo -e "${RED}WARNUNG: Sie sind dabei, die PRODUCTION-Umgebung zu überschreiben!${NC}"
-        echo -e "${RED}Dies wird die Live-Website beeinträchtigen.${NC}"
-        echo ""
-        read -p "Sind Sie sicher, dass Sie fortfahren möchten? (ja/nein): " confirm
-        
-        if [[ $confirm != "ja" ]]; then
-            echo -e "${YELLOW}Deployment abgebrochen.${NC}"
-            exit 0
-        fi
+                # Sicherheitsabfrage für Production (nur interaktiv)
+                if [[ "${non_interactive}" != "1" ]]; then
+                    echo ""
+                    echo -e "${RED}WARNUNG: Sie sind dabei, die PRODUCTION-Umgebung zu überschreiben!${NC}"
+                    echo -e "${RED}Dies wird die Live-Website beeinträchtigen.${NC}"
+                    echo ""
+                    read -p "Sind Sie sicher, dass Sie fortfahren möchten? (ja/nein): " confirm
+                    if [[ $confirm != "ja" ]]; then
+                            echo -e "${YELLOW}Deployment abgebrochen.${NC}"
+                            exit 0
+                    fi
+                fi
         ;;
     *)
         echo -e "${RED}Ungültige Auswahl. Deployment abgebrochen.${NC}"
