@@ -49,38 +49,65 @@ class EventDatabase {
         }
         $schemaRaw = file_get_contents(SCHEMA_PATH);
         $schema = json_decode($schemaRaw, true);
-        if (!$schema || !isset($schema['table'], $schema['fields'])) {
+        if (!$schema || !isset($schema['tables']) || !is_array($schema['tables'])) {
             error_log('Invalid schema JSON in ' . SCHEMA_PATH);
             return;
         }
-        $fields = [];
-        foreach ($schema['fields'] as $name => $def) {
-            $sql = "`$name` ";
-            $sql .= $def['type'];
-            if (!empty($def['auto_increment'])) $sql .= " AUTO_INCREMENT";
-            if (!empty($def['primary'])) $sql .= " PRIMARY KEY";
-            if (!empty($def['required'])) $sql .= " NOT NULL";
-            if (!empty($def['nullable'])) $sql .= " NULL";
-            if (isset($def['default'])) {
-                $default = $def['default'];
-                $type = strtoupper($def['type']);
-                $isTimestampKeyword = is_string($default) && (stripos($default, 'CURRENT_TIMESTAMP') === 0 || stripos($default, 'NOW()') === 0 || stripos($default, 'ON UPDATE') !== false);
-                $isNumeric = is_numeric($default);
-                if (strpos($type, 'ENUM') === 0) {
-                    $sql .= " DEFAULT '" . addslashes((string)$default) . "'";
-                } elseif ($isTimestampKeyword) {
-                    $sql .= " DEFAULT " . $default;
-                } elseif ($isNumeric) {
-                    $sql .= " DEFAULT " . $default;
-                } else {
-                    $sql .= " DEFAULT '" . addslashes((string)$default) . "'";
+        
+        foreach ($schema['tables'] as $tableSchema) {
+            if (!isset($tableSchema['table'], $tableSchema['fields'])) {
+                error_log('Invalid table definition in schema');
+                continue;
+            }
+            
+            $fields = [];
+            foreach ($tableSchema['fields'] as $name => $def) {
+                $sql = "`$name` ";
+                $sql .= $def['type'];
+                if (!empty($def['auto_increment'])) $sql .= " AUTO_INCREMENT";
+                if (!empty($def['primary'])) $sql .= " PRIMARY KEY";
+                if (!empty($def['unique'])) $sql .= " UNIQUE";
+                if (!empty($def['required'])) $sql .= " NOT NULL";
+                if (!empty($def['nullable'])) $sql .= " NULL";
+                if (isset($def['default'])) {
+                    $default = $def['default'];
+                    $type = strtoupper($def['type']);
+                    $isTimestampKeyword = is_string($default) && (stripos($default, 'CURRENT_TIMESTAMP') === 0 || stripos($default, 'NOW()') === 0 || stripos($default, 'ON UPDATE') !== false);
+                    $isNumeric = is_numeric($default);
+                    if (strpos($type, 'ENUM') === 0) {
+                        $sql .= " DEFAULT '" . addslashes((string)$default) . "'";
+                    } elseif ($isTimestampKeyword) {
+                        $sql .= " DEFAULT " . $default;
+                    } elseif ($isNumeric) {
+                        $sql .= " DEFAULT " . $default;
+                    } else {
+                        $sql .= " DEFAULT '" . addslashes((string)$default) . "'";
+                    }
+                }
+                $fields[] = $sql;
+            }
+            
+            if (isset($tableSchema['indexes']) && is_array($tableSchema['indexes'])) {
+                foreach ($tableSchema['indexes'] as $index) {
+                    $indexName = $index['name'] ?? '';
+                    $indexColumns = $index['columns'] ?? [];
+                    if ($indexName && !empty($indexColumns)) {
+                        $columns = implode('`, `', $indexColumns);
+                        $fields[] = "INDEX `$indexName` (`$columns`)";
+                    }
                 }
             }
-            $fields[] = $sql;
+            
+            $table = $tableSchema['table'];
+
+            $options = $tableSchema['options'] ?? [];
+            $engine = $options['engine'] ?? 'InnoDB';
+            $charset = $options['charset'] ?? 'utf8mb4';
+            $collation = $options['collation'] ?? 'utf8mb4_unicode_ci';
+            
+            $create = "CREATE TABLE IF NOT EXISTS `$table` (\n    " . implode(",\n    ", $fields) . "\n) ENGINE=$engine DEFAULT CHARSET=$charset COLLATE=$collation;";
+            $this->db->exec($create);
         }
-        $table = $schema['table'];
-        $create = "CREATE TABLE IF NOT EXISTS `$table` (\n    " . implode(",\n    ", $fields) . "\n) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
-        $this->db->exec($create);
     }
     
     public function getAllEvents($status = 'active') {
@@ -91,7 +118,17 @@ class EventDatabase {
             } else {
                 error_log('Schema file not found when fetching events: ' . SCHEMA_PATH);
             }
-            $table = $schema['table'] ?? 'events';
+            
+            $table = 'events';
+            if (isset($schema['tables']) && is_array($schema['tables'])) {
+                foreach ($schema['tables'] as $tableSchema) {
+                    if ($tableSchema['table'] === 'events') {
+                        $table = $tableSchema['table'];
+                        break;
+                    }
+                }
+            }
+            
             $sql = "SELECT * FROM `$table` WHERE status = ? ORDER BY event_time ASC";
             $stmt = $this->db->prepare($sql);
             $stmt->execute([$status]);
@@ -149,7 +186,6 @@ class EventDatabase {
     
     public function createEventConfirmation($eventData) {
         try {
-            $this->ensureEventConfirmationsTable();
             $token = bin2hex(random_bytes(32));
             $expiresAt = date('Y-m-d H:i:s', time() + 24 * 60 * 60);
             $stmt = $this->db->prepare("
@@ -171,7 +207,6 @@ class EventDatabase {
     }
     
     public function confirmEvent($token) {
-        $this->ensureEventConfirmationsTable();
         try {
             $this->db->beginTransaction();
             $stmt = $this->db->prepare("
@@ -193,6 +228,7 @@ class EventDatabase {
             
             $this->db->commit();
             $this->updateEventsJson();
+            
             return $eventId;
         } catch (Exception $e) {
             if ($this->db->inTransaction()) {
@@ -201,32 +237,29 @@ class EventDatabase {
             throw $e;
         }
     }
-
-    private function ensureEventConfirmationsTable() {
-        $this->db->exec("
-            CREATE TABLE IF NOT EXISTS event_confirmations (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                token VARCHAR(64) NOT NULL UNIQUE,
-                event_data JSON NOT NULL,
-                email VARCHAR(255) NOT NULL,
-                expires_at TIMESTAMP NOT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                INDEX idx_token (token),
-                INDEX idx_expires (expires_at)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
-        ");
-    }
     
     private function insertEvent($eventData) {
         $schema = [];
         if (file_exists(SCHEMA_PATH)) {
             $schema = json_decode(file_get_contents(SCHEMA_PATH), true) ?: [];
         }
-        if (empty($schema['table']) || empty($schema['fields']) || !is_array($schema['fields'])) {
+        
+        $eventsTable = null;
+        if (isset($schema['tables']) && is_array($schema['tables'])) {
+            foreach ($schema['tables'] as $tableSchema) {
+                if ($tableSchema['table'] === 'events') {
+                    $eventsTable = $tableSchema;
+                    break;
+                }
+            }
+        }
+        
+        if (empty($eventsTable) || empty($eventsTable['fields']) || !is_array($eventsTable['fields'])) {
             throw new RuntimeException('Ungültiges oder fehlendes Event-Schema.');
         }
-        $table = $schema['table'];
-        $fields = array_keys($schema['fields']);
+        
+        $table = $eventsTable['table'];
+        $fields = array_keys($eventsTable['fields']);
         $insertFields = [];
         $params = [];
         foreach ($fields as $field) {
@@ -268,7 +301,6 @@ class EventDatabase {
     
     public function cleanupExpiredConfirmations() {
         try {
-            $this->ensureEventConfirmationsTable();
             $stmt = $this->db->prepare("DELETE FROM event_confirmations WHERE expires_at < NOW()");
             $stmt->execute();
         } catch (PDOException $e) {
