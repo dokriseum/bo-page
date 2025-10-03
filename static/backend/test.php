@@ -148,6 +148,13 @@
             <button type="submit">events.json importieren</button>
         </form>
         <p class="workflow">Der Import wird in einem separaten Schritt ausgeführt. Nach Abschluss können Sie die Zusammenfassung einsehen und optional erneut ausführen.</p>
+        
+        <hr style="margin: 20px 0;">
+        
+        <h3>Datenbank in events.json exportieren</h3>
+        <p>Exportiert alle aktiven Events aus der Datenbank in die events.json Datei.</p>
+        <button onclick="exportEventsToJson()">Datenbank → events.json exportieren</button>
+        <div id="export-results"></div>
     </div>
 
     <script>
@@ -358,6 +365,41 @@
                 `;
             }
         });
+
+        async function exportEventsToJson() {
+            const resultsDiv = document.getElementById('export-results');
+            resultsDiv.innerHTML = '<p>Exportiere Events zur JSON...</p>';
+            
+            try {
+                const response = await fetch('/api.php/export', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    resultsDiv.innerHTML = `
+                        <div class="status success">
+                            ✅ Export erfolgreich!<br>
+                            📊 ${data.count} Events wurden in events.json exportiert<br>
+                            📁 Datei: ${data.file}
+                        </div>
+                    `;
+                } else {
+                    resultsDiv.innerHTML = `
+                        <div class="status error">
+                            ❌ Export Fehler: ${response.status}<br>
+                            ${JSON.stringify(data, null, 2)}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultsDiv.innerHTML = `
+                    <div class="status error">❌ Network Error: ${error.message}</div>
+                `;
+            }
+        }
     </script>
 </body>
 </html>

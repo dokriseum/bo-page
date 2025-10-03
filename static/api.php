@@ -453,6 +453,15 @@ try {
                     http_response_code(500);
                     echo json_encode(['error' => 'Failed to send confirmation email']);
                 }
+            } elseif ($path === '/export') {
+                $database->updateEventsJson();
+                $events = $database->getAllEvents('active');
+                echo json_encode([
+                    'success' => true,
+                    'message' => 'Events wurden erfolgreich nach events.json exportiert',
+                    'count' => count($events),
+                    'file' => '/events.json'
+                ]);
             } else {
                 http_response_code(404);
                 echo json_encode(['error' => 'Endpoint not found']);
