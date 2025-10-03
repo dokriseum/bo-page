@@ -36,8 +36,6 @@
             try {
                 require_once __DIR__ . '/config.php';
                 $schema = json_decode(file_get_contents(__DIR__ . '/event_schema.json'), true);
-                $table = $schema['table'];
-                $fields = $schema['fields'];
                 
                 $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4";
                 $db = new PDO($dsn, DB_USER, DB_PASS);
@@ -49,19 +47,29 @@
                 echo '✅ DB User: ' . DB_USER . '<br>';
                 echo '✅ Mail From: ' . MAIL_FROM . '</div>';
                 
-                // Test if table exists
-                $stmt = $db->query("SHOW TABLES LIKE '" . $table . "'");
-                $tableExists = $stmt->fetch();
-                
+                // Test if tables exist
                 echo '<div class="status info">📊 Tabellen Status:<br>';
-                echo '• ' . $table . ': ' . ($tableExists ? '✅ Existiert' : '❌ Wird bei erstem API-Aufruf erstellt') . '<br>';
-                echo '</div>';
-                
-                if ($tableExists) {
-                    $stmt = $db->query("SELECT COUNT(*) as count FROM `" . $table . "`");
-                    $count = $stmt->fetch();
-                    echo '<div class="status success">📈 Anzahl Events in DB: ' . $count['count'] . '</div>';
+                if (isset($schema['tables']) && is_array($schema['tables'])) {
+                    foreach ($schema['tables'] as $tableSchema) {
+                        $table = $tableSchema['table'];
+                        $stmt = $db->query("SHOW TABLES LIKE '" . $table . "'");
+                        $tableExists = $stmt->fetch();
+                        
+                        echo '• ' . $table . ': ' . ($tableExists ? '✅ Existiert' : '❌ Wird bei erstem API-Aufruf erstellt') . '<br>';
+                        
+                        if ($tableExists && $table === 'events') {
+                            $stmt = $db->query("SELECT COUNT(*) as count FROM `" . $table . "`");
+                            $count = $stmt->fetch();
+                            echo '  → Events in DB: ' . $count['count'] . '<br>';
+                        }
+                        if ($tableExists && $table === 'event_confirmations') {
+                            $stmt = $db->query("SELECT COUNT(*) as count FROM `" . $table . "`");
+                            $count = $stmt->fetch();
+                            echo '  → Ausstehende Bestätigungen: ' . $count['count'] . '<br>';
+                        }
+                    }
                 }
+                echo '</div>';
                 
             } catch (Exception $e) {
                 if (strpos($e->getMessage(), 'config.php') !== false) {
@@ -132,34 +140,9 @@
         <div id="email-test-results"></div>
     </div>
 
-    <!-- Database Schema -->
-    <div class="test-section">
-        <h2>6. Datenbank Schema</h2>
-        <pre>
-<strong>Tabellen:</strong>
-
-<?php
-$schema = json_decode(file_get_contents(__DIR__ . '/event_schema.json'), true);
-$table = $schema['table'];
-$fields = $schema['fields'];
-echo $table . ":\n";
-foreach ($fields as $name => $def) {
-    echo "    - " . $name . " (" . $def['type'];
-    if (!empty($def['primary'])) echo ", PRIMARY KEY";
-    if (!empty($def['auto_increment'])) echo ", AUTO_INCREMENT";
-    if (!empty($def['required'])) echo ", NOT NULL";
-    if (!empty($def['nullable'])) echo ", NULL";
-    if (!empty($def['default'])) echo ", DEFAULT " . $def['default'];
-    if (!empty($def['format'])) echo ", Format: " . $def['format'];
-    echo ")\n";
-}
-?>
-        </pre>
-    </div>
-
     <!-- Events Import -->
     <div class="test-section">
-        <h2>7. Events aus events.json importieren</h2>
+        <h2>6. Events aus events.json importieren</h2>
         <p>Importiert Events aus JSON Datei in die Datenbank.</p>
         <form action="/backend/import_events.php" method="get">
             <button type="submit">events.json importieren</button>

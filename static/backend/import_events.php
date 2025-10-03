@@ -26,8 +26,21 @@ if (!file_exists($configPath)) {
             throw new RuntimeException('event_schema.json wurde nicht gefunden.');
         }
         $schema = json_decode(file_get_contents($schemaPath), true, 512, JSON_THROW_ON_ERROR);
-        if (!is_array($schema) || empty($schema['table']) || empty($schema['fields'])) {
+        if (!is_array($schema) || empty($schema['tables']) || !is_array($schema['tables'])) {
             throw new RuntimeException('event_schema.json enthält ein ungültiges Schema.');
+        }
+        
+        // Find the events table in the schema
+        $eventsTable = null;
+        foreach ($schema['tables'] as $tableSchema) {
+            if ($tableSchema['table'] === 'events') {
+                $eventsTable = $tableSchema;
+                break;
+            }
+        }
+        
+        if (empty($eventsTable) || empty($eventsTable['fields'])) {
+            throw new RuntimeException('Event-Tabelle wurde im Schema nicht gefunden.');
         }
 
         if ($importAttempted) {
@@ -75,10 +88,10 @@ if (!file_exists($configPath)) {
             $dsn = 'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8mb4';
             $db = new PDO($dsn, DB_USER, DB_PASS, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
 
-            verifyEventsTableExists($db, $schema['table']);
+            verifyEventsTableExists($db, $eventsTable['table']);
 
-            $table = $schema['table'];
-            $columns = determineInsertColumns($schema);
+            $table = $eventsTable['table'];
+            $columns = determineInsertColumns($eventsTable);
             $quotedColumns = array_map(fn($col) => '`' . $col . '`', $columns);
             $placeholders = implode(', ', array_fill(0, count($columns), '?'));
             $insertSql = 'INSERT INTO `' . $table . '` (' . implode(', ', $quotedColumns) . ') VALUES (' . $placeholders . ')';
