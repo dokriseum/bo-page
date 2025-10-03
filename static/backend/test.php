@@ -157,6 +157,16 @@ foreach ($fields as $name => $def) {
         </pre>
     </div>
 
+    <!-- Events Import -->
+    <div class="test-section">
+        <h2>7. Events aus events.json importieren</h2>
+        <p>Importiert Events aus JSON Datei in die Datenbank.</p>
+        <form action="/backend/import_events.php" method="get">
+            <button type="submit">events.json importieren</button>
+        </form>
+        <p class="workflow">Der Import wird in einem separaten Schritt ausgeführt. Nach Abschluss können Sie die Zusammenfassung einsehen und optional erneut ausführen.</p>
+    </div>
+
     <script>
     let currentToken = null;
         
