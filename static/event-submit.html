@@ -37,6 +37,7 @@
             <label>Wolke-Link <input name="Wolke" type="url" placeholder="https://wolke.netzbegruenung.de/..." ></label>
             <label>Chatbegruenung-Link <input name="Chatbegruenung" type="url" placeholder="https://chatbegruenung.de/..." ></label>
             <label>Social Media Links <textarea name="SocialMediaLinks" placeholder="Ein Link pro Zeile"></textarea></label>
+            <label>Event-Bilder (URLs) <textarea name="EventImages" placeholder="Ein Bild-Link pro Zeile (z.B. https://example.com/bild.jpg)"></textarea></label>
             <label>Helfer:innen benötigt (Minimum) <input name="HelpersNeededMinimum" type="number" min="1" placeholder="z.B. 3"></label>
             <label>Material/Sonderbedarf <input name="SpecialRequirements" placeholder="z.B. Pavillon, Flyer"></label>
             <div class="info">
@@ -195,6 +196,10 @@
         
         if (f.SocialMediaLinks.value) {
             eventData.event_data.SocialMediaLinks = f.SocialMediaLinks.value.split('\n').filter(link => link.trim());
+        }
+        
+        if (f.EventImages.value) {
+            eventData.event_data.EventImages = f.EventImages.value.split('\n').filter(link => link.trim());
         }
 
         // EventStatus
