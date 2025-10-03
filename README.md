@@ -110,6 +110,8 @@ xdg-open http://localhost:1313 # Linux
 └── .gitignore
 ```
 
+> **Sicherheitshinweis:** Der Ordner `static/backend/` enthält administrative Werkzeuge (z. B. Tests, Import-Skripte). Schütze ihn serverseitig – etwa per `.htaccess` mit Authentifizierung oder IP-Allowlist –, sodass nur berechtigte Admins darauf zugreifen können.
+
 ---
 
 ## Deployment / Build

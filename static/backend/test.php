@@ -175,7 +175,7 @@ foreach ($fields as $name => $def) {
 
         async function requestToken() {
             try {
-                const response = await fetch('/backend/api.php/token');
+                const response = await fetch('/api.php/token');
                 const data = await response.json();
                 
                 if (response.ok) {
@@ -203,12 +203,12 @@ foreach ($fields as $name => $def) {
             }
         }
 
-        async function testGetEvents() {
+    async function testGetEvents() {
             const resultsDiv = document.getElementById('api-results');
             resultsDiv.innerHTML = '<p>Testing GET /api.php/events...</p>';
             
             try {
-                const response = await fetch('/backend/api.php/events');
+                const response = await fetch('/api.php/events');
                 const data = await response.json();
                 
                 if (response.ok) {
@@ -264,7 +264,7 @@ foreach ($fields as $name => $def) {
             };
             
             try {
-                const response = await fetch('/backend/api.php/events', {
+                const response = await fetch('/api.php/events', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(testEvent)
@@ -336,7 +336,7 @@ foreach ($fields as $name => $def) {
             resultsDiv.innerHTML = '<p>Sende Event...</p>';
             
             try {
-                const response = await fetch('/backend/api.php/events', {
+                const response = await fetch('/api.php/events', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(eventData)

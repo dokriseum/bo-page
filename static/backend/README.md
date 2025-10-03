@@ -29,3 +29,4 @@
 - Use strong database passwords
 - Restrict database user permissions to necessary operations only
 - Use HTTPS in production for secure API communication
+- Protect this entire directory with server-side access controls (e.g. `.htaccess` + Auth, IP allow-list) because it contains administrative utilities; only trusted admins should be able to reach these endpoints

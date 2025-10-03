@@ -10,7 +10,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit();
 }
 
-require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/backend/config.php';
+
+if (!defined('BACKEND_ROOT')) {
+    define('BACKEND_ROOT', __DIR__ . '/backend');
+}
+if (!defined('TEMPLATE_ROOT')) {
+    define('TEMPLATE_ROOT', BACKEND_ROOT . '/templates');
+}
+if (!defined('SCHEMA_PATH')) {
+    define('SCHEMA_PATH', BACKEND_ROOT . '/event_schema.json');
+}
 
 class EventDatabase {
     private $db;
@@ -33,15 +43,14 @@ class EventDatabase {
     }
     
     private function createTables() {
-        $schemaPath = __DIR__ . '/event_schema.json';
-        if (!file_exists($schemaPath)) {
-            error_log('Schema file not found: ' . $schemaPath);
+        if (!file_exists(SCHEMA_PATH)) {
+            error_log('Schema file not found: ' . SCHEMA_PATH);
             return;
         }
-        $schemaRaw = file_get_contents($schemaPath);
+        $schemaRaw = file_get_contents(SCHEMA_PATH);
         $schema = json_decode($schemaRaw, true);
         if (!$schema || !isset($schema['table'], $schema['fields'])) {
-            error_log('Invalid schema JSON in ' . $schemaPath);
+            error_log('Invalid schema JSON in ' . SCHEMA_PATH);
             return;
         }
         $fields = [];
@@ -76,7 +85,12 @@ class EventDatabase {
     
     public function getAllEvents($status = 'active') {
         try {
-            $schema = json_decode(file_get_contents(__DIR__ . '/event_schema.json'), true);
+            $schema = [];
+            if (file_exists(SCHEMA_PATH)) {
+                $schema = json_decode(file_get_contents(SCHEMA_PATH), true) ?: [];
+            } else {
+                error_log('Schema file not found when fetching events: ' . SCHEMA_PATH);
+            }
             $table = $schema['table'] ?? 'events';
             $sql = "SELECT * FROM `$table` WHERE status = ? ORDER BY event_time ASC";
             $stmt = $this->db->prepare($sql);
@@ -204,7 +218,13 @@ class EventDatabase {
     }
     
     private function insertEvent($eventData) {
-        $schema = json_decode(file_get_contents(__DIR__ . '/event_schema.json'), true);
+        $schema = [];
+        if (file_exists(SCHEMA_PATH)) {
+            $schema = json_decode(file_get_contents(SCHEMA_PATH), true) ?: [];
+        }
+        if (empty($schema['table']) || empty($schema['fields']) || !is_array($schema['fields'])) {
+            throw new RuntimeException('Ungültiges oder fehlendes Event-Schema.');
+        }
         $table = $schema['table'];
         $fields = array_keys($schema['fields']);
         $insertFields = [];
@@ -239,7 +259,7 @@ class EventDatabase {
     public function updateEventsJson() {
         try {
             $events = $this->getAllEvents('active');
-            $jsonPath = __DIR__ . '/../events.json';
+            $jsonPath = __DIR__ . '/events.json';
             file_put_contents($jsonPath, json_encode($events, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
         } catch (Exception $e) {
             error_log("Failed to update events.json: " . $e->getMessage());
@@ -301,8 +321,9 @@ function validateSubmissionToken($token) {
 }
 
 function sendConfirmationEmail($email, $token, $eventTitle) {
-    $confirmUrl = "https://" . $_SERVER['HTTP_HOST'] . "/backend/api.php/confirm/" . $token;
-    $template = loadTemplateData(__DIR__ . '/templates/confirmation_email.php', [
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
+    $confirmUrl = $protocol . $_SERVER['HTTP_HOST'] . "/api.php/confirm/" . $token;
+    $template = loadTemplateData(TEMPLATE_ROOT . '/confirmation_email.php', [
         'eventTitle' => $eventTitle,
         'confirmUrl' => $confirmUrl
     ]);
@@ -340,11 +361,11 @@ try {
                 $token = $matches[1];
                 try {
                     $eventId = $database->confirmEvent($token);
-                    echo renderTemplate(__DIR__ . '/templates/confirm_success.php');
+                    echo renderTemplate(TEMPLATE_ROOT . '/confirm_success.php');
                 } catch (Exception $e) {
                     header('Content-Type: text/html; charset=utf-8');
                     http_response_code(400);
-                    echo renderTemplate(__DIR__ . '/templates/confirm_error.php', ['errorMessage' => $e->getMessage()]);
+                    echo renderTemplate(TEMPLATE_ROOT . '/confirm_error.php', ['errorMessage' => $e->getMessage()]);
                 }
             } else {
                 http_response_code(404);
