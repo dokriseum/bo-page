@@ -5,16 +5,13 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type');
 
-// Handle preflight requests
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
 
-// Configuration
 require_once __DIR__ . '/config.php';
 
-// Database class for MariaDB
 class EventDatabase {
     private $db;
     
@@ -27,8 +24,6 @@ class EventDatabase {
             $dsn = "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4";
             $this->db = new PDO($dsn, DB_USER, DB_PASS);
             $this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            
-            // Create tables if not exist
             $this->createTables();
         } catch (PDOException $e) {
             http_response_code(500);
@@ -41,13 +36,13 @@ class EventDatabase {
         $schemaPath = __DIR__ . '/event_schema.json';
         if (!file_exists($schemaPath)) {
             error_log('Schema file not found: ' . $schemaPath);
-            return; // don't throw; let GET handle empty state
+            return;
         }
         $schemaRaw = file_get_contents($schemaPath);
         $schema = json_decode($schemaRaw, true);
         if (!$schema || !isset($schema['table'], $schema['fields'])) {
             error_log('Invalid schema JSON in ' . $schemaPath);
-            return; // don't throw; avoid breaking JSON response
+            return;
         }
         $fields = [];
         foreach ($schema['fields'] as $name => $def) {
@@ -90,7 +85,6 @@ class EventDatabase {
             $formattedEvents = [];
             foreach ($events as $event) {
                 $formattedEvent = [];
-                // Mapping: DB -> API JSON
                 $formattedEvent['Title'] = $event['title'];
                 $formattedEvent['Location'] = $event['location'];
                 $formattedEvent['Time'] = $event['event_time'];
@@ -131,8 +125,7 @@ class EventDatabase {
             }
             return $formattedEvents;
         } catch (PDOException $e) {
-            // If table is missing, try to create and return empty list
-            if ($e->getCode() === '42S02') { // Base table or view not found
+            if ($e->getCode() === '42S02') {
                 $this->createTables();
                 return [];
             }
@@ -142,12 +135,9 @@ class EventDatabase {
     
     public function createEventConfirmation($eventData) {
         try {
-            // Ensure confirmations table exists
             $this->ensureEventConfirmationsTable();
-            // Generate confirmation token
             $token = bin2hex(random_bytes(32));
-            $expiresAt = date('Y-m-d H:i:s', time() + 24 * 60 * 60); // 24 hours
-            
+            $expiresAt = date('Y-m-d H:i:s', time() + 24 * 60 * 60);
             $stmt = $this->db->prepare("
                 INSERT INTO event_confirmations (token, event_data, email, expires_at)
                 VALUES (?, ?, ?, ?)
@@ -167,12 +157,9 @@ class EventDatabase {
     }
     
     public function confirmEvent($token) {
-        // Ensure confirmations table exists BEFORE starting a transaction to avoid implicit commits from DDL
         $this->ensureEventConfirmationsTable();
         try {
             $this->db->beginTransaction();
-
-            // Get confirmation data
             $stmt = $this->db->prepare("
                 SELECT event_data, email, expires_at 
                 FROM event_confirmations 
@@ -186,22 +173,14 @@ class EventDatabase {
             }
             
             $eventData = json_decode($confirmation['event_data'], true);
-            
-            // Insert event into main table
             $eventId = $this->insertEvent($eventData);
-            
-            // Delete confirmation token
             $stmt = $this->db->prepare("DELETE FROM event_confirmations WHERE token = ?");
             $stmt->execute([$token]);
             
             $this->db->commit();
-            
-            // Update JSON file (outside of transaction work)
             $this->updateEventsJson();
-            
             return $eventId;
         } catch (Exception $e) {
-            // Only rollback if a transaction is actually active
             if ($this->db->inTransaction()) {
                 $this->db->rollBack();
             }
@@ -229,10 +208,8 @@ class EventDatabase {
         $table = $schema['table'];
         $fields = array_keys($schema['fields']);
         $insertFields = [];
-        $insertValues = [];
         $params = [];
         foreach ($fields as $field) {
-            // Mapping: API JSON -> DB
             switch ($field) {
                 case 'title': $insertFields[] = 'title'; $params[] = $eventData['Title'] ?? null; break;
                 case 'location': $insertFields[] = 'location'; $params[] = $eventData['Location'] ?? null; break;
@@ -251,7 +228,6 @@ class EventDatabase {
                 case 'special_requirements': $insertFields[] = 'special_requirements'; $params[] = $eventData['EventStatus']['SpecialRequirements'] ?? null; break;
                 case 'event_status': $insertFields[] = 'event_status'; $params[] = isset($eventData['EventStatus']) ? json_encode($eventData['EventStatus']) : null; break;
                 case 'status': $insertFields[] = 'status'; $params[] = 'active'; break;
-                // created_at, updated_at: DB default
             }
         }
         $sql = "INSERT INTO `$table` (" . implode(", ", $insertFields) . ") VALUES (" . rtrim(str_repeat('?, ', count($insertFields)), ', ') . ")";
@@ -281,11 +257,10 @@ class EventDatabase {
     }
 }
 
-// Token management functions
 function generateSubmissionToken() {
     $token = bin2hex(random_bytes(32));
     $_SESSION['submission_token'] = $token;
-    $_SESSION['token_expires'] = time() + 3600; // 1 hour TTL
+    $_SESSION['token_expires'] = time() + 3600;
     return $token;
 }
 
@@ -297,7 +272,6 @@ function validateSubmissionToken($token) {
         return false;
     }
     
-    // Token can only be used once
     unset($_SESSION['submission_token']);
     unset($_SESSION['token_expires']);
     
@@ -324,14 +298,12 @@ function sendConfirmationEmail($email, $token, $eventTitle) {
     return mail($email, $subject, $message, $headers);
 }
 
-// Main API logic
 try {
     $database = new EventDatabase();
     $method = $_SERVER['REQUEST_METHOD'];
     $path = $_SERVER['PATH_INFO'] ?? '';
     
-    // Clean up expired confirmations periodically
-    if (rand(1, 100) <= 5) { // 5% chance
+    if (rand(1, 100) <= 5) {
         $database->cleanupExpiredConfirmations();
     }
     
@@ -344,7 +316,6 @@ try {
                 $token = generateSubmissionToken();
                 echo json_encode(['token' => $token, 'expires_in' => 3600]);
             } elseif (preg_match('/^\/confirm\/([a-f0-9]{64})$/', $path, $matches)) {
-                // Override content-type for HTML response
                 header('Content-Type: text/html; charset=utf-8');
                 $token = $matches[1];
                 try {
@@ -389,7 +360,6 @@ try {
                     break;
                 }
                 
-                // Validate submission token
                 if (!isset($requestData['submission_token']) || 
                     !validateSubmissionToken($requestData['submission_token'])) {
                     http_response_code(403);
@@ -399,7 +369,6 @@ try {
                 
                 $eventData = $requestData['event_data'] ?? $requestData;
                 
-                // Basic validation
                 $required = ['Title', 'Location', 'Time', 'EventType', 'Description'];
                 foreach ($required as $field) {
                     if (empty($eventData[$field])) {
@@ -415,7 +384,6 @@ try {
                     break;
                 }
                 
-                // Create confirmation entry and send email
                 $confirmationToken = $database->createEventConfirmation($eventData);
                 $email = $eventData['Organizer']['Contact']['Email'];
                 
