@@ -37,13 +37,14 @@
             <label>Wolke-Link <input name="Wolke" type="url" placeholder="https://wolke.netzbegruenung.de/..." ></label>
             <label>Chatbegruenung-Link <input name="Chatbegruenung" type="url" placeholder="https://chatbegruenung.de/..." ></label>
             <label>Social Media Links <textarea name="SocialMediaLinks" placeholder="Ein Link pro Zeile"></textarea></label>
-            <label>Helfer:innen benötigt (Minimum) <input name="HelpersNeededMinimum" type="number" min="1" required placeholder="z.B. 3"></label>
+            <label>Helfer:innen benötigt (Minimum) <input name="HelpersNeededMinimum" type="number" min="1" placeholder="z.B. 3"></label>
             <label>Material/Sonderbedarf <input name="SpecialRequirements" placeholder="z.B. Pavillon, Flyer"></label>
-            <div class="info">Mit <span style='color:#e53935'>*</span> markierte Felder sind Pflichtfelder.<br>Das Event wird nicht automatisch gespeichert, sondern als JSON an deinen E-Mail-Client übergeben. Bitte prüfe die Daten und sende die Mail an das Orga-Team.</div>
-            <button type="submit">Als E-Mail verschicken</button>
-            <hr>
-            <button type="button" id="copyJsonBtn" class="copy-btn">Daten in Zwischenablage kopieren</button>
-            <button type="button" id="downloadJsonBtn" class="copy-btn">JSON-Datei herunterladen</button>
+            <div class="info">
+                Mit <span style='color:#e53935'>*</span> markierte Felder sind Pflichtfelder.<br>
+                Nach dem Absenden erhältst du eine Bestätigungs-E-Mail. Bitte klicke auf den Link in der E-Mail, um das Event zu aktivieren.
+            </div>
+            <div id="status-message"></div>
+            <button type="submit" id="submitBtn">Event einreichen</button>
             </form>
         </div>
     </div>
@@ -52,210 +53,210 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script>
+    // Map Setup
     var map = L.map('map-select-map').setView([51.3397, 12.3731], 7);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 18,
+        maxZoom: 18,
     }).addTo(map);
+    
     var marker;
+    
     function setLatLng(lat, lng) {
-    document.getElementById('latInput').value = lat.toFixed(6);
-    document.getElementById('lngInput').value = lng.toFixed(6);
-    reverseGeocode(lat, lng);
+        document.getElementById('latInput').value = lat.toFixed(6);
+        document.getElementById('lngInput').value = lng.toFixed(6);
+        reverseGeocode(lat, lng);
     }
+    
     function reverseGeocode(lat, lng) {
-    fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=16&addressdetails=1`, {
-        headers: {
-        'User-Agent': 'WahlkampfEventTool/1.0 (kontakt@beispiel.de)'
-        }
-    })
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=16&addressdetails=1`, {
+            headers: {
+                'User-Agent': 'BuendnisOstEventTool/1.0'
+            }
+        })
         .then(res => res.json())
         .then(data => {
-        if (data && data.address) {
-            const parts = data.address;
-            const addr = [
-            parts.road || '',
-            parts.house_number || '',
-            parts.postcode || '',
-            parts.city || parts.town || parts.village || parts.county || '',
-            parts.state || '',
-            ].filter(Boolean).join(', ');
-            document.querySelector('input[name="Location"]').value = addr;
-        }
+            if (data && data.address) {
+                const parts = data.address;
+                const addr = [
+                    parts.road || '',
+                    parts.house_number || '',
+                    parts.postcode || '',
+                    parts.city || parts.town || parts.village || parts.county || '',
+                    parts.state || '',
+                ].filter(Boolean).join(', ');
+                document.querySelector('input[name="Location"]').value = addr;
+            }
         })
         .catch(err => console.error('Reverse geocoding failed:', err));
     }
-    map.on('click', function(e) {
-    if (marker) map.removeLayer(marker);
-    marker = L.marker(e.latlng, {draggable:true}).addTo(map);
-    setLatLng(e.latlng.lat, e.latlng.lng);
-    marker.on('dragend', function(ev) {
-        var pos = ev.target.getLatLng();
-        setLatLng(pos.lat, pos.lng);
-    });
-    });
-    document.getElementById('eventForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const f = e.target;
-    // Hole Koordinaten aus Marker oder Feldern
-    let lat = f.Latitude.value ? parseFloat(f.Latitude.value) : undefined;
-    let lng = f.Longitude.value ? parseFloat(f.Longitude.value) : undefined;
-    const event = {
-        Location: f.Location.value,
-        Title: f.Title.value,
-        Time: f.Date.value + (f.Time.value ? ('T' + f.Time.value) : ''),
-        Geolocation: lat && lng ? { Latitude: lat, Longitude: lng } : undefined,
-        Organizer: {
-        Name: f.OrganizerName.value,
-        Contact: {
-            Email: f.OrganizerEmail.value,
-            Phone: f.OrganizerPhone.value
-        }
-        },
-        EventType: f.EventType.value,
-        Description: f.Description.value,
-        Wolke: f.Wolke.value,
-        Chatbegruenung: f.Chatbegruenung.value,
-        SocialMediaLinks: f.SocialMediaLinks.value,
-        EventStatus: {
-        HelpersNeededMinimum: f.HelpersNeededMinimum.value ? parseInt(f.HelpersNeededMinimum.value, 10) : undefined,
-        SpecialRequirements: f.SpecialRequirements.value
-        }
-    };
-    function clean(obj) {
-        if (Array.isArray(obj)) return obj.map(clean);
-        if (obj && typeof obj === 'object') {
-        return Object.fromEntries(Object.entries(obj).filter(([_,v]) => v!==undefined && v!==null && v!=='').map(([k,v])=>[k,clean(v)]));
-        }
-        return obj;
-    }
-    const cleanEvent = clean(event);
-    const json = JSON.stringify(cleanEvent, null, 2);
-    const subject = encodeURIComponent('Neues Event eintragen in: ' + event.Location);
-    const json_str = encodeURIComponent(json);
-    const body = encodeURIComponent(`Hallo liebes Bündnis Ost Team,
-
-Bitte tragt doch folgendes neues Event ein.
-
-Danke und viele Grüße,
-
---------------- Veranstaltungsdaten ---------------
-
-${json}`);
     
-    // Temporären Link erstellen und klicken (öffnet keine neue Registerkarte)
-    const mailtoLink = document.createElement('a');
-    mailtoLink.href = `mailto:robert@buendnis-ost.de?subject=${subject}&body=${body}`;
-    mailtoLink.style.display = 'none';
-    document.body.appendChild(mailtoLink);
-    mailtoLink.click();
-    document.body.removeChild(mailtoLink);
+    map.on('click', function(e) {
+        if (marker) map.removeLayer(marker);
+        marker = L.marker(e.latlng, {draggable:true}).addTo(map);
+        setLatLng(e.latlng.lat, e.latlng.lng);
+        marker.on('dragend', function(ev) {
+            var pos = ev.target.getLatLng();
+            setLatLng(pos.lat, pos.lng);
+        });
     });
-    // Kopieren-Button Funktion
-    document.getElementById('copyJsonBtn').addEventListener('click', function() {
-    const f = document.getElementById('eventForm');
-    let lat = f.Latitude.value ? parseFloat(f.Latitude.value) : undefined;
-    let lng = f.Longitude.value ? parseFloat(f.Longitude.value) : undefined;
-    const event = {
-        Location: f.Location.value,
-        Title: f.Title.value,
-        Time: f.Date.value + (f.Time.value ? ('T' + f.Time.value) : ''),
-        Geolocation: lat && lng ? { Latitude: lat, Longitude: lng } : undefined,
-        Organizer: {
-        Name: f.OrganizerName.value,
-        Contact: {
-            Email: f.OrganizerEmail.value,
-            Phone: f.OrganizerPhone.value
+
+    // API Integration
+    let currentToken = null;
+
+    // Request token on page load
+    async function requestToken() {
+        try {
+            const response = await fetch('/api.php/token');
+            const data = await response.json();
+            
+            if (response.ok) {
+                currentToken = data.token;
+                console.log('Token erhalten:', data.token);
+            } else {
+                console.error('Token-Anfrage fehlgeschlagen:', data);
+                showStatus('Fehler beim Laden. Bitte Seite neu laden.', 'error');
+            }
+        } catch (error) {
+            console.error('Network Error:', error);
+            showStatus('Verbindungsfehler. Bitte Seite neu laden.', 'error');
         }
-        },
-        EventType: f.EventType.value,
-        Description: f.Description.value,
-        Wolke: f.Wolke.value,
-        Chatbegruenung: f.Chatbegruenung.value,
-        SocialMediaLinks: f.SocialMediaLinks.value,
-        EventStatus: {
-        HelpersNeededMinimum: f.HelpersNeededMinimum.value ? parseInt(f.HelpersNeededMinimum.value, 10) : undefined,
-        SpecialRequirements: f.SpecialRequirements.value
-        }
-    };
-    function clean(obj) {
-        if (Array.isArray(obj)) return obj.map(clean);
-        if (obj && typeof obj === 'object') {
-        return Object.fromEntries(Object.entries(obj).filter(([_,v]) => v!==undefined && v!==null && v!=='').map(([k,v])=>[k,clean(v)]));
-        }
-        return obj;
     }
-    const cleanEvent = clean(event);
-    const json = JSON.stringify(cleanEvent, null, 2);
-    navigator.clipboard.writeText(json).then(() => {
-        document.getElementById('copyJsonBtn').textContent = 'Kopiert!';
-        setTimeout(() => {
-        document.getElementById('copyJsonBtn').textContent = 'JSON in Zwischenablage kopieren';
-        }, 1800);
-    });
-    });
-    // Download-Button Funktion
-    document.getElementById('downloadJsonBtn').addEventListener('click', function() {
-        const f = document.getElementById('eventForm');
+
+    // Request token when page loads
+    requestToken();
+
+    function showStatus(message, type = 'info') {
+        const statusDiv = document.getElementById('status-message');
+        statusDiv.className = 'status-message status-' + type;
+        statusDiv.innerHTML = message;
+        statusDiv.style.display = 'block';
+    }
+
+    function hideStatus() {
+        const statusDiv = document.getElementById('status-message');
+        statusDiv.style.display = 'none';
+    }
+
+    // Form submission
+    document.getElementById('eventForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        if (!currentToken) {
+            showStatus('⚠️ Fehler: Kein gültiger Token. Bitte Seite neu laden.', 'error');
+            return;
+        }
+
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Wird gesendet...';
+        
+        const f = e.target;
+        
+        // Hole Koordinaten aus Marker oder Feldern
         let lat = f.Latitude.value ? parseFloat(f.Latitude.value) : undefined;
         let lng = f.Longitude.value ? parseFloat(f.Longitude.value) : undefined;
-        const event = {
-            Location: f.Location.value,
-            Title: f.Title.value,
-            Time: f.Date.value + (f.Time.value ? ('T' + f.Time.value) : ''),
-            Geolocation: lat && lng ? { Latitude: lat, Longitude: lng } : undefined,
-            Organizer: {
-                Name: f.OrganizerName.value,
-                Contact: {
-                    Email: f.OrganizerEmail.value,
-                    Phone: f.OrganizerPhone.value
+        
+        const eventData = {
+            submission_token: currentToken,
+            event_data: {
+                Title: f.Title.value,
+                Location: f.Location.value,
+                Time: f.Date.value + (f.Time.value ? ('T' + f.Time.value) : ''),
+                EventType: f.EventType.value,
+                Description: f.Description.value,
+                Organizer: {
+                    Name: f.OrganizerName.value,
+                    Contact: {
+                        Email: f.OrganizerEmail.value
+                    }
                 }
-            },
-            EventType: f.EventType.value,
-            Description: f.Description.value,
-            Wolke: f.Wolke.value,
-            Chatbegruenung: f.Chatbegruenung.value,
-            SocialMediaLinks: f.SocialMediaLinks.value,
-            EventStatus: {
-                HelpersNeededMinimum: f.HelpersNeededMinimum.value ? parseInt(f.HelpersNeededMinimum.value, 10) : undefined,
-                SpecialRequirements: f.SpecialRequirements.value
             }
         };
-        function clean(obj) {
-            if (Array.isArray(obj)) return obj.map(clean);
-            if (obj && typeof obj === 'object') {
-                return Object.fromEntries(Object.entries(obj).filter(([_,v]) => v!==undefined && v!==null && v!=='').map(([k,v])=>[k,clean(v)]));
-            }
-            return obj;
+
+        // Optional fields
+        if (lat && lng) {
+            eventData.event_data.Geolocation = {
+                Latitude: lat,
+                Longitude: lng
+            };
         }
-        const cleanEvent = clean(event);
-        const json = JSON.stringify(cleanEvent, null, 2);
         
-        // Dateiname erstellen (Event-Titel bereinigt)
-        const eventFileName = `${event.Title.replace(/[^a-zA-Z0-9äöüÄÖÜß\s]/g, '').replace(/\s+/g, '_')}.json`;
+        if (f.OrganizerPhone.value) {
+            eventData.event_data.Organizer.Contact.Phone = f.OrganizerPhone.value;
+        }
         
-        // JSON-Datei zum Download erstellen
-        const blob = new Blob([json], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
+        if (f.Wolke.value) {
+            eventData.event_data.Wolke = f.Wolke.value;
+        }
         
-        // Download-Link erstellen und automatisch klicken
-        const downloadLink = document.createElement('a');
-        downloadLink.href = url;
-        downloadLink.download = eventFileName;
-        downloadLink.style.display = 'none';
-        document.body.appendChild(downloadLink);
-        downloadLink.click();
+        if (f.Chatbegruenung.value) {
+            eventData.event_data.Chatbegruenung = f.Chatbegruenung.value;
+        }
         
-        // Aufräumen
-        setTimeout(() => {
-            document.body.removeChild(downloadLink);
-            URL.revokeObjectURL(url);
-        }, 1000);
-        
-        // Button-Feedback
-        this.textContent = 'Heruntergeladen!';
-        setTimeout(() => {
-            this.textContent = 'JSON-Datei herunterladen';
-        }, 1800);
+        if (f.SocialMediaLinks.value) {
+            eventData.event_data.SocialMediaLinks = f.SocialMediaLinks.value.split('\n').filter(link => link.trim());
+        }
+
+        // EventStatus
+        const eventStatus = {};
+        if (f.HelpersNeededMinimum.value) {
+            eventStatus.HelpersNeededMinimum = parseInt(f.HelpersNeededMinimum.value, 10);
+        }
+        if (f.SpecialRequirements.value) {
+            eventStatus.SpecialRequirements = f.SpecialRequirements.value;
+        }
+        if (Object.keys(eventStatus).length > 0) {
+            eventData.event_data.EventStatus = eventStatus;
+        }
+
+        try {
+            const response = await fetch('/api.php/events', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(eventData)
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                showStatus(`
+                    <strong>✅ Event erfolgreich eingereicht!</strong><br><br>
+                    📧 Eine Bestätigungs-E-Mail wurde an <strong>${data.email}</strong> gesendet.<br><br>
+                    Bitte prüfe dein Postfach und klicke auf den Bestätigungslink, um das Event zu aktivieren.<br><br>
+                    <small>Die E-Mail sollte innerhalb weniger Minuten ankommen. Prüfe auch deinen Spam-Ordner.</small>
+                `, 'success');
+                
+                // Reset form
+                f.reset();
+                if (marker) {
+                    map.removeLayer(marker);
+                    marker = null;
+                }
+                
+                // Request new token for next submission
+                currentToken = null;
+                requestToken();
+                
+                submitBtn.textContent = 'Event einreichen';
+                submitBtn.disabled = false;
+            } else {
+                showStatus(`❌ Fehler: ${data.error || 'Unbekannter Fehler'}`, 'error');
+                submitBtn.textContent = 'Event einreichen';
+                submitBtn.disabled = false;
+                
+                // Request new token
+                if (data.error && data.error.includes('token')) {
+                    currentToken = null;
+                    requestToken();
+                }
+            }
+        } catch (error) {
+            showStatus(`❌ Verbindungsfehler: ${error.message}`, 'error');
+            submitBtn.textContent = 'Event einreichen';
+            submitBtn.disabled = false;
+        }
     });
     </script>
     

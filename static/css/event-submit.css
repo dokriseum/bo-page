@@ -1,73 +1,331 @@
+/* ===== DIVERSITY COLORS (from app.css) ===== */
+:root {
+  --diversity-red: #e74c3c;
+  --diversity-orange: #f39c12;
+  --diversity-yellow: #f1c40f;
+  --diversity-green: #27ae60;
+  --diversity-turquoise: #16a085;
+  --diversity-blue: #3498db;
+  --diversity-indigo: #2c3e50;
+  --diversity-purple: #9b59b6;
+  --diversity-pink: #e91e63;
+  --diversity-brown: #795548;
+  --primary: #5b6cf2;
+  --text: #333;
+  --text-light: #666;
+  --text-dark: #1a1a1a;
+  --bg: #f8f9fa;
+  --white: #fff;
+  --border: #eee;
+  --shadow: 0 2px 10px rgba(0,0,0,0.1);
+  --radius: 12px;
+  --spacing: 20px;
+}
+
+/* ===== PAGE CONTAINER WITH DIVERSITY STRIPE ===== */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background: linear-gradient(45deg,
+    var(--diversity-green) 0%, var(--diversity-green) 5%,
+    var(--diversity-indigo) 5%, var(--diversity-indigo) 10%,
+    var(--diversity-red) 10%, var(--diversity-red) 15%,
+    var(--diversity-orange) 15%, var(--diversity-orange) 20%,
+    var(--diversity-yellow) 20%, var(--diversity-yellow) 25%,
+    var(--diversity-green) 25%, var(--diversity-green) 30%,
+    var(--diversity-turquoise) 30%, var(--diversity-turquoise) 35%,
+    var(--diversity-blue) 35%, var(--diversity-blue) 40%,
+    var(--diversity-purple) 40%, var(--diversity-purple) 45%,
+    var(--diversity-pink) 45%, var(--diversity-pink) 50%,
+    var(--diversity-orange) 50%, var(--diversity-orange) 55%,
+    var(--diversity-green) 55%, var(--diversity-green) 60%,
+    var(--diversity-indigo) 60%, var(--diversity-indigo) 65%,
+    var(--diversity-red) 65%, var(--diversity-red) 70%,
+    var(--diversity-yellow) 70%, var(--diversity-yellow) 75%,
+    var(--diversity-turquoise) 75%, var(--diversity-turquoise) 80%,
+    var(--diversity-blue) 80%, var(--diversity-blue) 85%,
+    var(--diversity-purple) 85%, var(--diversity-purple) 90%,
+    var(--diversity-pink) 90%, var(--diversity-pink) 95%,
+    var(--diversity-brown) 95%, var(--diversity-brown) 100%
+  );
+  background-size: 200% 200%;
+  animation: stripeMove 21s linear infinite;
+  z-index: 10000;
+}
+
+@keyframes stripeMove {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
+
+/* ===== HEADER ===== */
+.header {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 15px var(--spacing);
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(90deg,
+    var(--diversity-red),
+    var(--diversity-orange),
+    var(--diversity-yellow),
+    var(--diversity-green),
+    var(--diversity-blue),
+    var(--diversity-purple)) 1;
+  position: sticky;
+  top: 50px;
+  z-index: 9999;
+  margin-top: 50px;
+}
+
+.header .container h1 {
+  font-size: 20px;
+  font-weight: 700;
+  background: linear-gradient(90deg, var(--diversity-blue), var(--diversity-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: var(--spacing);
+}
+
+/* ===== BACK LINK ===== */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--diversity-blue);
+  text-decoration: none;
+  font-weight: 500;
+  margin-bottom: 20px;
+  transition: all 0.3s;
+}
+
+.back-link:hover {
+  transform: translateX(-4px);
+  color: var(--diversity-purple);
+}
+
+/* ===== EVENT FORM ===== */
 .event-form {
-  max-width: 540px;
-  margin: 2em auto;
-  background: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 12px #0001;
+  max-width: 600px;
+  margin: 0 auto;
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
   padding: 2em 2.2em 1.5em 2.2em;
   font-size: 1.08em;
 }
+
 .event-form h2 {
   text-align: center;
   margin-bottom: 1.2em;
-  color: #204457;
+  background: linear-gradient(90deg, var(--diversity-blue), var(--diversity-purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 .event-form label {
   display: block;
   margin-bottom: 0.7em;
-  font-weight: 500;
+  font-weight: 600;
+  color: var(--text-dark);
 }
+
 .event-form input,
 .event-form textarea {
   width: 100%;
-  padding: 0.45em 0.7em;
+  padding: 12px 16px;
   margin-top: 0.2em;
-  border: 1px solid #b1b1b1;
-  border-radius: 5px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
   font-size: 1em;
-  background: #f9f9f9;
+  background: var(--bg);
   box-sizing: border-box;
+  transition: all 0.3s;
+  font-family: inherit;
 }
+
+.event-form input:focus,
+.event-form textarea:focus {
+  outline: none;
+  border-color: var(--diversity-blue);
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
 .event-form textarea {
-  min-height: 70px;
+  min-height: 100px;
   resize: vertical;
 }
+
 .event-form .form-row {
   display: flex;
   gap: 1em;
 }
+
 .event-form .form-row > div {
   flex: 1 1 0;
 }
+
 .event-form button {
   display: inline-block;
   margin-top: 1.1em;
   margin-right: 0.7em;
-  padding: 0.5em 1.3em;
-  background: #204457;
-  color: #fff;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, var(--diversity-turquoise), var(--diversity-green));
+  color: var(--white);
   border: none;
-  border-radius: 6px;
-  font-size: 1.08em;
-  font-weight: 600;
+  border-radius: 30px;
+  font-size: 1em;
+  font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 1px 6px #0001;
-  transition: background 0.2s;
+  box-shadow: 0 4px 15px rgba(22, 160, 133, 0.3);
+  transition: all 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
+
 .event-form button:hover {
-  background: #256029;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(22, 160, 133, 0.4);
 }
+
+.event-form button.copy-btn {
+  background: linear-gradient(135deg, var(--diversity-blue), var(--diversity-purple));
+  box-shadow: 0 4px 15px rgba(65, 105, 225, 0.3);
+}
+
+.event-form button.copy-btn:hover {
+  box-shadow: 0 6px 20px rgba(65, 105, 225, 0.4);
+}
+
 .event-form .info {
-  margin-top: 1.2em;
-  font-size: 0.98em;
-  color: #204457;
-  background: #f7f7f7;
-  border-radius: 5px;
-  padding: 0.7em 1em;
+  margin-top: 1.5em;
+  font-size: 0.95em;
+  color: var(--text);
+  background: linear-gradient(135deg, rgba(52, 152, 219, 0.05), rgba(155, 89, 182, 0.05));
+  border-radius: 12px;
+  padding: 16px 20px;
+  border-left: 4px solid var(--diversity-blue);
 }
 
 hr {
   border: none;
-  border-top: 1px solid #ccc;
+  border-top: 2px solid var(--border);
   margin: 2em 0;
+}
+
+/* ===== MAP CONTAINER STYLING ===== */
+#map-select-container {
+  margin: 16px 0 20px 0;
+  position: relative;
+  z-index: 1;
+}
+
+#map-select-map {
+  height: 280px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  border: 2px solid var(--border);
+  position: relative;
+  z-index: 1;
+}
+
+/* Leaflet-spezifische z-index Kontrolle */
+#map-select-map .leaflet-pane,
+#map-select-map .leaflet-map-pane,
+#map-select-map .leaflet-control {
+  z-index: auto !important;
+}
+
+/* ===== REQUIRED FIELD INDICATOR ===== */
+.event-form label span[style*="color:#e53935"] {
+  color: var(--diversity-red) !important;
+  font-weight: 700;
+}
+
+/* ===== STATUS MESSAGE ===== */
+#status-message {
+  display: none;
+  padding: 16px 20px;
+  border-radius: 12px;
+  margin: 20px 0;
+  font-size: 0.95em;
+  line-height: 1.6;
+}
+
+.status-message.status-success {
+  background: linear-gradient(135deg, rgba(39, 174, 96, 0.1), rgba(22, 160, 133, 0.1));
+  border-left: 4px solid var(--diversity-green);
+  color: var(--text-dark);
+}
+
+.status-message.status-error {
+  background: linear-gradient(135deg, rgba(231, 76, 60, 0.1), rgba(243, 156, 18, 0.1));
+  border-left: 4px solid var(--diversity-red);
+  color: var(--text-dark);
+}
+
+.status-message.status-info {
+  background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(155, 89, 182, 0.1));
+  border-left: 4px solid var(--diversity-blue);
+  color: var(--text-dark);
+}
+
+.status-message strong {
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+/* ===== BUTTON DISABLED STATE ===== */
+.event-form button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.event-form button:disabled:hover {
+  transform: none !important;
+  box-shadow: 0 4px 15px rgba(22, 160, 133, 0.3);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
+  }
+  
+  .event-form {
+    padding: 1.5em 1.2em;
+    font-size: 1em;
+  }
+  
+  .event-form .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  #map-select-map {
+    height: 220px;
+  }
 }
