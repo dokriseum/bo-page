@@ -257,6 +257,28 @@ class EventDatabase {
     }
 }
 
+function loadTemplateData(string $path, array $variables = []): array {
+    if (!file_exists($path)) {
+        throw new RuntimeException('Template not found: ' . $path);
+    }
+    extract($variables);
+    $data = include $path;
+    if (!is_array($data)) {
+        throw new RuntimeException('Template did not return array data: ' . $path);
+    }
+    return $data;
+}
+
+function renderTemplate(string $path, array $variables = []): string {
+    if (!file_exists($path)) {
+        throw new RuntimeException('Template not found: ' . $path);
+    }
+    extract($variables);
+    ob_start();
+    include $path;
+    return (string)ob_get_clean();
+}
+
 function generateSubmissionToken() {
     $token = bin2hex(random_bytes(32));
     $_SESSION['submission_token'] = $token;
@@ -280,17 +302,15 @@ function validateSubmissionToken($token) {
 
 function sendConfirmationEmail($email, $token, $eventTitle) {
     $confirmUrl = "https://" . $_SERVER['HTTP_HOST'] . "/backend/api.php/confirm/" . $token;
-    
-    $subject = "Event-Bestätigung erforderlich: " . $eventTitle;
-    $message = "Hallo,\n\n";
-    $message .= "Sie haben ein neues Event '{$eventTitle}' bei Bündnis Ost eingetragen.\n\n";
-    $message .= "Um das Event zu bestätigen und zu veröffentlichen, klicken Sie bitte auf folgenden Link:\n";
-    $message .= $confirmUrl . "\n\n";
-    $message .= "Dieser Link ist 24 Stunden gültig.\n\n";
-    $message .= "Falls Sie dieses Event nicht eingetragen haben, ignorieren Sie diese E-Mail.\n\n";
-    $message .= "Viele Grüße,\n";
-    $message .= "Das Bündnis Ost Team";
-    
+    $template = loadTemplateData(__DIR__ . '/templates/confirmation_email.php', [
+        'eventTitle' => $eventTitle,
+        'confirmUrl' => $confirmUrl
+    ]);
+    $subject = $template['subject'] ?? '';
+    $message = $template['body'] ?? '';
+    if ($subject === '' || $message === '') {
+        throw new RuntimeException('Invalid confirmation email template content');
+    }
     $headers = "From: " . MAIL_FROM . "\r\n";
     $headers .= "Reply-To: " . MAIL_FROM . "\r\n";
     $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
@@ -320,28 +340,11 @@ try {
                 $token = $matches[1];
                 try {
                     $eventId = $database->confirmEvent($token);
-                    echo "<!DOCTYPE html>
-                    <html>
-                    <head><title>Event bestätigt</title></head>
-                    <body>
-                        <h1>✅ Event erfolgreich bestätigt!</h1>
-                        <p>Ihr Event wurde erfolgreich in die Datenbank eingetragen und ist nun öffentlich sichtbar.</p>
-                        <p><a href='/'>← Zurück zur Startseite</a></p>
-                    </body>
-                    </html>";
+                    echo renderTemplate(__DIR__ . '/templates/confirm_success.php');
                 } catch (Exception $e) {
                     header('Content-Type: text/html; charset=utf-8');
                     http_response_code(400);
-                    echo "<!DOCTYPE html>
-                    <html>
-                    <head><title>Bestätigung fehlgeschlagen</title></head>
-                    <body>
-                        <h1>❌ Bestätigung fehlgeschlagen</h1>
-                        <p>Der Bestätigungslink ist ungültig oder abgelaufen.</p>
-                        <p> Error: " . htmlspecialchars($e->getMessage()) . "</p>
-                        <p><a href='/'>← Zurück zur Startseite</a></p>
-                    </body>
-                    </html>";
+                    echo renderTemplate(__DIR__ . '/templates/confirm_error.php', ['errorMessage' => $e->getMessage()]);
                 }
             } else {
                 http_response_code(404);
