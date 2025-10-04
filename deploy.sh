@@ -6,7 +6,8 @@
 # Deployment-Pfade
 SOURCE_PATH="./public/"
 DEV_PATH="~/dev/"
-PROD_PATH="~/html/"
+PROD_PATH="~/beta/"
+# PROD_PATH="~/html/"
 
 # Farben für bessere Lesbarkeit
 GREEN='\033[0;32m'
@@ -17,7 +18,7 @@ NC='\033[0m' # No Color
 # folders to be ignored during the rsync
 EXCLUDES=(
   '--exclude=event-admin/'
-# '--exclude=next-folder/'
+#   '--exclude=events.json'
 )
 
 # Optionaler Parameter für direkte Auswahl (1 oder 2)
@@ -49,6 +50,8 @@ case $choice in
         ENVIRONMENT="Production"
         echo -e "${YELLOW}Production-Deployment ausgewählt${NC}"
         
+                EXCLUDES+=('--exclude=events.json')
+                
                 # Sicherheitsabfrage für Production (nur interaktiv)
                 if [[ "${non_interactive}" != "1" ]]; then
                     echo ""
@@ -72,6 +75,18 @@ echo ""
 echo -e "${GREEN}Starte ${ENVIRONMENT}-Deployment...${NC}"
 echo -e "${GREEN}Ziel: ${TARGET_PATH}${NC}"
 echo ""
+
+# Production Build mit Hugo
+if [ "$ENVIRONMENT" = "Production" ]; then
+    echo -e "${YELLOW}Erstelle Production Build mit Hugo...${NC}"
+    hugo --minify
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}Hugo Build fehlgeschlagen!${NC}"
+        exit 1
+    fi
+    echo -e "${GREEN}Production Build erfolgreich abgeschlossen${NC}"
+    echo ""
+fi
 
 # Rsync Deployment
 echo -e "${YELLOW}Synchronisiere Dateien...${NC}"
