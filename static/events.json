@@ -691,5 +691,31 @@
     "EventStatus": {
     "HelpersNeededMinimum": 5
     }
+  },
+  {
+    "Id": "2025028",
+    "Title": "Wo wir wie wählen – Politische Muster in Deutschlands Nachbarschaften",
+    "Location": "Hohe Bude 15, 39576, Stendal, Sachsen-Anhalt",
+    "Time": "2025-11-10 18:00:00",
+    "EventType": "Lesung",
+    "Description": "Mit seinem Buch „Wo wir wie wählen“ (Campus Verlag 2025) eröffnet uns der Kölner Soziologe Dr. Ansgar Hudde eine neue Perspektive auf die Wahlgeografie. Er blickt nicht nur auf die Ergebnisse einzelner Wahllokale, sondern verknüpft diese mit detaillierten Sozialstrukturdaten. So zeigt sich: Unsere Regionen sind weitaus vielfältiger und komplexer, als es die Deutschlandkarten mit einfarbig markierten Wahlkreisen vermuten lassen.\n\nBesonders anschaulich wird dies durch Huddes Besuche in charakteristischen Orten. Seine Einteilung in vier übergreifende Regionstypen bricht bewusst mit dem gängigen Polarisierungsdiskurs, der oft nur Großstadtmilieus dem sogenannten „ländlichen Raum“ gegenüberstellt.\n\nStattdessen lädt das Buch dazu ein, den Blick stärker auf die vielen Klein- und Mittelstädte zu richten – also auf jene Orte, in denen ein großer Teil der Bevölkerung lebt und die für das Verständnis politischer Entwicklungen unverzichtbar sind.\n\nWir freuen uns sehr, dass Ansgar Hudde an diesem Abend unser Gast sein wird, aus seinem Buch lesen und anschließend mit uns darüber diskutieren wird. Moderiert wird die Veranstaltung von unserem Kreisvorsitzenden Tobias Kremkau.\n\nDank der Unterstützung der Buchhandlung Genz wird es vor Ort einen Büchertisch geben, an dem das Buch direkt erworben werden kann. Wer es bereits im Vorfeld lesen möchte, kann es selbstverständlich ebenfalls bei der Buchhandlung Genz oder anderswo bestellen (ISBN 978-3-593-52032-2). \n\nIm Anschluss an die Lesung werden wir unser Exemplar der Stadtbibliothek Stendal als Spende übergeben, sodass es dort künftig auch ausgeliehen werden kann.",
+    "Organizer": {
+        "Name": "Kreisverband Altmark",
+        "Contact": {
+            "Email": "info@gruene-altmark.de"
+        }
+    },
+    "Image": "/images/events/default.jpg",
+    "event_images": [
+      "https://scontent-ber1-1.xx.fbcdn.net/v/t39.30808-6/556506090_1099366759041614_4421222392122874029_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=75d36f&_nc_ohc=ARMIecDjsfgQ7kNvwEw0qgp&_nc_oc=AdmGgPzwchZECjjq0HxZPm0EbxzbWzEclZsmjlsna6639_4rK9JzL5RRvWta_5gnzIKWntfnknextFjieQ_MHdy5&_nc_zt=23&_nc_ht=scontent-ber1-1.xx&_nc_gid=wkHb_NfNRbtX5snB9eykJA&oh=00_AfdFp6tbKoMmNGv9P5jOoa-BdU5rym2waS613E9BgTN_fg&oe=68E72521"
+    ],        
+    "Geolocation": {
+        "Latitude": 52.605302,
+        "Longitude": 11.858432
+    },
+    "SocialMediaLinks": [
+        "https:\/\/www.facebook.com\/share\/17QYC1j8np\/?mibextid=wwXIfr"
+    ],
+    "EventStatus": []
   }
 ]
