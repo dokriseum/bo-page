@@ -8,7 +8,8 @@
 </head>
 <body>
     <h1>Backend Test - Bündnis Ost Event API</h1>
-    
+    <h2 style="color: red;"><?php echo $_SERVER['HTTP_HOST']; ?></h2>
+
     <!-- PHP Info Test -->
     <div class="test-section">
         <h2>1. PHP & MariaDB Grundfunktionalität</h2>
