@@ -98,7 +98,6 @@
                 <h2 class="section-title">Aktuelle Veranstaltungen</h2>
             </div>
 
-            <!-- Event Grid Container (wird per JS befüllt) -->
             <div id="events-grid" class="events-grid">
                 <!-- Template für Event Cards -->
                 <template id="event-card-template">
@@ -130,8 +129,9 @@
     <!-- Event Details View -->
     <div id="event-details" class="hidden">
         <div class="event-header-image" data-category="">
-            <button class="back-btn" onclick="showView('main')" style="position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.9); border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer;">←</button>
-            <button class="bookmark-btn" style="top: 20px; right: 20px;">🔖</button>
+            <img class="event-header-bg-image" src="" alt="" style="display: none;">
+            <button class="back-btn" onclick="showView('main')" style="position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.9); border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; z-index: 10;">←</button>
+            <button class="bookmark-btn" style="top: 20px; right: 20px; z-index: 10;">🔖</button>
 
             <!-- <div class="event-actions">
                 <button class="action-btn map-btn">📍 Auf Karte öffnen</button>

@@ -348,11 +348,33 @@ class EventApp {
         document.getElementById('event-details')?.classList.remove('hidden');
     }
 
+    getMainImageFromEvent(event) {
+        let imageToShow = null;      
+        if (event.event_images && Array.isArray(event.event_images) && event.event_images.length > 0) {
+            imageToShow = event.event_images[0];
+        } 
+        else if (event.Image && event.Image !== '') {
+            imageToShow = event.Image;
+        }
+        return imageToShow;
+    }
+
     renderEventDetails(event, returnView = 'main') {
         const detailsView = document.getElementById('event-details');
         if (!detailsView) return;
 
-        detailsView.querySelector('.event-header-image').setAttribute('data-category', event.category);
+        const headerImage = detailsView.querySelector('.event-header-image');
+        headerImage.setAttribute('data-category', event.category);
+
+        const bgImage = headerImage.querySelector('.event-header-bg-image');
+        bgImage.style.display = 'none';
+        
+        const imageToShow = this.getMainImageFromEvent(event);
+        if (imageToShow) {
+            bgImage.src = imageToShow;
+            bgImage.alt = event.Title;
+            bgImage.style.display = 'block';
+        }
 
         detailsView.querySelector('.event-meta-title').textContent = event.Title;
 
