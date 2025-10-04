@@ -78,14 +78,12 @@ class EventApp {
         const maxEventsStartpage = 6;
         const now = new Date();
         
-        // Filtere Events: nicht draft UND in der Zukunft
         const allEvents = window._eventsJson.filter(event => {
             if (event.draft) return false;
             const eventDate = new Date(event.Time);
             return eventDate >= now;
         });
         
-        // Sortiere nach Datum (nächste zuerst) und nimm die ersten 6
         const events = allEvents
             .sort((a, b) => new Date(a.Time) - new Date(b.Time))
             .slice(0, maxEventsStartpage);
@@ -119,18 +117,16 @@ class EventApp {
         const imageContainer = card.querySelector('.event-image');
         const bgImage = card.querySelector('.event-bg-image');
 
-        // Bild setzen falls vorhanden
-        if (event.Image) {
-            bgImage.src = event.Image;
+        const imageToShow = this.getMainImageFromEvent(event);
+        if (imageToShow) {
+            bgImage.src = imageToShow;
             bgImage.alt = event.Title;
-            bgImage.onload = () => {
-                bgImage.style.display = 'block';
-                imageContainer.style.background = 'none';
-            };
-            bgImage.onerror = () => {
-                imageContainer.style.background = event.FallbackGradient || 'var(--default-gradient)';
-            };
+            bgImage.style.display = 'block';
         }
+
+        bgImage.onerror = () => {
+            imageContainer.style.background = event.FallbackGradient || 'var(--default-gradient)';
+        };
 
         card.setAttribute('data-category', event.category);
         card.setAttribute('data-event-id', event.Id);
@@ -155,9 +151,9 @@ class EventApp {
         
         imageContainer.setAttribute('data-category', event.category);
 
-        // Bild setzen falls vorhanden (gleiche Logik wie bei Event Cards)
-        if (event.Image) {
-            bgImage.src = event.Image;
+        const imageToShow = this.getMainImageFromEvent(event);
+        if (imageToShow) {
+            bgImage.src = imageToShow;
             bgImage.alt = event.Title;
             bgImage.onload = () => {
                 bgImage.style.display = 'block';
@@ -375,6 +371,9 @@ class EventApp {
             bgImage.alt = event.Title;
             bgImage.style.display = 'block';
         }
+        bgImage.onerror = () => {
+            imageContainer.style.background = event.FallbackGradient || 'var(--default-gradient)';
+        };
 
         detailsView.querySelector('.event-meta-title').textContent = event.Title;
 
