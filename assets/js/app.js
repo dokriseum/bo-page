@@ -388,7 +388,58 @@ class EventApp {
         detailsView.querySelector('.event-organizer').textContent = event.Organizer.Name;
         detailsView.querySelector('.event-description').textContent = event.Description || 'Keine Beschreibung verfügbar.';
         
-        // Zurück-Button dynamisch anpassen
+        const eventTypeContainer = detailsView.querySelector('.event-type-container');
+        const eventTypeElement = detailsView.querySelector('.event-type');
+        if (event.EventType && event.EventType.trim() !== '') {
+            eventTypeElement.textContent = event.EventType;
+            eventTypeContainer.style.display = 'flex';
+        } else {
+            eventTypeContainer.style.display = 'none';
+        }
+        
+        const socialLinksContainer = detailsView.querySelector('.social-links-container');
+        const socialLinksElement = detailsView.querySelector('.event-social-links');
+        
+        let socialLinks = [];
+        if (event.SocialMediaLinks) {
+            if (Array.isArray(event.SocialMediaLinks)) {
+                socialLinks = event.SocialMediaLinks.filter(link => link && link.trim() !== '');
+            } else if (typeof event.SocialMediaLinks === 'string' && event.SocialMediaLinks.trim() !== '') {
+                socialLinks = event.SocialMediaLinks.split(/[\n\s]+/).filter(link => link.trim() !== '');
+            }
+        }
+        
+        if (socialLinks.length > 0) {
+            socialLinksElement.innerHTML = socialLinks.map(link => {
+                let icon = '🔗';
+                let platform = 'Link';
+                
+                if (link.includes('facebook.com')) {
+                    icon = '📘';
+                    platform = 'Facebook';
+                } else if (link.includes('instagram.com')) {
+                    icon = '📷';
+                    platform = 'Instagram';
+                } else if (link.includes('twitter.com') || link.includes('x.com')) {
+                    icon = '🐦';
+                    platform = 'Twitter/X';
+                } else if (link.includes('mastodon')) {
+                    icon = '🐘';
+                    platform = 'Mastodon';
+                } else if (link.includes('youtube.com')) {
+                    icon = '📹';
+                    platform = 'YouTube';
+                } else if (link.includes('linkedin.com')) {
+                    icon = '💼';
+                    platform = 'LinkedIn';
+                }
+                return `<a href="${link}" target="_blank" rel="noopener noreferrer" style="display: inline-block; margin: 4px 8px 4px 0; padding: 6px 12px; background: var(--primary-color); color: white; text-decoration: none; border-radius: 6px; font-size: 14px;">${icon} ${platform}</a>`;
+            }).join('');
+            socialLinksContainer.style.display = 'flex';
+        } else {
+            socialLinksContainer.style.display = 'none';
+        }
+        
         const backBtn = detailsView.querySelector('.back-btn');
         if (backBtn) {
             backBtn.setAttribute('onclick', `showView('${returnView}')`);
