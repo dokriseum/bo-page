@@ -51,7 +51,9 @@ case $choice in
         echo -e "${YELLOW}Production-Deployment ausgewählt${NC}"
         
                 EXCLUDES+=('--exclude=events.json')
-                
+                EXCLUDES+=('--exclude=.htaccess')
+                EXCLUDES+=('--exclude=.htapasswd')
+
                 # Sicherheitsabfrage für Production (nur interaktiv)
                 if [[ "${non_interactive}" != "1" ]]; then
                     echo ""
