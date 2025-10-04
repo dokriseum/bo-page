@@ -24,6 +24,7 @@ class EventApp {
         window.filterByCategory = this.filterByCategory.bind(this);
         window.filterEventsByText = this.filterEventsByText.bind(this);
         window.togglePastEvents = this.togglePastEvents.bind(this);
+        window.openLocation = this.openLocation.bind(this);
     }
 
     bindEvents() {
@@ -384,10 +385,7 @@ class EventApp {
             `${date.toLocaleDateString('de-DE', { weekday: 'long' })}, ${event.Time} Uhr`;
 
         detailsView.querySelector('.event-location-name').textContent = event.Location;
-        detailsView.querySelector('.event-address').textContent = event.Geolocation.Latitude;
-
         detailsView.querySelector('.event-organizer').textContent = event.Organizer.Name;
-
         detailsView.querySelector('.event-description').textContent = event.Description || 'Keine Beschreibung verfügbar.';
         
         // Zurück-Button dynamisch anpassen
@@ -569,6 +567,38 @@ class EventApp {
         if (typeof window.updateEventMarkers === 'function') {
             const filteredEvents = this.getFilteredEvents();
             window.updateEventMarkers(filteredEvents);
+        }
+    }
+
+    openLocation() {
+        if (!this.selectedEvent) 
+            return;
+
+        const event = this.selectedEvent;
+        if (!event.Geolocation || !event.Geolocation.Latitude || !event.Geolocation.Longitude)
+        {
+            const encodedLocation = encodeURIComponent(event.Location);
+            const searchUrl = `https://www.openstreetmap.org/search?query=${encodedLocation}`;
+            window.open(searchUrl, '_blank');
+            return;
+        }
+
+        const lat = event.Geolocation.Latitude;
+        const lon = event.Geolocation.Longitude;
+        const osmUrl = `https://www.openstreetmap.org/?mlat=${lat}&mlon=${lon}&zoom=15`;
+        const isAppleDevice = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent);
+        
+        if (isAppleDevice) {
+            const appleMapsUrl = `maps://maps.apple.com/?q=${lat},${lon}`;
+            window.location.href = appleMapsUrl;
+        } else {
+            const isAndroid = /Android/.test(navigator.userAgent);
+            if (isAndroid) {
+                const geoUri = `geo:${lat},${lon}?q=${lat},${lon}(${encodeURIComponent(event.Title)})`;
+                window.location.href = geoUri;
+            } else {
+                window.open(osmUrl, '_blank');
+            }
         }
     }
 }
