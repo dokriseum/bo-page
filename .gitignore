@@ -53,6 +53,8 @@ yarn.lock
 # 6) Backend-Konfiguration mit sensiblen Daten
 ###############################################################################
 static/backend/config.php
+.htaccess
+.htpasswd
 
 ###############################################################################
 # 6) Umgebungs- & Geheimdateien
