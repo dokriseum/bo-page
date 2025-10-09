@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event eintragen - Bündnis Ost</title>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>Event eintragen</h1>
+        </div>
+    </div>
+    
+    <div class="container">
+        <form class="event-form" id="eventForm">
+            <a href="/" class="back-link">← Zurück zur Startseite</a>
+            <div id="map-select-container" style="margin: 16px 0 10px 0;">
+                <div id="map-select-map" style="height: 260px; border-radius: 7px; box-shadow: 0 1px 6px rgba(0,0,0,0.08);"></div>
+                <div style="font-size:0.95em; color:#256029; margin-top:4px;">Wähle einen Punkt auf der Karte aus. Die Koordinaten werden übernommen.</div>
+                <div style="margin-top:6px; font-size:0.97em; color:#256029; display: none;">
+                <label>Breitengrad <input name="Latitude" id="latInput" type="" step="any"></label>
+                <label>Längengrad <input name="Longitude" id="lngInput" type="" step="any"></label>
+                </div>
+            </div>
+            <label>Titel <span style="color:#e53935">*</span> <input name="Title" required placeholder=""></label>
+            <label>Ort <span style="color:#e53935">*</span> <input name="Location" required placeholder="<Bitte auf Punkt auf der Karte wählen>"></label>
+            <div class="form-row">
+                <div><label>Datum <span style="color:#e53935">*</span> <input type="date" name="Date" required value="2025-06-10"></label></div>
+                <div><label>Uhrzeit <input type="time" name="Time" placeholder="14:00"></label></div>
+            </div>
+            <label>Veranstalter-Name <span style="color:#e53935">*</span> <input name="OrganizerName" required placeholder="z.B. Max Mustermann"></label>
+            <label>Veranstalter-Email <span style="color:#e53935">*</span> <input name="OrganizerEmail" type="email" required placeholder="max@beispiel.de"></label>
+            <label>Veranstalter-Telefon <input name="OrganizerPhone" placeholder="z.B. 0123 456789"></label>
+            <label>Event-Typ <span style="color:#e53935">*</span> <input name="EventType" required placeholder="z.B. Infostand"></label>
+            <label>Beschreibung <span style="color:#e53935">*</span> <textarea name="Description" required placeholder="Kurze Beschreibung des Events"></textarea></label>
+            <label>Wolke-Link <input name="Wolke" type="url" placeholder="https://wolke.netzbegruenung.de/..." ></label>
+            <label>Chatbegruenung-Link <input name="Chatbegruenung" type="url" placeholder="https://chatbegruenung.de/..." ></label>
+            <label>Social Media Links <textarea name="SocialMediaLinks" placeholder="Ein Link pro Zeile"></textarea></label>
+            <label>Event-Bilder (URLs) <textarea name="EventImages" placeholder="Ein Bild-Link pro Zeile (z.B. https://example.com/bild.jpg)"></textarea></label>
+            <label>Helfer:innen benötigt (Minimum) <input name="HelpersNeededMinimum" type="number" min="1" placeholder="z.B. 3"></label>
+            <label>Material/Sonderbedarf <input name="SpecialRequirements" placeholder="z.B. Pavillon, Flyer"></label>
+            <div class="info">
+                Mit <span style='color:#e53935'>*</span> markierte Felder sind Pflichtfelder.<br>
+                Nach dem Absenden erhältst du eine Bestätigungs-E-Mail. Bitte klicke auf den Link in der E-Mail, um das Event zu aktivieren.
+            </div>
+            <div id="status-message"></div>
+            <button type="submit" id="submitBtn">Event einreichen</button>
+            </form>
+        </div>
+    </div>
+    
+    <link rel="stylesheet" href="/css/event-submit.css">
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script>
+    // Map Setup
+    var map = L.map('map-select-map').setView([51.3397, 12.3731], 7);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+    }).addTo(map);
+    
+    var marker;
+    
+    function setLatLng(lat, lng) {
+        document.getElementById('latInput').value = lat.toFixed(6);
+        document.getElementById('lngInput').value = lng.toFixed(6);
+        reverseGeocode(lat, lng);
+    }
+    
+    function reverseGeocode(lat, lng) {
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=16&addressdetails=1`, {
+            headers: {
+                'User-Agent': 'BuendnisOstEventTool/1.0'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data && data.address) {
+                const parts = data.address;
+                const addr = [
+                    parts.road || '',
+                    parts.house_number || '',
+                    parts.postcode || '',
+                    parts.city || parts.town || parts.village || parts.county || '',
+                    parts.state || '',
+                ].filter(Boolean).join(', ');
+                document.querySelector('input[name="Location"]').value = addr;
+            }
+        })
+        .catch(err => console.error('Reverse geocoding failed:', err));
+    }
+    
+    map.on('click', function(e) {
+        if (marker) map.removeLayer(marker);
+        marker = L.marker(e.latlng, {draggable:true}).addTo(map);
+        setLatLng(e.latlng.lat, e.latlng.lng);
+        marker.on('dragend', function(ev) {
+            var pos = ev.target.getLatLng();
+            setLatLng(pos.lat, pos.lng);
+        });
+    });
+
+    // API Integration
+    let currentToken = null;
+
+    // Request token on page load
+    async function requestToken() {
+        try {
+            const response = await fetch('/api.php/token');
+            const data = await response.json();
+            
+            if (response.ok) {
+                currentToken = data.token;
+                console.log('Token erhalten:', data.token);
+            } else {
+                console.error('Token-Anfrage fehlgeschlagen:', data);
+                showStatus('Fehler beim Laden. Bitte Seite neu laden.', 'error');
+            }
+        } catch (error) {
+            console.error('Network Error:', error);
+            showStatus('Verbindungsfehler. Bitte Seite neu laden.', 'error');
+        }
+    }
+
+    // Request token when page loads
+    requestToken();
+
+    function showStatus(message, type = 'info') {
+        const statusDiv = document.getElementById('status-message');
+        statusDiv.className = 'status-message status-' + type;
+        statusDiv.innerHTML = message;
+        statusDiv.style.display = 'block';
+    }
+
+    function hideStatus() {
+        const statusDiv = document.getElementById('status-message');
+        statusDiv.style.display = 'none';
+    }
+
+    // Form submission
+    document.getElementById('eventForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        if (!currentToken) {
+            showStatus('⚠️ Fehler: Kein gültiger Token. Bitte Seite neu laden.', 'error');
+            return;
+        }
+
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Wird gesendet...';
+        
+        const f = e.target;
+        
+        // Hole Koordinaten aus Marker oder Feldern
+        let lat = f.Latitude.value ? parseFloat(f.Latitude.value) : undefined;
+        let lng = f.Longitude.value ? parseFloat(f.Longitude.value) : undefined;
+        
+        const eventData = {
+            submission_token: currentToken,
+            event_data: {
+                Title: f.Title.value,
+                Location: f.Location.value,
+                Time: f.Date.value + (f.Time.value ? ('T' + f.Time.value) : ''),
+                EventType: f.EventType.value,
+                Description: f.Description.value,
+                Organizer: {
+                    Name: f.OrganizerName.value,
+                    Contact: {
+                        Email: f.OrganizerEmail.value
+                    }
+                }
+            }
+        };
+
+        // Optional fields
+        if (lat && lng) {
+            eventData.event_data.Geolocation = {
+                Latitude: lat,
+                Longitude: lng
+            };
+        }
+        
+        if (f.OrganizerPhone.value) {
+            eventData.event_data.Organizer.Contact.Phone = f.OrganizerPhone.value;
+        }
+        
+        if (f.Wolke.value) {
+            eventData.event_data.Wolke = f.Wolke.value;
+        }
+        
+        if (f.Chatbegruenung.value) {
+            eventData.event_data.Chatbegruenung = f.Chatbegruenung.value;
+        }
+        
+        if (f.SocialMediaLinks.value) {
+            eventData.event_data.SocialMediaLinks = f.SocialMediaLinks.value.split('\n').filter(link => link.trim());
+        }
+        
+        if (f.EventImages.value) {
+            eventData.event_data.EventImages = f.EventImages.value.split('\n').filter(link => link.trim());
+        }
+
+        // EventStatus
+        const eventStatus = {};
+        if (f.HelpersNeededMinimum.value) {
+            eventStatus.HelpersNeededMinimum = parseInt(f.HelpersNeededMinimum.value, 10);
+        }
+        if (f.SpecialRequirements.value) {
+            eventStatus.SpecialRequirements = f.SpecialRequirements.value;
+        }
+        if (Object.keys(eventStatus).length > 0) {
+            eventData.event_data.EventStatus = eventStatus;
+        }
+
+        try {
+            const response = await fetch('/api.php/events', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(eventData)
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                showStatus(`
+                    <strong>✅ Event erfolgreich eingereicht!</strong><br><br>
+                    📧 Eine Bestätigungs-E-Mail wurde an <strong>${data.email}</strong> gesendet.<br><br>
+                    Bitte prüfe dein Postfach und klicke auf den Bestätigungslink, um das Event zu aktivieren.<br><br>
+                    <small>Die E-Mail sollte innerhalb weniger Minuten ankommen. Prüfe auch deinen Spam-Ordner.</small>
+                `, 'success');
+                
+                // Reset form
+                f.reset();
+                if (marker) {
+                    map.removeLayer(marker);
+                    marker = null;
+                }
+                
+                // Request new token for next submission
+                currentToken = null;
+                requestToken();
+                
+                submitBtn.textContent = 'Event einreichen';
+                submitBtn.disabled = false;
+            } else {
+                showStatus(`❌ Fehler: ${data.error || 'Unbekannter Fehler'}`, 'error');
+                submitBtn.textContent = 'Event einreichen';
+                submitBtn.disabled = false;
+                
+                // Request new token
+                if (data.error && data.error.includes('token')) {
+                    currentToken = null;
+                    requestToken();
+                }
+            }
+        } catch (error) {
+            showStatus(`❌ Verbindungsfehler: ${error.message}`, 'error');
+            submitBtn.textContent = 'Event einreichen';
+            submitBtn.disabled = false;
+        }
+    });
+    </script>
+    
+</body>
+</html>

@@ -58,7 +58,8 @@ xdg-open http://localhost:1313 # Linux
 | Variante | Befehl |
 |----------|--------|
 | **Snap (empfohlen)** | `doas snap install hugo --channel=extended` |
-| **APT-Repo** | `echo "deb [trusted=yes] https://apt.gohugo.io/ /" | doas tee /etc/apt/sources.list.d/hugo.list` \n `doas apt update && doas apt install hugo` |
+| **APT-Repo** | `echo "deb [trusted=yes] https://apt.gohugo.io/ /" &#124; doas tee /etc/apt/sources.list.d/hugo.list` \n `doas apt update && doas apt install hugo` |
+| **APT-Repo** | ```echo "deb [trusted=yes] https://apt.gohugo.io/ /" &#124; doas tee /etc/apt/sources.list.d/hugo.list` <br> `doas apt update && doas apt install hugo` |
 | **Manuell** | Aktuelle `.deb` oder `.tar.gz` von <https://github.com/gohugoio/hugo/releases> laden und mit `dpkg -i …` (bzw. entpacken) installieren |
 
 
@@ -66,7 +67,7 @@ xdg-open http://localhost:1313 # Linux
 
 | Variante | Befehl |
 |----------|--------|
-| **Homebrew (empfohlen)** | `brew install hugo\n# Aktualisieren\nbrew upgrade hugo` |
+| **Homebrew (empfohlen)** | Installation: `brew install hugo` <br> Aktualisieren: `brew upgrade hugo` |
 | **Manuell** | Aktuelles `.tar.gz` von <https://github.com/gohugoio/hugo/releases> laden, entpacken und das Binary `hugo` nach `/usr/local/bin` (oder einen anderen Ordner in deinem `$PATH`) verschieben |
 
 
@@ -108,6 +109,8 @@ xdg-open http://localhost:1313 # Linux
 ├── hugo.toml           # Projekt-Config
 └── .gitignore
 ```
+
+> **Sicherheitshinweis:** Der Ordner `static/backend/` enthält administrative Werkzeuge (z. B. Tests, Import-Skripte). Schütze ihn serverseitig – etwa per `.htaccess` mit Authentifizierung oder IP-Allowlist –, sodass nur berechtigte Admins darauf zugreifen können.
 
 ---
 

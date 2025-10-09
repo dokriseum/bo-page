@@ -1,28 +1,91 @@
 {{ define "main" }}
 <!-- Desktop Sidebar -->
 <div class="desktop-sidebar">
+    <div class="diversity-header"></div>
     <div class="sidebar-nav">
-        <a href="#" class="sidebar-item active" onclick="showView('main')">
-            <span class="sidebar-icon">🔍</span>
+                <a href="javascript:void(0)" class="sidebar-item active" onclick="showView('main')">
+            <span class="sidebar-icon">🏠</span>
             <span>Startseite</span>
         </a>
-        <a href="#" class="sidebar-item" onclick="showView('events')">
+        <a href="javascript:void(0)" class="sidebar-item" onclick="showView('events')">
             <span class="sidebar-icon">📅</span>
             <span>Veranstaltungen</span>
         </a>
-        <a href="#" class="sidebar-item" onclick="showView('calendar')">
+        <a href="javascript:void(0)" class="sidebar-item" onclick="showView('calendar')">
             <span class="sidebar-icon">🗺️</span>
             <span>Karte</span>
         </a>
-        <a href="#" class="sidebar-item">
+        <a href="javascript:void(0)" class="sidebar-item" onclick="showView('stories')">
             <span class="sidebar-icon">👤</span>
             <span>Geschichten</span>
         </a>
+        <a href="javascript:void(0)" class="sidebar-item" onclick="showView('network')">
+            <span class="sidebar-icon">🌐</span>
+            <span>Netzwerk</span>
+        </a>
+        <div class="sidebar-divider"></div>
+        <a href="javascript:void(0)" class="sidebar-item" onclick="showView('about')">
+            <span class="sidebar-icon">🏢</span>
+            <span>Das Bündnis Ost</span>
+        </a>
+        <a href="javascript:void(0)" class="sidebar-item" onclick="showView('values')">
+            <span class="sidebar-icon">💭</span>
+            <span>Selbstverständnis</span>
+        </a>
+        <!-- <a href="javascript:void(0)" class="sidebar-item" onclick="showView('imprint')">
+            <span class="sidebar-icon">📄</span>
+            <span>Impressum</span>
+        </a> -->
+    </div>
+</div>
+<!-- Mobile Burger Menu -->
+<div id="burger-overlay" class="burger-overlay hidden">
+    <div class="burger-content">
+        <div class="burger-header">
+            <span class="burger-title">Menü</span>
+            <button class="burger-close" onclick="toggleBurgerMenu()">×</button>
+        </div>
+        <nav class="burger-nav">
+            <a href="javascript:void(0)" class="burger-item active" onclick="showView('main'); toggleBurgerMenu();">
+                <span class="burger-icon">🔍</span>
+                <span>Startseite</span>
+            </a>
+            <a href="javascript:void(0)" class="burger-item" onclick="showView('events'); toggleBurgerMenu();">
+                <span class="burger-icon">📅</span>
+                <span>Veranstaltungen</span>
+            </a>
+            <a href="javascript:void(0)" class="burger-item" onclick="showView('calendar'); toggleBurgerMenu();">
+                <span class="burger-icon">🗺️</span>
+                <span>Karte</span>
+            </a>
+            <a href="javascript:void(0)" class="burger-item" onclick="showView('stories'); toggleBurgerMenu();">
+                <span class="burger-icon">👤</span>
+                <span>Geschichten</span>
+            </a>
+            <div class="burger-divider"></div>
+            <a href="javascript:void(0)" class="burger-item" onclick="showView('network'); toggleBurgerMenu();">
+                <span class="burger-icon">🌐</span>
+                <span>Netzwerk</span>
+            </a>
+            <a href="javascript:void(0)" class="burger-item" onclick="showView('about'); toggleBurgerMenu();">
+                <span class="burger-icon">🏢</span>
+                <span>Das Bündnis Ost</span>
+            </a>
+            <a href="javascript:void(0)" class="burger-item" onclick="showView('values'); toggleBurgerMenu();">
+                <span class="burger-icon">💭</span>
+                <span>Selbstverständnis</span>
+            </a>
+            <!-- <a href="javascript:void(0)" class="burger-item" onclick="showView('imprint'); toggleBurgerMenu();">
+                <span class="burger-icon">📄</span>
+                <span>Impressum</span>
+            </a> -->
+        </nav>
     </div>
 </div>
 
 <!-- Main Content Area -->
 <div class="main-content">
+    <div class="diversity-header mobile-only"></div>
     <!-- Main Events View -->
     <div id="main-view">
         <div class="header">
@@ -30,41 +93,11 @@
             <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
         </div>
 
-        <!-- Mobile Burger Menu -->
-        <div id="burger-overlay" class="burger-overlay hidden">
-            <div class="burger-content">
-                <div class="burger-header">
-                    <span class="burger-title">Menü</span>
-                    <button class="burger-close" onclick="toggleBurgerMenu()">×</button>
-                </div>
-                <nav class="burger-nav">
-                    <a href="#" class="burger-item active" onclick="showView('main'); toggleBurgerMenu();">
-                        <span class="burger-icon">🔍</span>
-                        <span>Startseite</span>
-                    </a>
-                    <a href="#" class="burger-item" onclick="showView('events'); toggleBurgerMenu();">
-                        <span class="burger-icon">📅</span>
-                        <span>Veranstaltungen</span>
-                    </a>
-                    <a href="#" class="burger-item" onclick="showView('calendar'); toggleBurgerMenu();">
-                        <span class="burger-icon">🗺️</span>
-                        <span>Karte</span>
-                    </a>
-                    <a href="#" class="burger-item" onclick="showView('stories'); toggleBurgerMenu();">
-                        <span class="burger-icon">👤</span>
-                        <span>Geschichten</span>
-                    </a>
-                </nav>
-            </div>
-        </div>
-
         <div class="content">
             <div class="section-header">
                 <h2 class="section-title">Aktuelle Veranstaltungen</h2>
-                <a href="#" class="section-link" onclick="showView('search')">Alle ansehen ▶</a>
             </div>
 
-            <!-- Event Grid Container (wird per JS befüllt) -->
             <div id="events-grid" class="events-grid">
                 <!-- Template für Event Cards -->
                 <template id="event-card-template">
@@ -75,7 +108,6 @@
                                 <div class="day"></div>
                                 <div class="month"></div>
                             </div>
-                            <button class="bookmark-btn">🔖</button>
                         </div>
                         <div class="event-info">
                             <h3 class="event-title"></h3>
@@ -88,74 +120,21 @@
             <div class="cta-section">
                 <h2 class="cta-title">Mach mit!</h2>
                 <p class="cta-subtitle">Jetzt deine Veranstaltung eintragen.</p>
-                <button class="cta-btn" onclick="alert('Event eintragen')">EINTRAGEN</button>
+                <button class="cta-btn" onclick="window.location.href='/event-submit.html'">EINTRAGEN</button>
             </div>
         </div>
-    </div>
-
-    <!-- Search Results View -->
-    <div id="search-view" class="hidden">
-        <div class="header">
-            <button class="back-btn" onclick="showView('main')">←</button>
-            <span class="page-title">Suchergebnisse</span>
-            <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
-        </div>
-
-        <div class="content">
-            <input type="text" class="search-bar" placeholder="Suche" oninput="filterEvents(this.value)">
-
-            <!-- Event List Container (wird per JS befüllt) -->
-            <div id="event-list-grid" class="event-list-grid">
-                <!-- Template für Event List Items -->
-                <template id="event-list-template">
-                    <div class="event-list-item" onclick="showEventDetails(this)" data-event-id="">
-                        <div class="event-list-image" data-category=""></div>
-                        <div class="event-list-info">
-                            <div class="event-list-date"></div>
-                            <h4></h4>
-                        </div>
-                    </div>
-                </template>
-            </div>
-        </div>
-    </div>
-
-    <!-- Calendar View -->
-    <div id="calendar-view" class="hidden">
-        <div class="header">
-            <button class="back-btn" onclick="showView('main')">←</button>
-            <span class="page-title">Unser Kalender</span>
-            <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
-        </div>
-
-        <div class="content">
-            <div class="view-toggle">
-                <button class="toggle-btn active">Kartenansicht</button>
-                <button class="toggle-btn">Kalenderansicht</button>
-            </div>
-
-            <div class="tabs">
-                <button class="tab active" onclick="filterByCategory('all')">Ostdeutschland</button>
-                <button class="tab" onclick="filterByCategory('be')">Berlin</button>
-                <button class="tab" onclick="filterByCategory('bb')">Brandenburg</button>
-                <button class="tab" onclick="filterByCategory('mv')">Mecklenburg-Vorpommern</button>
-                <button class="tab" onclick="filterByCategory('sn')">Sachsen</button>
-                <button class="tab" onclick="filterByCategory('st')">Sachsen-Anhalt</button>
-                <button class="tab" onclick="filterByCategory('th')">Thüringen</button>
-            </div>
-            {{ partial "event-map.html" . }}
     </div>
 
     <!-- Event Details View -->
     <div id="event-details" class="hidden">
         <div class="event-header-image" data-category="">
-            <button class="back-btn" onclick="showView('main')" style="position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.9); border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer;">←</button>
-            <button class="bookmark-btn" style="top: 20px; right: 20px;">🔖</button>
+            <img class="event-header-bg-image" src="" alt="" style="display: none;">
+            <button class="back-btn" onclick="showView('main')" style="position: absolute; top: 20px; left: 20px; background: rgba(255,255,255,0.9); border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; z-index: 10;">←</button>
 
-            <div class="event-actions">
+            <!-- <div class="event-actions">
                 <button class="action-btn map-btn">📍 Auf Karte öffnen</button>
                 <button class="action-btn join-btn">Ich bin dabei!</button>
-            </div>
+            </div> -->
         </div>
 
         <div class="event-meta">
@@ -169,11 +148,10 @@
                 </div>
             </div>
 
-            <div class="meta-item">
+            <div class="meta-item clickable" onclick="openLocation()" style="cursor: pointer;" title="Ort auf Karte öffnen">
                 <div class="meta-icon location-icon">📍</div>
                 <div class="meta-text">
                     <h4 class="event-location-name"></h4>
-                    <p class="event-address"></p>
                 </div>
             </div>
 
@@ -183,7 +161,22 @@
                     <h4 class="event-organizer"></h4>
                     <p>Organizer</p>
                 </div>
-                <button class="contact-btn">Kontakt</button>
+            </div>
+
+            <div class="meta-item event-type-container" style="display: none;">
+                <div class="meta-icon type-icon">🎭</div>
+                <div class="meta-text">
+                    <h4 class="event-type"></h4>
+                    <p>Veranstaltungstyp</p>
+                </div>
+            </div>
+
+            <div class="meta-item social-links-container" style="display: none;">
+                <div class="meta-icon social-icon">🔗</div>
+                <div class="meta-text">
+                    <h4>Social Media</h4>
+                    <div class="event-social-links"></div>
+                </div>
             </div>
 
             <div class="description">
@@ -200,27 +193,262 @@
             <span class="page-title">Veranstaltungen</span>
             <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
         </div>
-
+        
         <div class="content">
-            <div class="tabs">
-                <button class="tab active">Kommende Veranstaltungen</button>
-                <button class="tab">Veranstaltung eintragen</button>
+            <input type="text" id="events-search-input" placeholder="Events durchsuchen..." oninput="filterEventsByText(this.value)" class="event-search-input">
+            <div class="filter-options">
+                <label class="checkbox-container">
+                    <input type="checkbox" id="events-show-past" onchange="togglePastEvents(this.checked)">
+                    <span class="checkmark"></span>
+                    Vergangene Veranstaltungen
+                </label>
             </div>
-
-            <!-- Event List für Events View (wird per JS befüllt) -->
             <div id="events-list-container" class="event-list-grid">
-                <!-- Verwendet das Gleiche wie search-view -->
+                <!-- Template für Event List Items -->
+                <template id="event-list-template">
+                    <div class="event-list-item" onclick="showEventDetails(this)" data-event-id="">
+                        <div class="event-list-image" data-category="">
+                            <img class="event-list-bg-image" src="" alt="" style="display: none;">
+                        </div>
+                        <div class="event-list-info">
+                            <div class="event-list-date"></div>
+                            <h4></h4>
+                        </div>
+                    </div>
+                </template>
             </div>
         </div>
     </div>
+    
+    <!-- Calendar View -->
+    <div id="calendar-view" class="hidden">
+        <div class="header">
+            <button class="back-btn" onclick="showView('main')">←</button>
+            <span class="page-title">Veranstaltungen</span>
+            <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
+        </div>
+        
+        <div class="content">
+            <input type="text" id="calendar-search-input" placeholder="Events durchsuchen..." oninput="filterEventsByText(this.value)" class="event-search-input">
+            <div class="filter-options">
+                <label class="checkbox-container">
+                    <input type="checkbox" id="calendar-show-past" onchange="togglePastEvents(this.checked)">
+                    <span class="checkmark"></span>
+                    Vergangene Veranstaltungen
+                </label>
+                {{ partial "add-event-btn-inline.html" . }}
+            </div>
+            
+            {{ partial "event-map.html" . }}
+        </div>
+    </div>
+
+
+    <!-- East Stories View -->
+    <div id="stories-view" class="hidden">
+        <div class="header">
+            <button class="back-btn" onclick="showView('main')">←</button>
+            <span class="page-title">Geschichten aus dem Osten</span>
+            <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
+        </div>
+
+        <div class="content">
+            <div class="section-header">
+                <p class="section-subtitle">Hier sammeln wir persönliche Geschichten von Menschen aus den neuen Bundesländern. Diese Erzählungen zeigen die Vielfalt der Erfahrungen und den Mut der Menschen, die den Wandel nach 1989 mitgestaltet haben.</p>
+            </div>
+            
+            {{ $stories := site.Data.stories }}
+            <div class="stories-container">
+                <div class="stories-grid">
+                    {{ range $stories }}
+                    {{ $storyId := .name | urlize }}
+                    <div class="story-card" data-story-id="{{ $storyId }}">
+                        <div class="story-header">
+                            <h3>{{ .name }}</h3>
+                            {{ if ne .location "--" }}
+                            <span class="story-location">{{ .location }}</span>
+                            {{ end }}
+                            {{ if ne .age "--" }}
+                            <span class="story-age">{{ .age }} Jahre</span>
+                            {{ end }}
+                        </div>
+                        
+                        <div class="story-content">
+                            <p class="story-excerpt">{{ .excerpt }}</p>
+                            {{ if .image }}
+                                {{ $imagePath := .image }}
+                                {{ $imageExists := false }}
+                                {{ with resources.Get (strings.TrimPrefix "/" $imagePath) }}
+                                    {{ $imageExists = true }}
+                                {{ else }}
+                                    {{ $staticImagePath := printf "static%s" $imagePath }}
+                                    {{ if fileExists $staticImagePath }}
+                                        {{ $imageExists = true }}
+                                    {{ end }}
+                                {{ end }}
+                                {{ if $imageExists }}
+                                <div class="story-image">
+                                    {{ $altText := .name }}
+                                    {{ if index . "image-alt-text" }}
+                                        {{ $altText = index . "image-alt-text" }}
+                                    {{ end }}
+                                    <img src="{{ .image }}" alt="{{ $altText }}" loading="lazy">
+                                </div>
+                                {{ end }}
+                            {{ end }}
+                            
+                            <div class="story-full hidden">
+                                <p>{{ .fullText }}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="story-actions">
+                            <button class="btn-expand" onclick="toggleStory('{{ $storyId }}')">
+                                <span class="expand-text">Mehr lesen</span>
+                                <span class="collapse-text hidden">Weniger anzeigen</span>
+                            </button>
+                        </div>
+                    </div>
+                    {{ end }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Network View -->
+    <div id="network-view" class="hidden">
+        <div class="header">
+            <button class="back-btn" onclick="showView('main')">←</button>
+            <span class="page-title">Netzwerk</span>
+            <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
+        </div>
+        <div class="content">
+            <div class="page-content">
+                {{ $networkPage := site.GetPage "netzwerk" }}
+                {{ if $networkPage }}
+                    {{ $networkPage.Content }}
+                {{ else }}
+                    <h1>Netzwerk</h1>
+                    <p>Inhalt wird geladen...</p>
+                {{ end }}
+            </div>
+        </div>
+    </div>
+
+    <!-- About View -->
+    <div id="about-view" class="hidden">
+        <div class="header">
+            <button class="back-btn" onclick="showView('main')">←</button>
+            <span class="page-title">Das Bündnis Ost</span>
+            <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
+        </div>
+        <div class="content">
+            <div class="page-content">
+                {{ $aboutPage := site.GetPage "das-buendnis-ost" }}
+                {{ if $aboutPage }}
+                    {{ $aboutPage.Content }}
+                {{ else }}
+                    <h1>Das Bündnis Ost</h1>
+                    <p>Inhalt wird geladen...</p>
+                {{ end }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Values View -->
+    <div id="values-view" class="hidden">
+        <div class="header">
+            <button class="back-btn" onclick="showView('main')">←</button>
+            <span class="page-title">Selbstverständnis</span>
+            <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
+        </div>
+        <div class="content">
+            <div class="page-content">
+                {{ $valuesPage := site.GetPage "selbstverstaendnis" }}
+                {{ if $valuesPage }}
+                    {{ $valuesPage.Content }}
+                {{ else }}
+                    <h1>Selbstverständnis</h1>
+                    <p>Inhalt wird geladen...</p>
+                {{ end }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Goals View -->
+    <div id="goals-view" class="hidden">
+        <div class="header">
+            <button class="back-btn" onclick="showView('main')">←</button>
+            <span class="page-title">Ziele</span>
+            <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
+        </div>
+        <div class="content">
+            <div class="page-content">
+                {{ $goalsPage := site.GetPage "ziele" }}
+                {{ if $goalsPage }}
+                    {{ $goalsPage.Content }}
+                {{ else }}
+                    <h1>Unsere Ziele</h1>
+                    <p>Inhalt wird geladen...</p>
+                {{ end }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Imprint View -->
+    <!-- <div id="imprint-view" class="hidden">
+        <div class="header">
+            <button class="back-btn" onclick="showView('main')">←</button>
+            <span class="page-title">Impressum</span>
+            <button class="burger-menu" onclick="toggleBurgerMenu()">☰</button>
+        </div>
+        <div class="content">
+            <div class="page-content">
+                {{ $imprintPage := site.GetPage "impressum" }}
+                {{ if $imprintPage }}
+                    {{ $imprintPage.Content }}
+                {{ else }}
+                    <h1>Impressum</h1>
+                    <p>Inhalt wird geladen...</p>
+                {{ end }}
+            </div>
+        </div>
+    </div> -->
+
 </div>
 
 <!-- Floating Action Button -->
-<button class="floating-btn" onclick="alert('Event erstellen')">+</button>
+<button class="floating-btn" onclick="window.location.href='/event-submit.html'">+</button>
 
-<!-- events.son als Script Tag laden -->
+<!-- events.json als Script Tag laden -->
 <script>
     // Events JSON wird hier eingefügt oder per fetch geladen
     window.eventsData = null;
+    
+    // Stories Toggle Functionality
+    function toggleStory(storyId) {
+        const card = document.querySelector(`[data-story-id="${storyId}"]`);
+        const fullText = card.querySelector('.story-full');
+        const excerpt = card.querySelector('.story-excerpt');
+        const expandText = card.querySelector('.expand-text');
+        const collapseText = card.querySelector('.collapse-text');
+        const button = card.querySelector('.btn-expand');
+        
+        if (fullText.classList.contains('hidden')) {
+            // Erweitern
+            fullText.classList.remove('hidden');
+            excerpt.classList.add('hidden');
+            expandText.classList.add('hidden');
+            collapseText.classList.remove('hidden');
+            button.classList.add('expanded');
+        } else {
+            // Zusammenklappen
+            fullText.classList.add('hidden');
+            excerpt.classList.remove('hidden');
+            expandText.classList.remove('hidden');
+            collapseText.classList.add('hidden');
+            button.classList.remove('expanded');
+        }
+    }
 </script>
 {{ end }}

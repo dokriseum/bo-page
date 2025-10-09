@@ -1,0 +1,50 @@
+{
+  "tables": [
+    {
+      "table": "events",
+      "fields": {
+        "id": { "type": "INT", "auto_increment": true, "primary": true },
+        "title": { "type": "VARCHAR(255)", "required": true },
+        "location": { "type": "VARCHAR(255)", "required": true },
+        "event_time": { "type": "DATETIME", "required": true },
+        "latitude": { "type": "DECIMAL(10,8)", "nullable": true },
+        "longitude": { "type": "DECIMAL(11,8)", "nullable": true },
+        "organizer_name": { "type": "VARCHAR(255)", "required": true },
+        "organizer_email": { "type": "VARCHAR(255)", "required": true },
+        "organizer_phone": { "type": "VARCHAR(50)", "nullable": true },
+        "event_type": { "type": "VARCHAR(100)", "required": true },
+        "description": { "type": "TEXT", "required": true },
+        "wolke": { "type": "VARCHAR(255)", "nullable": true },
+        "chatbegruenung": { "type": "VARCHAR(255)", "nullable": true },
+        "social_media_links": { "type": "TEXT", "nullable": true, "format": "json-string" },
+        "event_images": { "type": "TEXT", "nullable": true, "format": "json-string" },
+        "helpers_needed_minimum": { "type": "INT", "nullable": true },
+        "special_requirements": { "type": "TEXT", "nullable": true },
+        "event_status": { "type": "TEXT", "nullable": true, "format": "json-string" },
+        "status": { "type": "ENUM('pending','active','cancelled')", "default": "pending" },
+        "created_at": { "type": "TIMESTAMP", "default": "CURRENT_TIMESTAMP" },
+        "updated_at": { "type": "TIMESTAMP", "default": "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP" }
+      }
+    },
+    {
+      "table": "event_confirmations",
+      "fields": {
+        "id": { "type": "INT", "auto_increment": true, "primary": true },
+        "token": { "type": "VARCHAR(64)", "required": true, "unique": true },
+        "event_data": { "type": "JSON", "required": true },
+        "email": { "type": "VARCHAR(255)", "required": true },
+        "expires_at": { "type": "TIMESTAMP", "required": true },
+        "created_at": { "type": "TIMESTAMP", "default": "CURRENT_TIMESTAMP" }
+      },
+      "indexes": [
+        { "name": "idx_token", "columns": ["token"] },
+        { "name": "idx_expires", "columns": ["expires_at"] }
+      ],
+      "options": {
+        "engine": "InnoDB",
+        "charset": "utf8mb4",
+        "collation": "utf8mb4_unicode_ci"
+      }
+    }
+  ]
+}
