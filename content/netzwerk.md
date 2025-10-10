@@ -4,38 +4,24 @@ description: ""
 ---
 Vernetze dich mit dem Osten! Folge uns und unseren Partnern in den jeweiligen Netzwerken.
 
-🐘 [Folgen auf Mastodon @Buendnis_OST@gruene.social](https://gruene.social/@Buendnis_OST)  
-
-----
+#### 🐘 Folge uns auf Mastodon
+{{< og-link url="https://gruene.social/@Buendnis_OST" >}}
 
 {{< og-link url="https://ostdeutschland.info" >}}
 
-----
+{{< og-link url="https://www.staatsbuergerkunde-podcast.de/" >}}
 
-**🎧 [Podcast "Staatsbürgerkunde"](https://www.staatsbuergerkunde-podcast.de/)**  
-[webseite](https://www.staatsbuergerkunde-podcast.de/) | 
-[Spotify](https://open.spotify.com/show/5KG8fONRHB4eX2pcfs23gn) | 
-[Apple Podcasts](https://podcasts.apple.com/us/podcast/staatsb%C3%BCrgerkunde/id507846242?itsct=podcast_box&itscg=30200)
+{{< og-link url="https://mitteldeutsche-stiftung.de/" >}}
 
-**[Mitteldeutsche Stiftung Wissenschaft und Bildung](https://mitteldeutsche-stiftung.de/)**  
-*..fördert den Austausch von Forschungs- und Bildungseinrichtungen mit Wirtschaft und Zivilgesellschaft vorrangig in Mitteldeutschland*  
+{{< og-link url="https://werkstatt-der-mutigen.org/gestaltende-und-loesungen/" >}}
 
-**📢 [Werkstatt der Mutigen](https://werkstatt-der-mutigen.org/gestaltende-und-loesungen/)**  
-*Regionale Lösungen für bundesweite Veränderung*  
+{{< og-link url="https://pixelgruene.gg/" >}}
 
-### Community Partner
+{{< og-link url="https://www.bpb.de" >}}
+{{< og-link url="https://social.bund.de/@bpb" >}}
 
-**🎮 [Pixelgrüne](https://pixelgruene.gg/)**  
-*Gaming Ccmmunity*  
+{{< og-link url="https://weiterdenken.de/de/startseite" >}}
+{{< og-link url="https://www.boell.de/de/tags/sachsen" >}}
 
-**🏛️ Bundeszentrale für politische Bildung**  
-[@bpb_de@mastodon.social](https://mastodon.social/@bpb_de)  
-[bpb.de](https://bpb.de)
-
-**🎓 Heinrich-Böll-Stiftung Sachsen**  
-[sachsen.boell.de](https://sachsen.boell.de)  
-*Politische Bildung und Demokratieförderung*
-
-**🌱 Mehr Demokratie e.V.**  
-[@mehrdemokratie@mastodon.social](https://mastodon.social/@mehrdemokratie)  
-[mehr-demokratie.de](https://mehr-demokratie.de)
+{{< og-link url="https://mehr-demokratie.de" >}}
+{{< og-link url="https://mastodon.social/@MehrDemokratie/" >}}
