@@ -267,6 +267,13 @@ function mapEventToDbValues(array $event, array $columns, string $normalizedTime
             case 'social_media_links':
                 $values[] = !empty($links) ? json_encode($links, JSON_UNESCAPED_UNICODE) : null;
                 break;
+            case 'event_images':
+                $images = [];
+                if (!empty($event['EventImages']) && is_array($event['EventImages'])) {
+                    $images = array_values(array_filter(array_map('trim', $event['EventImages'])));
+                }
+                $values[] = !empty($images) ? json_encode($images, JSON_UNESCAPED_UNICODE) : null;
+                break;
             case 'helpers_needed_minimum':
                 $values[] = isset($event['EventStatus']['HelpersNeededMinimum']) ? (int)$event['EventStatus']['HelpersNeededMinimum'] : null;
                 break;
