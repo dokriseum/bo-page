@@ -1,16 +1,7 @@
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
-<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet">
-<meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
-<meta name="googlebot-news" content="noindex, nofollow">
-<title>{{ if .Title }}{{ .Title }} | {{ end }}{{ site.Title }}</title>
-
-{{ $css := resources.Get "css/app.css" | css.PostCSS | resources.Minify | resources.Fingerprint }}
-<link rel="stylesheet" href="{{ $css.RelPermalink }}">
-
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-<link rel="stylesheet" href="{{ "css/event-map.css" | relURL }}">
-<link rel="stylesheet" href="{{ "css/stories.css" | relURL }}">
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script src="{{ "js/event-map.js" | relURL }}"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ .Title }}</title>
+<link rel="stylesheet" href="/css/main.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">

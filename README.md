@@ -37,13 +37,10 @@ cd website
 
 # 2 Hugo extended installieren  (siehe unten für OS-spezifische Befehle)
 
-# 3 Python-Dependencies installieren (für OpenGraph-Fetcher)
-pip3 install -r scripts/requirements.txt
-
-# 4 Lokalen Dev-Server starten
+# 3 Lokalen Dev-Server starten
 hugo server
 
-# 5 Browser öffnen
+# 4 Browser öffnen
 open http://localhost:1313     # macOS
 # oder
 xdg-open http://localhost:1313 # Linux
@@ -90,23 +87,7 @@ xdg-open http://localhost:1313 # Linux
 |---------|-----------------|
 | **Neue Seite** | `hugo new thema/mein-artikel.md` |
 | **Lokaler Live-Reload** | `hugo server` (ändere Dateien → Seite refresht automatisch) |
-| **OpenGraph-Daten aktualisieren** | `python3 scripts/fetch_opengraph.py` (lädt OpenGraph-Tags aus `netzwerk.md`) |
-| **Bauen für Prod** | `npm run prebuild && hugo --minify` → ergibt statisches HTML/CSS/JS in `public/` |
-
-### Python-Abhängigkeit für OpenGraph-Fetcher
-
-Das Projekt nutzt ein Python-Script (`scripts/fetch_opengraph.py`), das OpenGraph-Tags aus verlinkten Seiten lädt:
-
-**Installation:**
-```bash
-pip3 install -r scripts/requirements.txt
-```
-
-**Wann wird es ausgeführt?**
-- Automatisch bei `npm run prebuild` (vor Hugo-Build)
-- Manuell mit `python3 scripts/fetch_opengraph.py`
-
-Das Script extrahiert URLs aus `content/netzwerk.md`, lädt deren OpenGraph-Metadaten und speichert sie in `data/opengraph.json` für die Verwendung in Hugo-Templates.
+| **Bauen für Prod** | `hugo --minify` → ergibt statisches HTML/CSS/JS in `public/` |
 
 ---
 
@@ -129,7 +110,17 @@ Das Script extrahiert URLs aus `content/netzwerk.md`, lädt deren OpenGraph-Meta
 └── .gitignore
 ```
 
-> **Sicherheitshinweis:** Der Ordner `static/backend/` enthält administrative Werkzeuge (z. B. Tests, Import-Skripte). Schütze ihn serverseitig – etwa per `.htaccess` mit Authentifizierung oder IP-Allowlist –, sodass nur berechtigte Admins darauf zugreifen können.
+---
+
+## Deployment / Build
+
+*❯ CI/CD-Pipeline (z. B. GitHub Actions, GitLab CI, Netlify Build)*  
+
+```bash
+hugo --minify --environment production
+```
+
+Das Verzeichnis **`public/`** ist danach sofort auf jeden beliebigen Static-Host (Netlify, Vercel, GitHub Pages, S3 + CloudFront …) übertragbar.
 
 ---
 

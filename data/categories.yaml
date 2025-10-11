@@ -1,6 +1,0 @@
-be: { name: "Berlin", icon: "❤️", color: "#4CAF50" }
-bb: { name: "Brandenburg", icon: "❤️", color: "#fa709a" }
-mv: { name: "Mecklenburg-Vorpommern", icon: "❤️", color: "#4facfe" }
-sn: { name: "Sachsen", icon: "❤️", color: "#4facfe" }
-st: { name: "Sachsen-Anhalt", icon: "❤️", color: "#43e97b" }
-th: { name: "Thüringen", icon: "❤️", color: "#4facfe" }
