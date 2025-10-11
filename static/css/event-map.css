@@ -1,0 +1,39 @@
+/* Event-Map Styles */
+:root {
+  --stateSelectionColor: #4a90e2;
+
+  /* Event Marker */
+  --eventMarkerColor: #487eca;
+  --eventMarkerFillColor: #b6d0f7;
+  --eventMarkerFillOpacity: 0.7;
+}
+
+.map-page {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  /* display: flex;
+  flex-direction: column; */
+}
+
+.event-map {
+  width: 100%;
+  flex: 1;
+  min-height: 400px;
+  max-width: none; 
+  margin: 0;
+  border-radius: 0; 
+  box-shadow: none; 
+  border: none;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.leaflet-container {
+  width: 100% !important;
+  height: 75% !important;
+  border-radius: 18px;
+  font-family: inherit;
+}
+
+
