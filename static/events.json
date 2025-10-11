@@ -713,8 +713,11 @@
         "Latitude": 52.605302,
         "Longitude": 11.858432
     },
-    "WebsiteUrl": "https://calendar.boell.de/de/event/wo-wir-wie-waehlen",
+    "WebsiteUrl": "https://www.facebook.com/events/1291194058810420",
     "SocialMediaLinks": [
+      "https://calendar.boell.de/de/event/wo-wir-wie-waehlen",
+      "https://www.campus.de/buecher-campus-verlag/wissenschaft/soziologie/wo_wir_wie_waehlen-18479.html",
+      "https://www.mdr.de/wissen/psychologie-sozialwissenschaften/studie-wo-wir-wie-waehlen-100.html"
     ],
     "EventStatus": []
   }
