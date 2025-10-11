@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "prebuild": "python3 scripts/fetch_opengraph.py",
+    "build": "hugo"
+  },
   "devDependencies": {
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.6",

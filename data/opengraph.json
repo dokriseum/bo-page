@@ -1,0 +1,119 @@
+{
+  "https://mastodon.social/@MehrDemokratie/": {
+    "url": "https://mastodon.social/@MehrDemokratie",
+    "domain": "mastodon.social",
+    "type": "profile",
+    "site_name": "Mastodon",
+    "title": "Mehr Demokratie e.V. (@MehrDemokratie@mastodon.social)",
+    "description": "193 Posts, 20 Following, 530 Followers · Initiative für direkte Demokratie, Bürgerbeteiligung, Transparenz und ein faires Wahlrecht\r\n#MehrDemokratie",
+    "image": "https://files.mastodon.social/accounts/avatars/108/441/889/713/844/008/original/5460161b6aa73770.jpg",
+    "image:width": "400",
+    "image:height": "400"
+  },
+  "https://mitteldeutsche-stiftung.de/": {
+    "url": "https://mitteldeutsche-stiftung.de/",
+    "domain": "mitteldeutsche-stiftung.de",
+    "image": "https://mitteldeutsche-stiftung.de/wp-content/uploads/2025/04/P1149420-1024x683.jpg",
+    "title": "Mitteldeutsche Stiftung Wissenschaft & Bildung"
+  },
+  "https://weiterdenken.de/de/startseite": {
+    "url": "https://weiterdenken.de/de/startseite",
+    "domain": "weiterdenken.de",
+    "site_name": "Weiterdenken | Heinrich-Böll-Stiftung Sachsen",
+    "title": "Startseite | Weiterdenken | Heinrich-Böll-Stiftung Sachsen",
+    "image": "https://weiterdenken.de/sites/default/files/styles/var_tiny/public/2025-06/897713857-von-kindern-eltern-und-gewalt.jpg.jpg?itok=t43BFLJ8",
+    "image:alt": "ein Haus von weitem hinter Gras und Bäumen, Strichzeichnung"
+  },
+  "https://www.boell.de/de/tags/sachsen": {
+    "url": "https://www.boell.de/de/tags/sachsen",
+    "domain": "www.boell.de",
+    "site_name": "Heinrich-Böll-Stiftung",
+    "title": "| Heinrich-Böll-Stiftung",
+    "image": "https://www.boell.de/sites/default/files/styles/var_tiny/public/turntable/http___www.gwi-boell.de_sites_default_files_uploads_2016_02_cover.jpg.jpg?itok=7Q648pl9"
+  },
+  "https://gruene.social/@Buendnis_OST": {
+    "url": "https://gruene.social/@Buendnis_OST",
+    "domain": "gruene.social",
+    "type": "profile",
+    "site_name": "gruene.social",
+    "title": "Bündnis OST (@Buendnis_OST@gruene.social)",
+    "description": "125 Posts, 210 Following, 133 Followers · Ein Team von Mitgliedern  von Bündnis90 / Die Grünen mit dem Thema:\r\n\r\n - Netzwerk für OST-Sensibilisierung -\r\n Austausch, Aufarbeitung, Zukunft gestalten in Ostdeutschland",
+    "image": "https://gruenesocial-userfiles.nbg1.your-objectstorage.com/accounts/avatars/114/099/347/103/029/568/original/1d589dcd921a9a6d.png",
+    "image:width": "400",
+    "image:height": "400"
+  },
+  "https://www.bpb.de": {
+    "url": "https://www.bpb.de/2/bundeszentrale-fuer-politische-bildung-startseite/",
+    "domain": "www.bpb.de",
+    "type": "article",
+    "site_name": "bpb.de",
+    "title": "Bundeszentrale für politische Bildung | Startseite | bpb.de",
+    "description": "Die Bundeszentrale für politische Bildung unterstützt Bürgerinnen und Bürger dabei, sich mit Politik zu befassen.",
+    "image": "https://www.bpb.de/cache/images/1/280551_teaser_3x2_800.jpg?44524",
+    "image:url": "https://www.bpb.de/cache/images/1/280551_teaser_3x2_800.jpg?44524",
+    "image:width": "800",
+    "image:height": "534",
+    "image:alt": "Logo der Bundeszentrale für politische Bildung/bpb",
+    "image:type": "image/jpeg"
+  },
+  "https://ostdeutschland.info": {
+    "url": "https://ostdeutschland.info/",
+    "domain": "ostdeutschland.info",
+    "locale": "de_DE",
+    "type": "website",
+    "title": "ostdeutschland.info",
+    "description": "ostdeutschland.info gibt Orientierung: Zahlen, Fakten, News, Bücher, Filme, Persönlichkeiten, Unternehmen u. v. m. aus, in und für den Osten Deutschlands.",
+    "site_name": "ostdeutschland.info",
+    "image": "https://ostdeutschland.info/wp-content/uploads/2024/07/Cover-Denke-ich-an-Ostdeutschland.jpg",
+    "image:alt": "Denke ich an Ostdeutschland ... (Band 1). Jetzt bestellen!"
+  },
+  "https://social.bund.de/@bpb": {
+    "url": "https://social.bund.de/@bpb",
+    "domain": "social.bund.de",
+    "type": "profile",
+    "site_name": "social.bund.de",
+    "title": "Bundeszentrale f. pol. Bildung (@bpb@social.bund.de)",
+    "description": "990 Posts, 13 Following, 10.1K Followers · * Politik verständlich machen\r\n* Demokratie stärken\r\n* Zivilgesellschaft fördern\r\n\r\nHier trötet das Social Media Team der Bundeszentrale für politische Bildung!\r\n\r\nIhr habt Fragen oder möchtet uns etwas sagen? Schreibt uns gern an: info@bpb.de.",
+    "image": "https://social.bund.de/system/accounts/avatars/109/403/362/652/895/720/original/aaaa5540af31a744.png",
+    "image:width": "400",
+    "image:height": "400"
+  },
+  "https://werkstatt-der-mutigen.org/gestaltende-und-loesungen/": {
+    "url": "https://werkstatt-der-mutigen.org/gestaltende-und-loesungen/",
+    "domain": "werkstatt-der-mutigen.org",
+    "locale": "de_DE",
+    "type": "article",
+    "title": "Werkstatt der Mutigen - Navigator",
+    "description": "In der Werkstatt der Mutigen bringen wir 100+ lokale Gestalter:innen mit Bundestagskandierenden in Berlin und bundesweit zusammen.",
+    "site_name": "Werkstatt der Mutigen",
+    "image": "https://werkstatt-der-mutigen.org/wp-content/uploads/2025/01/Logo-Allianz-der-Gest_SW_mit-Abstand_1200px.png",
+    "image:width": "1200",
+    "image:height": "342",
+    "image:type": "image/png"
+  },
+  "https://mehr-demokratie.de": {
+    "url": "https://mehr-demokratie.de",
+    "domain": "mehr-demokratie.de",
+    "title": "Startseite Mehr Demokratie",
+    "description": "Mehr Demokratie setzt sich für Bürgerbeteiligung und direkte Demokratie auf allen Hoheitsebenen ein",
+    "type": "article",
+    "site_name": "Mehr Demokratie",
+    "country-name": "DE",
+    "image": "https://www.mehr-demokratie.de/fileadmin/_processed_/7/5/csm_250703_Vetorecht_hauptnews_6391c9b0f0.jpg"
+  },
+  "https://www.staatsbuergerkunde-podcast.de/": {
+    "url": "https://www.staatsbuergerkunde-podcast.de/",
+    "domain": "www.staatsbuergerkunde-podcast.de",
+    "image": "https://plus.podlove.org/download/staatsburgerkunde/SBK117_Graswurzel-Journalismus.png",
+    "image:alt": "SBK117: Graswurzel-Journalismus",
+    "title": "\nStaatsbürgerkunde | Ein Podcast über das Leben in der DDR\t"
+  },
+  "https://pixelgruene.gg/": {
+    "url": "https://pixelgruene.gg/",
+    "domain": "pixelgruene.gg",
+    "type": "website",
+    "title": "PIXELGRÜNE",
+    "description": "Herzlich Willkommen! bei der Gaming-Community von Bündnis 90/Die Grünen. Games sind Kultur. Games sind Sport. Games bieten Bildungspotenziale, Games lassen uns in andere Welten eintauchen und den Alltag mal ausblenden. […]",
+    "image": "https://pixelgruene.gg/wp-content/themes/sunflower/assets/img/sunflower1.jpg"
+  }
+}

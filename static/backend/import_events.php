@@ -255,6 +255,9 @@ function mapEventToDbValues(array $event, array $columns, string $normalizedTime
             case 'description':
                 $values[] = trimmedOrNull($event['Description'] ?? null) ?? 'Keine Beschreibung verfügbar';
                 break;
+            case 'website_url':
+                $values[] = trimmedOrNull($event['WebsiteUrl'] ?? null);
+                break;
             case 'wolke':
                 $values[] = trimmedOrNull($event['Wolke'] ?? null);
                 break;
@@ -263,6 +266,13 @@ function mapEventToDbValues(array $event, array $columns, string $normalizedTime
                 break;
             case 'social_media_links':
                 $values[] = !empty($links) ? json_encode($links, JSON_UNESCAPED_UNICODE) : null;
+                break;
+            case 'event_images':
+                $images = [];
+                if (!empty($event['EventImages']) && is_array($event['EventImages'])) {
+                    $images = array_values(array_filter(array_map('trim', $event['EventImages'])));
+                }
+                $values[] = !empty($images) ? json_encode($images, JSON_UNESCAPED_UNICODE) : null;
                 break;
             case 'helpers_needed_minimum':
                 $values[] = isset($event['EventStatus']['HelpersNeededMinimum']) ? (int)$event['EventStatus']['HelpersNeededMinimum'] : null;

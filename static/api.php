@@ -156,6 +156,7 @@ class EventDatabase {
                         'Longitude' => (float)$event['longitude']
                     ];
                 }
+                if (!empty($event['website_url'])) $formattedEvent['WebsiteUrl'] = $event['website_url'];
                 if (!empty($event['wolke'])) $formattedEvent['Wolke'] = $event['wolke'];
                 if (!empty($event['chatbegruenung'])) $formattedEvent['Chatbegruenung'] = $event['chatbegruenung'];
                 if (!empty($event['social_media_links'])) {
@@ -277,6 +278,7 @@ class EventDatabase {
                 case 'organizer_phone': $insertFields[] = 'organizer_phone'; $params[] = $eventData['Organizer']['Contact']['Phone'] ?? null; break;
                 case 'event_type': $insertFields[] = 'event_type'; $params[] = $eventData['EventType'] ?? null; break;
                 case 'description': $insertFields[] = 'description'; $params[] = $eventData['Description'] ?? null; break;
+                case 'website_url': $insertFields[] = 'website_url'; $params[] = $eventData['WebsiteUrl'] ?? null; break;
                 case 'wolke': $insertFields[] = 'wolke'; $params[] = $eventData['Wolke'] ?? null; break;
                 case 'chatbegruenung': $insertFields[] = 'chatbegruenung'; $params[] = $eventData['Chatbegruenung'] ?? null; break;
                 case 'social_media_links': $insertFields[] = 'social_media_links'; $params[] = isset($eventData['SocialMediaLinks']) ? json_encode($eventData['SocialMediaLinks']) : null; break;

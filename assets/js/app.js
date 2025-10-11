@@ -320,7 +320,7 @@ class EventApp {
             return;
 
         this.selectedEvent = event;
-        this.renderEventDetails(event, 'main'); // Standard: zurück zur Hauptseite
+        this.renderEventDetails(event, 'main'); 
         this.hideAllViews();
         this.updateUrlForEventDetails(eventId);
     }
@@ -332,10 +332,9 @@ class EventApp {
             return;
 
         this.selectedEvent = event;
-        this.renderEventDetails(event, 'calendar'); // Von Karte: zurück zur Karte
+        this.renderEventDetails(event, 'calendar'); 
         this.hideAllViews();
 
-        // URL für Event-Details aktualisieren
         this.updateUrlForEventDetails(eventId);
     }
 
@@ -397,6 +396,21 @@ class EventApp {
             eventTypeContainer.style.display = 'none';
         }
         
+        const websiteUrlContainer = detailsView.querySelector('.website-url-container');
+        if (event.WebsiteUrl && event.WebsiteUrl.trim() !== '') {
+            
+            const websiteUrlElement = detailsView.querySelector('.event-website-url');
+            let displayUrl = event.WebsiteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '');
+            if (displayUrl.length > 35) {
+                displayUrl = displayUrl.substring(0, 32) + '...';
+            }
+            websiteUrlElement.textContent = displayUrl;
+            websiteUrlElement.href = event.WebsiteUrl;
+            websiteUrlContainer.style.display = 'flex';
+        } else {
+            websiteUrlContainer.style.display = 'none';
+        }
+        
         const socialLinksContainer = detailsView.querySelector('.social-links-container');
         const socialLinksElement = detailsView.querySelector('.event-social-links');
         
@@ -414,26 +428,38 @@ class EventApp {
                 let icon = '🔗';
                 let platform = 'Link';
                 
-                if (link.includes('facebook.com')) {
-                    icon = '📘';
-                    platform = 'Facebook';
-                } else if (link.includes('instagram.com')) {
-                    icon = '📷';
-                    platform = 'Instagram';
-                } else if (link.includes('twitter.com') || link.includes('x.com')) {
-                    icon = '🐦';
-                    platform = 'Twitter/X';
-                } else if (link.includes('mastodon')) {
-                    icon = '🐘';
-                    platform = 'Mastodon';
-                } else if (link.includes('youtube.com')) {
-                    icon = '📹';
-                    platform = 'YouTube';
-                } else if (link.includes('linkedin.com')) {
-                    icon = '💼';
-                    platform = 'LinkedIn';
+                try {
+                    const url = new URL(link);
+                    const domain = url.hostname.replace('www.', '');
+                    platform = domain;
+                    
+                    if (link.includes('facebook.com')) {
+                        icon = '📘';
+                        platform = 'Facebook';
+                    } else if (link.includes('instagram.com')) {
+                        icon = '📷';
+                        platform = 'Instagram';
+                    } else if (link.includes('twitter.com') || link.includes('x.com')) {
+                        icon = '🐦';
+                        platform = 'Twitter/X';
+                    } else if (link.includes('mastodon')) {
+                        icon = '🐘';
+                        platform = 'Mastodon';
+                    } else if (link.includes('youtube.com')) {
+                        icon = '📹';
+                        platform = 'YouTube';
+                    } else if (link.includes('linkedin.com')) {
+                        icon = '💼';
+                        platform = 'LinkedIn';
+                    }
+                } catch (e) {
+                    platform = link.substring(0, 30) + (link.length > 30 ? '...' : '');
                 }
-                return `<a href="${link}" target="_blank" rel="noopener noreferrer" style="display: inline-block; margin: 4px 8px 4px 0; padding: 6px 12px; background: var(--primary-color); color: white; text-decoration: none; border-radius: 6px; font-size: 14px;">${icon} ${platform}</a>`;
+                
+                return `<a href="${link}" target="_blank" rel="noopener noreferrer" class="social-link-badge">
+                    <span class="social-icon">${icon}</span>
+                    <span>${platform}</span>
+                </a>`;
             }).join('');
             socialLinksContainer.style.display = 'flex';
         } else {
