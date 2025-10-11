@@ -397,6 +397,10 @@ body {
   border-radius: 12px;
 }
 
+.event-list-info { 
+  flex: 1;
+  min-width: 0;
+}
 .event-list-info h4 { font-size: 16px; font-weight: 600; margin-bottom: 4px; color: var(--text-dark); }
 .event-list-date {
   color: var(--diversity-blue);
