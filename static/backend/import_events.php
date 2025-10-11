@@ -255,6 +255,9 @@ function mapEventToDbValues(array $event, array $columns, string $normalizedTime
             case 'description':
                 $values[] = trimmedOrNull($event['Description'] ?? null) ?? 'Keine Beschreibung verfügbar';
                 break;
+            case 'website_url':
+                $values[] = trimmedOrNull($event['WebsiteUrl'] ?? null);
+                break;
             case 'wolke':
                 $values[] = trimmedOrNull($event['Wolke'] ?? null);
                 break;

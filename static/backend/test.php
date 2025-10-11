@@ -133,6 +133,7 @@
             <label>Veranstalter Name: <input type="text" name="organizer_name" value="Test Organizer" required></label>
             <label>Event Typ: <input type="text" name="event_type" value="Test" required></label>
             <label>Beschreibung: <textarea name="description" required>Dies ist ein Test Event für das Backend</textarea></label>
+            <label>Webseite: <input type="url" name="website_url" value="" placeholder="https://example.com"></label>
             <label>Helfer benötigt: <input type="number" name="helpers" value="3"></label>
             
             <button type="submit" id="formSubmitBtn" disabled>Test Event einreichen (Token erforderlich)</button>
@@ -242,6 +243,7 @@
                     "Time": "2025-12-15T14:00",
                     "EventType": "API Test",
                     "Description": "Dies ist ein automatischer Test des API Endpunkts",
+                    "WebsiteUrl": "https://example.com/test-event",
                     "Organizer": {
                         "Name": "API Tester",
                         "Contact": {
@@ -316,6 +318,10 @@
                     }
                 }
             };
+            
+            if (formData.get('website_url')) {
+                eventData.event_data.WebsiteUrl = formData.get('website_url');
+            }
             
             if (formData.get('helpers')) {
                 eventData.event_data.EventStatus = {

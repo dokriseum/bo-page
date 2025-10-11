@@ -320,7 +320,7 @@ class EventApp {
             return;
 
         this.selectedEvent = event;
-        this.renderEventDetails(event, 'main'); // Standard: zurück zur Hauptseite
+        this.renderEventDetails(event, 'main'); 
         this.hideAllViews();
         this.updateUrlForEventDetails(eventId);
     }
@@ -332,10 +332,9 @@ class EventApp {
             return;
 
         this.selectedEvent = event;
-        this.renderEventDetails(event, 'calendar'); // Von Karte: zurück zur Karte
+        this.renderEventDetails(event, 'calendar'); 
         this.hideAllViews();
 
-        // URL für Event-Details aktualisieren
         this.updateUrlForEventDetails(eventId);
     }
 
@@ -395,6 +394,21 @@ class EventApp {
             eventTypeContainer.style.display = 'flex';
         } else {
             eventTypeContainer.style.display = 'none';
+        }
+        
+        const websiteUrlContainer = detailsView.querySelector('.website-url-container');
+        if (event.WebsiteUrl && event.WebsiteUrl.trim() !== '') {
+            
+            const websiteUrlElement = detailsView.querySelector('.event-website-url');
+            let displayUrl = event.WebsiteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '');
+            if (displayUrl.length > 35) {
+                displayUrl = displayUrl.substring(0, 32) + '...';
+            }
+            websiteUrlElement.textContent = displayUrl;
+            websiteUrlElement.href = event.WebsiteUrl;
+            websiteUrlContainer.style.display = 'flex';
+        } else {
+            websiteUrlContainer.style.display = 'none';
         }
         
         const socialLinksContainer = detailsView.querySelector('.social-links-container');

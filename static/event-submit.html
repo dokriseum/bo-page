@@ -34,6 +34,7 @@
             <label>Veranstalter-Telefon <input name="OrganizerPhone" placeholder="z.B. 0123 456789"></label>
             <label>Event-Typ <span style="color:#e53935">*</span> <input name="EventType" required placeholder="z.B. Infostand"></label>
             <label>Beschreibung <span style="color:#e53935">*</span> <textarea name="Description" required placeholder="Kurze Beschreibung des Events"></textarea></label>
+            <label>Webseite <input name="WebsiteUrl" type="url" placeholder="https://example.com"></label>
             <label>Wolke-Link <input name="Wolke" type="url" placeholder="https://wolke.netzbegruenung.de/..." ></label>
             <label>Chatbegruenung-Link <input name="Chatbegruenung" type="url" placeholder="https://chatbegruenung.de/..." ></label>
             <label>Social Media Links <textarea name="SocialMediaLinks" placeholder="Ein Link pro Zeile"></textarea></label>
@@ -184,6 +185,10 @@
         
         if (f.OrganizerPhone.value) {
             eventData.event_data.Organizer.Contact.Phone = f.OrganizerPhone.value;
+        }
+        
+        if (f.WebsiteUrl.value) {
+            eventData.event_data.WebsiteUrl = f.WebsiteUrl.value;
         }
         
         if (f.Wolke.value) {

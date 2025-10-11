@@ -14,6 +14,7 @@
         "organizer_phone": { "type": "VARCHAR(50)", "nullable": true },
         "event_type": { "type": "VARCHAR(100)", "required": true },
         "description": { "type": "TEXT", "required": true },
+        "website_url": { "type": "VARCHAR(255)", "nullable": true },
         "wolke": { "type": "VARCHAR(255)", "nullable": true },
         "chatbegruenung": { "type": "VARCHAR(255)", "nullable": true },
         "social_media_links": { "type": "TEXT", "nullable": true, "format": "json-string" },
