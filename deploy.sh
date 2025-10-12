@@ -18,6 +18,7 @@ NC='\033[0m' # No Color
 # folders to be ignored during the rsync
 EXCLUDES=(
   '--exclude=event-admin/'
+    '--exclude=config.php'
 #   '--exclude=events.json'
 )
 
