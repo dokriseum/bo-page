@@ -674,6 +674,176 @@ body {
 .description { margin-top: var(--spacing); }
 .description h3 { font-size: 18px; font-weight: 600; margin-bottom: 12px; }
 
+/* ===== EVENT SHARE BAR ===== */
+.event-share-bar {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 20px 0;
+  padding: 16px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.share-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: var(--white);
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.share-btn:hover {
+  border-color: var(--primary);
+  background: var(--bg);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.share-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.share-btn:hover .share-icon {
+  transform: scale(1.1);
+}
+
+/* ===== EVENT POPOVERS ===== */
+.event-popover {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+  max-width: 90vw;
+  width: 400px;
+  z-index: 1000;
+}
+
+.event-popover::backdrop {
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+}
+
+.popover-content {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  position: relative;
+}
+
+.popover-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  color: var(--text-light);
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.popover-close:hover {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.popover-content h3 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--text-dark);
+}
+
+.popover-content p {
+  color: var(--text-light);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.qr-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: var(--white);
+  border-radius: 8px;
+  margin: 20px 0;
+  min-height: 200px;
+}
+
+.qr-container canvas,
+.qr-container img {
+  max-width: 100%;
+  height: auto;
+}
+
+.popover-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.popover-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.popover-btn.primary {
+  background: linear-gradient(135deg, var(--diversity-turquoise), var(--diversity-green));
+  color: var(--white);
+  box-shadow: 0 2px 8px rgba(22, 160, 133, 0.3);
+}
+
+.popover-btn.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(22, 160, 133, 0.4);
+}
+
+.popover-btn.secondary {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.popover-btn.secondary:hover {
+  background: var(--border);
+}
+
+.btn-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
 /* ===== TABS WITH DIVERSITY COLORS ===== */
 .tabs, .view-toggle {
   display: flex;

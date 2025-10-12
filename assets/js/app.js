@@ -25,6 +25,10 @@ class EventApp {
         window.filterEventsByText = this.filterEventsByText.bind(this);
         window.togglePastEvents = this.togglePastEvents.bind(this);
         window.openLocation = this.openLocation.bind(this);
+        window.showICSPopover = this.showICSPopover.bind(this);
+        window.showQRPopover = this.showQRPopover.bind(this);
+        window.downloadICS = this.downloadICS.bind(this);
+        window.downloadQRCode = this.downloadQRCode.bind(this);
     }
 
     bindEvents() {
@@ -676,6 +680,130 @@ class EventApp {
             } else {
                 window.open(osmUrl, '_blank');
             }
+        }
+    }
+
+    showICSPopover() {
+        const popover = document.getElementById('ics-popover');
+        if (popover) {
+            popover.showPopover();
+        }
+    }
+
+    downloadICS() {
+        if (!this.selectedEvent) return;
+
+        const event = this.selectedEvent;
+        const eventDate = new Date(event.Time);
+        
+        const formatICSDate = (date) => {
+            return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+        };
+
+        const endDate = new Date(eventDate.getTime() + 2 * 60 * 60 * 1000);
+
+        const icsContent = [
+            'BEGIN:VCALENDAR',
+            'VERSION:2.0',
+            'PRODID:-//Bündnis Ost//Event Calendar//DE',
+            'CALSCALE:GREGORIAN',
+            'METHOD:PUBLISH',
+            'BEGIN:VEVENT',
+            `DTSTART:${formatICSDate(eventDate)}`,
+            `DTEND:${formatICSDate(endDate)}`,
+            `DTSTAMP:${formatICSDate(new Date())}`,
+            `UID:${event.Id}@buendnis-ost.de`,
+            `SUMMARY:${event.Title}`,
+            `DESCRIPTION:${(event.Description || '').replace(/\n/g, '\\n')}`,
+            `LOCATION:${event.Location}`,
+            `ORGANIZER;CN=${event.Organizer.Name}:MAILTO:${event.Organizer.Email || 'info@buendnis-ost.de'}`,
+            `URL:${window.location.origin}/?event=${event.Id}`,
+            'STATUS:CONFIRMED',
+            'END:VEVENT',
+            'END:VCALENDAR'
+        ].join('\r\n');
+
+        const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `${event.Title.replace(/[^a-z0-9\-äöü]/gi, '_')}.ics`;
+        link.download = link.download.replaceAll('___', '_');
+        link.download = link.download.replaceAll('__', '_');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        const popover = document.getElementById('ics-popover');
+        if (popover) {
+            popover.hidePopover();
+        }
+    }
+
+    showQRPopover() {
+        const popover = document.getElementById('qr-popover');
+        if (popover) {
+            this.loadQRCodeLibrary().then(() => {
+                this.generateQRCode();
+                popover.showPopover();
+            });
+        }
+    }
+
+    loadQRCodeLibrary() {
+        if (window.QRCode) {
+            return Promise.resolve();
+        }
+
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+    }
+
+
+    generateQRCode() {
+        if (!this.selectedEvent) return;
+
+        const eventUrl = `${window.location.origin}/#detail-${this.selectedEvent.Id}`;
+        const container = document.getElementById('qr-code-container');
+        
+        container.innerHTML = '';
+
+        if (!window.QRCode) {
+            container.innerHTML = '<p>QR-Code-Bibliothek wird geladen...</p>';
+            return;
+        }
+
+        new QRCode(container, {
+            text: eventUrl,
+            width: 256,
+            height: 256,
+            colorDark: '#000000',
+            colorLight: '#ffffff',
+            correctLevel: QRCode.CorrectLevel.H
+        });
+    }
+
+    downloadQRCode() {
+        if (!this.selectedEvent) return;
+
+        const container = document.getElementById('qr-code-container');
+        const canvas = container.querySelector('canvas');
+        
+        if (!canvas) {
+            const img = container.querySelector('img');
+            if (img) {
+                const link = document.createElement('a');
+                link.href = img.src;
+                link.download = `qr-code-${this.selectedEvent.Title.replace(/[^a-z0-9]/gi, '_')}.png`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+            return;
         }
     }
 }

@@ -140,6 +140,18 @@
         <div class="event-meta">
             <h1 class="event-meta-title"></h1>
 
+            <!-- Share Bar -->
+            <div class="event-share-bar">
+                <button class="share-btn" onclick="showICSPopover()" title="Als Kalendereintrag herunterladen">
+                    <span class="share-icon">📅</span>
+                    <span>Kalender</span>
+                </button>
+                <button class="share-btn" onclick="showQRPopover()" title="QR-Code anzeigen">
+                    <span class="share-icon">📱</span>
+                    <span>QR-Code</span>
+                </button>
+            </div>
+
             <div class="meta-item">
                 <div class="meta-icon date-icon">📅</div>
                 <div class="meta-text">
@@ -190,6 +202,39 @@
             <div class="description">
                 <h3>Beschreibung</h3>
                 <p class="event-description"></p>
+            </div>
+        </div>
+
+        <!-- ICS Download Popover -->
+        <div id="ics-popover" class="event-popover" popover>
+            <div class="popover-content">
+                <button class="popover-close" popovertarget="ics-popover">×</button>
+                <h3>📅 Kalendereintrag</h3>
+                <p>Möchtest du diese Veranstaltung in deinen Kalender übernehmen?</p>
+                <div class="popover-actions">
+                    <button class="popover-btn primary" onclick="downloadICS()">
+                        <span class="btn-icon">⬇️</span>
+                        Download ICS
+                    </button>
+                    <button class="popover-btn secondary" popovertarget="ics-popover">Abbrechen</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- QR Code Popover -->
+        <div id="qr-popover" class="event-popover" popover>
+            <div class="popover-content">
+                <button class="popover-close" popovertarget="qr-popover">×</button>
+                <h3>📱 QR-Code</h3>
+                <p>Teile diese Veranstaltung per QR-Code</p>
+                <div id="qr-code-container" class="qr-container"></div>
+                <div class="popover-actions">
+                    <button class="popover-btn primary" onclick="downloadQRCode()">
+                        <span class="btn-icon">⬇️</span>
+                        QR-Code herunterladen
+                    </button>
+                    <button class="popover-btn secondary" popovertarget="qr-popover">Schließen</button>
+                </div>
             </div>
         </div>
     </div>
