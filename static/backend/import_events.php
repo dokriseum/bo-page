@@ -265,7 +265,7 @@ function mapEventToDbValues(array $event, array $columns, string $normalizedTime
                 $values[] = trimmedOrNull($event['Chatbegruenung'] ?? null);
                 break;
             case 'social_media_links':
-                $values[] = !empty($links) ? json_encode($links, JSON_UNESCAPED_UNICODE) : null;
+                $values[] = (!empty($links) && count($links) > 0) ? json_encode($links, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null;
                 break;
             case 'event_images':
                 $images = [];
