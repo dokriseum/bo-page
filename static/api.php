@@ -136,6 +136,7 @@ class EventDatabase {
             $formattedEvents = [];
             foreach ($events as $event) {
                 $formattedEvent = [];
+                $formattedEvent['Id'] = (string)$event['id'];
                 $formattedEvent['Title'] = $event['title'];
                 $formattedEvent['Location'] = $event['location'];
                 $formattedEvent['Time'] = $event['event_time'];
@@ -163,18 +164,16 @@ class EventDatabase {
                     $formattedEvent['SocialMediaLinks'] = json_decode($event['social_media_links'], true);
                 }
                 if (!empty($event['event_images'])) {
-                    $formattedEvent['EventImages'] = json_decode($event['event_images'], true);
+                    $formattedEvent['event_images'] = json_decode($event['event_images'], true);
                 }
-                if (!empty($event['event_status'])) {
-                    $formattedEvent['EventStatus'] = json_decode($event['event_status'], true);
-                } else {
-                    $formattedEvent['EventStatus'] = [];
-                    if (!empty($event['helpers_needed_minimum'])) {
-                        $formattedEvent['EventStatus']['HelpersNeededMinimum'] = (int)$event['helpers_needed_minimum'];
-                    }
-                    if (!empty($event['special_requirements'])) {
-                        $formattedEvent['EventStatus']['SpecialRequirements'] = $event['special_requirements'];
-                    }
+                if (!empty($event['helpers_needed_minimum'])) {
+                    $formattedEvent['HelpersNeededMinimum'] = (int)$event['helpers_needed_minimum'];
+                }
+                if (!empty($event['special_requirements'])) {
+                    $formattedEvent['SpecialRequirements'] = $event['special_requirements'];
+                }
+                if (!empty($event['status'])) {
+                    $formattedEvent['Status'] = $event['status'];
                 }
                 $formattedEvents[] = $formattedEvent;
             }
@@ -199,7 +198,7 @@ class EventDatabase {
             
             $stmt->execute([
                 $token,
-                json_encode($eventData, JSON_UNESCAPED_UNICODE),
+                json_encode($eventData),
                 $eventData['Organizer']['Contact']['Email'],
                 $expiresAt
             ]);
@@ -278,14 +277,13 @@ class EventDatabase {
                 case 'organizer_phone': $insertFields[] = 'organizer_phone'; $params[] = $eventData['Organizer']['Contact']['Phone'] ?? null; break;
                 case 'event_type': $insertFields[] = 'event_type'; $params[] = $eventData['EventType'] ?? null; break;
                 case 'description': $insertFields[] = 'description'; $params[] = $eventData['Description'] ?? null; break;
-                case 'website_url': $insertFields[] = 'website_url'; $params[] = $eventData['WebsiteUrl'] ?? null; break;
+                case 'website_url': $insertFields[] = 'website_url'; $params[] = json_encode($eventData['WebsiteUrl'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?? null; break;
                 case 'wolke': $insertFields[] = 'wolke'; $params[] = $eventData['Wolke'] ?? null; break;
                 case 'chatbegruenung': $insertFields[] = 'chatbegruenung'; $params[] = $eventData['Chatbegruenung'] ?? null; break;
-                case 'social_media_links': $insertFields[] = 'social_media_links'; $params[] = isset($eventData['SocialMediaLinks']) ? json_encode($eventData['SocialMediaLinks']) : null; break;
-                case 'event_images': $insertFields[] = 'event_images'; $params[] = isset($eventData['EventImages']) ? json_encode($eventData['EventImages']) : null; break;
-                case 'helpers_needed_minimum': $insertFields[] = 'helpers_needed_minimum'; $params[] = $eventData['EventStatus']['HelpersNeededMinimum'] ?? null; break;
-                case 'special_requirements': $insertFields[] = 'special_requirements'; $params[] = $eventData['EventStatus']['SpecialRequirements'] ?? null; break;
-                case 'event_status': $insertFields[] = 'event_status'; $params[] = isset($eventData['EventStatus']) ? json_encode($eventData['EventStatus']) : null; break;
+                case 'social_media_links': $insertFields[] = 'social_media_links'; $params[] = isset($eventData['SocialMediaLinks']) ? json_encode($eventData['SocialMediaLinks'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null; break;
+                case 'event_images': $insertFields[] = 'event_images'; $params[] = isset($eventData['EventImages']) ? json_encode($eventData['EventImages'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null; break;
+                case 'helpers_needed_minimum': $insertFields[] = 'helpers_needed_minimum'; $params[] = $eventData['HelpersNeededMinimum'] ?? $eventData['EventStatus']['HelpersNeededMinimum'] ?? null; break;
+                case 'special_requirements': $insertFields[] = 'special_requirements'; $params[] = $eventData['SpecialRequirements'] ?? $eventData['EventStatus']['SpecialRequirements'] ?? null; break;
                 case 'status': $insertFields[] = 'status'; $params[] = 'active'; break;
             }
         }
