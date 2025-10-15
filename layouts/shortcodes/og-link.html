@@ -10,7 +10,8 @@
            alt="{{ if index . "image:alt" }}{{ index . "image:alt" }}{{ else }}{{ .title }}{{ end }}" 
            class="event-list-bg-image"
            style="object-fit: cover;"
-           loading="lazy">
+           loading="lazy"
+           referrerpolicy="no-referrer">
     </div>
     {{- end -}}
     
