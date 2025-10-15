@@ -119,18 +119,24 @@
     async function requestToken() {
         try {
             const response = await fetch('/api.php/token');
-            const data = await response.json();
             
-            if (response.ok) {
-                currentToken = data.token;
-                console.log('Token erhalten:', data.token);
-            } else {
-                console.error('Token-Anfrage fehlgeschlagen:', data);
-                showStatus('Fehler beim Laden. Bitte Seite neu laden.', 'error');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
+            
+            const contentType = response.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+                const text = await response.text();
+                console.error('Received non-JSON response:', text);
+                throw new Error('Server returned non-JSON response');
+            }
+            
+            const data = await response.json();
+            currentToken = data.token;
+            console.log('Token erhalten:', data.token);
         } catch (error) {
-            console.error('Network Error:', error);
-            showStatus('Verbindungsfehler. Bitte Seite neu laden.', 'error');
+            console.error('Token request error:', error);
+            showStatus('Fehler beim Laden. Bitte Seite neu laden.', 'error');
         }
     }
 
@@ -250,41 +256,41 @@
                 body: JSON.stringify(eventData)
             });
 
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const contentType = response.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+                const text = await response.text();
+                console.error('Received non-JSON response:', text);
+                throw new Error('Server returned non-JSON response');
+            }
+
             const data = await response.json();
 
-            if (response.ok) {
-                showStatus(`
-                    <strong>✅ Event erfolgreich eingereicht!</strong><br><br>
-                    📧 Eine Bestätigungs-E-Mail wurde an <strong>${data.email}</strong> gesendet.<br><br>
-                    Bitte prüfe dein Postfach und klicke auf den Bestätigungslink, um das Event zu aktivieren.<br><br>
-                    <small>Die E-Mail sollte innerhalb weniger Minuten ankommen. Prüfe auch deinen Spam-Ordner.</small>
-                `, 'success');
-                
-                // Reset form
-                f.reset();
-                if (marker) {
-                    map.removeLayer(marker);
-                    marker = null;
-                }
-                
-                // Request new token for next submission
-                currentToken = null;
-                requestToken();
-                
-                submitBtn.textContent = 'Event einreichen';
-                submitBtn.disabled = false;
-            } else {
-                showStatus(`❌ Fehler: ${data.error || 'Unbekannter Fehler'}`, 'error');
-                submitBtn.textContent = 'Event einreichen';
-                submitBtn.disabled = false;
-                
-                // Request new token
-                if (data.error && data.error.includes('token')) {
-                    currentToken = null;
-                    requestToken();
-                }
+            showStatus(`
+                <strong>✅ Event erfolgreich eingereicht!</strong><br><br>
+                📧 Eine Bestätigungs-E-Mail wurde an <strong>${data.email}</strong> gesendet.<br><br>
+                Bitte prüfe dein Postfach und klicke auf den Bestätigungslink, um das Event zu aktivieren.<br><br>
+                <small>Die E-Mail sollte innerhalb weniger Minuten ankommen. Prüfe auch deinen Spam-Ordner.</small>
+            `, 'success');
+            
+            // Reset form
+            f.reset();
+            if (marker) {
+                map.removeLayer(marker);
+                marker = null;
             }
+            
+            // Request new token for next submission
+            currentToken = null;
+            requestToken();
+            
+            submitBtn.textContent = 'Event einreichen';
+            submitBtn.disabled = false;
         } catch (error) {
+            console.error('Submission error:', error);
             showStatus(`❌ Verbindungsfehler: ${error.message}`, 'error');
             submitBtn.textContent = 'Event einreichen';
             submitBtn.disabled = false;
