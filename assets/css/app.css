@@ -118,6 +118,32 @@ body {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  margin-bottom: 4px;
+}
+
+.page-subtitle {
+  font-size: 14px;
+  color: var(--text-light);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.page-subtitle .mobile-text {
+  display: none;
+}
+
+.page-subtitle .desktop-text {
+  display: inline;
+}
+
+@media (max-width: 768px) {
+  .page-subtitle .mobile-text {
+    display: inline;
+  }
+  
+  .page-subtitle .desktop-text {
+    display: none;
+  }
 }
 
 .back-btn, .burger-menu {
