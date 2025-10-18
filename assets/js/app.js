@@ -80,7 +80,7 @@ class EventApp {
 
         container.querySelectorAll('.event-card').forEach(card => card.remove());
 
-        const maxEventsStartpage = 6;
+        const maxEventsStartpage = 4;
         const now = new Date();
         
         const allEvents = window._eventsJson.filter(event => {
