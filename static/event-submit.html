@@ -38,7 +38,14 @@
             <label>Veranstalter <span style="color:#e53935">*</span> <input name="OrganizerName" required placeholder="z.B. Max Mustermann"></label>
             <label>Beschreibung <span style="color:#e53935">*</span> <textarea name="Description" required placeholder="Kurze Beschreibung des Events"></textarea></label>
             <label>Event-Typ <input name="EventType" placeholder="z.B. Infostand"></label>
-            <label>Webseite <input name="WebsiteUrl" type="url" placeholder="https://example.com"></label>
+            <label>
+                Webseite 
+                <div style="position: relative; display: inline-block; width: 100%;">
+                    <input name="WebsiteUrl" type="text" placeholder="https://example.com" style="padding-right: 40px;">
+                    <span class="url-status" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 1.2em;"></span>
+                </div>
+                <div class="url-feedback" style="display: none; font-size: 0.9em; margin-top: 4px;"></div>
+            </label>
             <label>Social Media Links <textarea name="SocialMediaLinks" placeholder="Ein Link pro Zeile"></textarea></label>
             <label>Event-Bilder (URLs) <textarea name="EventImages" placeholder="Ein Bild-Link pro Zeile (z.B. https://example.com/bild.jpg)"></textarea></label>
             <label>Deine E-Mail<span style="color:#e53935">*</span> <input name="OrganizerEmail" type="email" required placeholder="max@beispiel.de"></label>
@@ -75,7 +82,14 @@
             <label>Veranstalter-Telefon <input name="OrganizerPhone" placeholder="z.B. 0123 456789"></label>
             <label>Event-Typ <span style="color:#e53935">*</span> <input name="EventType" required placeholder="z.B. Infostand"></label>
             <label>Beschreibung <span style="color:#e53935">*</span> <textarea name="Description" required placeholder="Kurze Beschreibung des Events"></textarea></label>
-            <label>Webseite <input name="WebsiteUrl" type="url" placeholder="https://example.com"></label>
+            <label>
+                Webseite 
+                <div style="position: relative; display: inline-block; width: 100%;">
+                    <input name="WebsiteUrl" type="text" placeholder="https://example.com" style="padding-right: 40px;">
+                    <span class="url-status" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); font-size: 1.2em;"></span>
+                </div>
+                <div class="url-feedback" style="display: none; font-size: 0.9em; margin-top: 4px;"></div>
+            </label>
             <label>Wolke-Link <input name="Wolke" type="url" placeholder="https://wolke.netzbegruenung.de/..." ></label>
             <label>Chatbegruenung-Link <input name="Chatbegruenung" type="url" placeholder="https://chatbegruenung.de/..." ></label>
             <label>Social Media Links <textarea name="SocialMediaLinks" placeholder="Ein Link pro Zeile"></textarea></label>
@@ -420,7 +434,130 @@
     document.addEventListener('DOMContentLoaded', function() {
         setupFormSubmission('eventForm');
         setupFormSubmission('eventsForm');
+        setupUrlValidation('eventForm');
+        setupUrlValidation('eventsForm');
     });
+
+    function sanitizeUrl(url) {
+        if (!url || url.trim() === '') return { original: '', sanitized: '', changed: false };
+        
+        const original = url.trim();
+        let sanitized = original;
+        let changed = false;
+        
+        const hasProtocol = /^https?:\/\//i.test(sanitized);
+        const hasBrokenProtocol = /^https?\/\//i.test(sanitized);
+        
+        if (hasBrokenProtocol) {
+            sanitized = sanitized.replace(/^(https?)\/\//i, '$1://');
+            changed = true;
+        } else if (!hasProtocol) {
+            sanitized = 'https://' + sanitized;
+            changed = true;
+        }
+        
+        const cleanedUrl = sanitized.replace(/[<>"{}|\\^`\[\]]/g, '');
+        if (cleanedUrl !== sanitized) {
+            sanitized = cleanedUrl;
+            changed = true;
+        }
+        
+        try {
+            const urlObj = new URL(sanitized);
+            sanitized = urlObj.href;
+        } catch (e) {
+            sanitized = sanitized;
+        }
+        
+        return { original, sanitized, changed };
+    }
+
+    async function checkUrlValidity(url) {
+        if (!url || url.trim() === '') {
+            return { valid: null, message: '' };
+        }
+
+        try {
+            const response = await fetch(url, {
+                method: 'HEAD',
+                mode: 'no-cors',
+                cache: 'no-cache'
+            });
+            
+            return { valid: true, message: '' };
+        } catch (error) {
+            return { 
+                valid: false, 
+                message: 'Link konnte nicht erreicht werden' 
+            };
+        }
+    }
+
+    function setupUrlValidation(formId) {
+        const form = document.getElementById(formId);
+        const urlInput = form.querySelector('input[name="WebsiteUrl"]');
+        const statusIcon = urlInput.parentElement.querySelector('.url-status');
+        const feedbackDiv = urlInput.parentElement.parentElement.querySelector('.url-feedback');
+        
+        let validationTimeout;
+
+        urlInput.addEventListener('input', function(e) {
+            clearTimeout(validationTimeout);
+            
+            const rawUrl = e.target.value;
+            
+            if (rawUrl.trim() === '') {
+                statusIcon.textContent = '';
+                feedbackDiv.style.display = 'none';
+                return;
+            }
+
+            statusIcon.textContent = '⏳';
+            statusIcon.style.color = '#999';
+            feedbackDiv.style.display = 'none';
+            
+            validationTimeout = setTimeout(async () => {
+                const urlCheck = sanitizeUrl(rawUrl);
+                const validityResult = await checkUrlValidity(urlCheck.sanitized);
+                
+                if (validityResult.valid === null) {
+                    statusIcon.textContent = '';
+                    feedbackDiv.style.display = 'none';
+                } else if (validityResult.valid) {
+                    statusIcon.textContent = '✓';
+                    statusIcon.style.color = '#4caf50';
+                    
+                    if (urlCheck.changed) {
+                        feedbackDiv.innerHTML = `
+                            <button type="button" onclick="document.getElementById('${formId}').querySelector('input[name=\\'WebsiteUrl\\']').value='${urlCheck.sanitized}'; this.parentElement.style.display='none';" 
+                                style="margin-left: 8px; padding: 4px 12px; background: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9em;">
+                                ${urlCheck.sanitized}
+                            </button>
+                        `;
+                        feedbackDiv.style.display = 'block';
+                    } else {
+                        feedbackDiv.style.display = 'none';
+                    }
+                } else {
+                    statusIcon.textContent = '⚠';
+                    statusIcon.style.color = '#e53935';
+                    
+                    let message = `<span style="color: #e53935;">⚠️ ${validityResult.message}</span>`;
+                    
+                    if (urlCheck.changed) {
+                        message += `<br><span style="color: #1976d2;">Meinst Du?:</span>
+                            <button type="button" onclick="document.getElementById('${formId}').querySelector('input[name=\\'WebsiteUrl\\']').value='${urlCheck.sanitized}'; this.parentElement.querySelector('.url-status').textContent='⏳'; setTimeout(() => { document.getElementById('${formId}').querySelector('input[name=\\'WebsiteUrl\\']').dispatchEvent(new Event('input')); }, 100);" 
+                                style="margin-left: 8px; padding: 4px 12px; background:; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9em;">
+                                ${urlCheck.sanitized}
+                            </button>`;
+                    }
+                    
+                    feedbackDiv.innerHTML = message;
+                    feedbackDiv.style.display = 'block';
+                }
+            }, 1000);
+        });
+    }
     </script>
     
 </body>
