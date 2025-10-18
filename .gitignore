@@ -63,3 +63,4 @@ static/backend/config.php
 .env.*
 
 merged_output.md
+.github
