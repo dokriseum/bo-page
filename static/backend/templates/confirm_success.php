@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Event bestätigt</title>
-    <link rel="stylesheet" href="/backend/css/confirmation.css">
+    <link rel="stylesheet" href="/css/confirmation.css">
 </head>
 <body class="confirm-success">
     <main class="confirmation-page">
