@@ -938,6 +938,31 @@ body {
   box-shadow: var(--shadow);
 }
 
+.map-state-selection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.state-coat-of-arms {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.map-state-selection:hover {
+  background: #e8e8e8;
+  transform: translateY(-2px);
+}
+
+.map-state-selection.active:hover {
+  transform: translateY(-2px);
+}
+
 .search-bar:focus {
   outline: none;
   border-color: var(--diversity-blue);
