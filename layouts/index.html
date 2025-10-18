@@ -129,6 +129,30 @@
                 </template>
             </div>
 
+            <div class="section-header">
+                <h2 class="section-title">Ostgeschichten</h2>
+                <div style="display: flex; gap: 10px;">
+                    <button class="share-btn" onclick="showView('stories')" style="text-decoration: none;">Mehr...</button>
+                </div>
+            </div>
+
+            {{ $stories := site.Data.stories }}
+            <div class="events-grid" style="margin-bottom: 30px;">
+                {{ range first 4 $stories }}
+                {{ $storyId := .name | urlize }}
+                <div class="event-card" style="cursor: pointer;" onclick="showView('stories')">
+                    <div class="event-image" style="background: linear-gradient(135deg, var(--diversity-purple), var(--diversity-pink)); min-height: 150px; display: flex; align-items: center; justify-content: center; color: white; font-size: 48px;">
+                        👤
+                    </div>
+                    <div class="event-info">
+                        <h3 class="event-title">{{ .name }}</h3>
+                        <p style="font-size: 14px; color: var(--text-light); line-height: 1.4; margin-top: 8px;">{{ .excerpt | truncate 100 }}</p>
+                    </div>
+                </div>
+                {{ end }}
+            </div>
+
+
             <div class="cta-section">
                 <h2 class="cta-title">Mach mit!</h2>
                 <p class="cta-subtitle">Jetzt deine Veranstaltung eintragen.</p>
