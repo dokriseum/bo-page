@@ -7,30 +7,8 @@ description: "Rechtliche Informationen und Impressum des Bündnis Ost e.V."
 
 ## Angaben gemäß § 5 TMG
 
-**Bündnis Ost e.V.**  
-Musterstraße 123  
-10115 Berlin
-
-**Vertreten durch:**  
-Vorstand des Bündnis Ost e.V.
-
-## Kontakt
-
-**Telefon:** +49 (0) 30 12345678  
-**E-Mail:** info@buendnis-ost.de  
-**Website:** https://buendnis-ost.de
-
-## Registereintrag
-
-**Eintragung im Vereinsregister:**  
-Registergericht: Amtsgericht Berlin-Charlottenburg  
-Registernummer: VR 12345 B
-
-## Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV
-
-Max Mustermann  
-Musterstraße 123  
-10115 Berlin
+Bündnis OST
+Robert Wartenberg (V.i.S.P.)
 
 ## Haftungsausschluss
 
@@ -45,3 +23,15 @@ Unser Angebot enthält Links zu externen Websites Dritter, auf deren Inhalte wir
 ### Urheberrecht
 
 Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
+
+### Haftung für nutzergenerierte Inhalte
+
+Nutzer können auf dieser Website Bilder und andere Inhalte hochladen. Für diese fremden Inhalte sind ausschließlich die jeweiligen Nutzer verantwortlich. Wir übernehmen keine Gewähr für die Rechtmäßigkeit, Richtigkeit und Vollständigkeit der hochgeladenen Inhalte. 
+
+Gemäß § 7 TMG sind wir als Diensteanbieter nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen. Bei Bekanntwerden von Rechtsverletzungen werden wir entsprechende Inhalte umgehend entfernen. 
+
+Sollten Sie eine Rechtsverletzung durch hochgeladene Inhalte bemerken, kontaktieren Sie uns bitte umgehend unter der unten angegebenen E-Mail-Adresse.
+
+## Kontakt
+
+**E-Mail:** robertw at buendnisost punkt de
