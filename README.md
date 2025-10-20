@@ -87,7 +87,7 @@ xdg-open http://localhost:1313 # Linux
 | Schritt | Befehl / Aktion |
 |---------|-----------------|
 | **Neue Seite** | `hugo new thema/mein-artikel.md` |
-| **Lokaler Live-Reload** | `hugo server` (ändere Dateien → Seite läd automatisch neu) |
+| **Lokaler Live-Reload** | `hugo server` (ändere Dateien → Seite lädt automatisch neu) |
 | **OpenGraph-Daten aktualisieren** | `python3 scripts/fetch_opengraph.py` (lädt OpenGraph-Tags aus `netzwerk.md`) |
 | **Bauen für Prod** | `npm run prebuild && hugo --minify` → ergibt statisches HTML/CSS/JS in `public/` |
 
