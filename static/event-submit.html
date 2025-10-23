@@ -538,13 +538,26 @@
                     statusIcon.textContent = '✓';
                     statusIcon.style.color = '#4caf50';
                     
+                    let feedbackContent = '';
+                    
+                    if (validityResult.title) {
+                        feedbackContent += `<span class="url-feedback-success">✓ ${validityResult.title}</span>`;
+                    }
+                    
                     if (urlCheck.changed) {
-                        feedbackDiv.innerHTML = `
-                            <button type="button" onclick="document.getElementById('${formId}').querySelector('input[name=\\'WebsiteUrl\\']').value='${urlCheck.sanitized}'; this.parentElement.style.display='none';" 
-                                style="margin-left: 8px; padding: 4px 12px; background: #1976d2; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9em;">
+                        if (feedbackContent) feedbackContent += '<br>';
+                        feedbackContent += `<span class="url-feedback-suggestion">💡 Verbesserter Link:</span>
+                            <button type="button" class="url-suggest-btn" onclick="
+                                const form = document.getElementById('${formId}');
+                                form.querySelector('input[name=\\'WebsiteUrl\\']').value='${urlCheck.sanitized}';
+                                this.parentElement.style.display='none';
+                            ">
                                 ${urlCheck.sanitized}
-                            </button>
-                        `;
+                            </button>`;
+                    }
+                    
+                    if (feedbackContent) {
+                        feedbackDiv.innerHTML = feedbackContent;
                         feedbackDiv.style.display = 'block';
                     } else {
                         feedbackDiv.style.display = 'none';
@@ -553,12 +566,19 @@
                     statusIcon.textContent = '⚠';
                     statusIcon.style.color = '#e53935';
                     
-                    let message = `<span style="color: #e53935;">⚠️ ${validityResult.message}</span>`;
+                    let message = `<span class="url-feedback-error">⚠️ ${validityResult.message}</span>`;
                     
                     if (urlCheck.changed) {
-                        message += `<br><span style="color: #1976d2;">Meinst Du?:</span>
-                            <button type="button" onclick="document.getElementById('${formId}').querySelector('input[name=\\'WebsiteUrl\\']').value='${urlCheck.sanitized}'; this.parentElement.querySelector('.url-status').textContent='⏳'; setTimeout(() => { document.getElementById('${formId}').querySelector('input[name=\\'WebsiteUrl\\']').dispatchEvent(new Event('input')); }, 100);" 
-                                style="margin-left: 8px; padding: 4px 12px; background:; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9em;">
+                        message += `<br><span class="url-feedback-suggestion">💡 Meintest du:</span>
+                            <button type="button" class="url-suggest-btn" onclick="
+                                const form = document.getElementById('${formId}');
+                                const input = form.querySelector('input[name=\\'WebsiteUrl\\']');
+                                const wrapper = input.parentElement;
+                                const status = wrapper.querySelector('.url-status');
+                                input.value='${urlCheck.sanitized}';
+                                if (status) status.textContent='⏳';
+                                setTimeout(() => { input.dispatchEvent(new Event('input')); }, 100);
+                            ">
                                 ${urlCheck.sanitized}
                             </button>`;
                     }
