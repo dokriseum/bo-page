@@ -392,6 +392,67 @@ try {
             } elseif ($path === '/token') {
                 $token = generateSubmissionToken();
                 echo json_encode(['token' => $token, 'expires_in' => 3600]);
+            } elseif ($path === '/validate-url') {
+                if (!isset($_GET['url'])) {
+                    http_response_code(400);
+                    echo json_encode(['error' => 'URL parameter missing']);
+                    break;
+                }
+                
+                $url = $_GET['url'];
+                
+                if (!filter_var($url, FILTER_VALIDATE_URL)) {
+                    echo json_encode([
+                        'valid' => false,
+                        'error' => 'Invalid URL format'
+                    ]);
+                    break;
+                }
+                
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+                curl_setopt($ch, CURLOPT_USERAGENT, 'BuendnisOst-EventValidator/1.0');
+                curl_setopt($ch, CURLOPT_HEADER, true);
+                curl_setopt($ch, CURLOPT_NOBODY, false);
+                
+                $response = curl_exec($ch);
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+                $body = substr($response, $headerSize);
+                $error = curl_error($ch);
+                curl_close($ch);
+                
+                if ($error) {
+                    echo json_encode([
+                        'valid' => false,
+                        'error' => $error,
+                        'title' => ''
+                    ]);
+                    break;
+                }
+                
+                $valid = ($httpCode >= 200 && $httpCode < 400);
+                
+                $title = '';
+                if ($valid && $body) {
+                    if (preg_match('/<title[^>]*>([^<]+)<\/title>/i', $body, $matches)) {
+                        $title = html_entity_decode(trim($matches[1]), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                    } elseif (preg_match('/<meta[^>]*property=["\']og:title["\'][^>]*content=["\']([^"\']+)["\'][^>]*>/i', $body, $matches)) {
+                        $title = html_entity_decode(trim($matches[1]), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                    }
+                }
+                
+                echo json_encode([
+                    'valid' => $valid,
+                    'http_code' => $httpCode,
+                    'title' => $title,
+                    'error' => $valid ? '' : "HTTP $httpCode"
+                ]);
             } elseif (preg_match('/^\/confirm\/([a-f0-9]{64})$/', $path, $matches)) {
                 header('Content-Type: text/html; charset=utf-8');
                 $token = $matches[1];
