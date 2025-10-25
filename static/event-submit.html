@@ -30,7 +30,7 @@
                 </div>
             </div>
             <label>Veranstaltungstitel <span style="color:#e53935">*</span> <input name="Title" required placeholder=""></label>
-            <label>Ort <span style="color:#e53935">*</span> <input name="Location" required placeholder="<Bitte auf Punkt auf der Karte wählen>"></label>
+            <label>Ort <span style="color:#e53935">*</span> <input name="Location" required placeholder="<Bitte auf der Karte wählen oder hier Addresse einfügen>"></label>
             <div class="form-row">
                 <div><label>Datum <span style="color:#e53935">*</span> <input type="date" name="Date" required class="eventDate"></label></div>
                 <div><label>Uhrzeit <input type="time" name="Time" placeholder="14:00"></label></div>
@@ -72,8 +72,8 @@
                 </div>
             </div>
             <label>Veranstaltungstitel <span style="color:#e53935">*</span> <input name="Title" required placeholder=""></label>
-            <label>Ort <span style="color:#e53935">*</span> <input name="Location" required placeholder="<Bitte auf Punkt auf der Karte wählen>"></label>
-            <div class="form-row">
+            <label>Ort <span style="color:#e53935">*</span> <input name="Location" required placeholder="<Bitte auf der Karte wählen oder hier Addresse einfügen>"></label>
+                <div class="form-row">
                 <div><label>Datum <span style="color:#e53935">*</span> <input type="date" name="Date" required class="eventDate"></label></div>
                 <div><label>Uhrzeit <input type="time" name="Time" placeholder="14:00"></label></div>
             </div>
@@ -160,9 +160,33 @@
             input.value = `${yyyy}-${mm}-${dd}`;
         });
         
-        // Initialize events map (Events form is shown by default)
         initEventsMap();
+        
+        setupLocationInputListeners();
     });
+    
+    function setupLocationInputListeners() {
+        let locationTimeout;
+        
+        const eventsForm = document.getElementById('eventsForm');
+        const eventForm = document.getElementById('eventForm');
+        
+        const eventsLocationInput = eventsForm.querySelector('input[name="Location"]');
+        eventsLocationInput.addEventListener('input', function(e) {
+            clearTimeout(locationTimeout);
+            locationTimeout = setTimeout(() => {
+                forwardGeocode(e.target.value, mapEvents, markerEvents, 'latInputEvents', 'lngInputEvents');
+            }, 1500);
+        });
+        
+        const eventLocationInput = eventForm.querySelector('input[name="Location"]');
+        eventLocationInput.addEventListener('input', function(e) {
+            clearTimeout(locationTimeout);
+            locationTimeout = setTimeout(() => {
+                forwardGeocode(e.target.value, map, marker, 'latInput', 'lngInput');
+            }, 1500);
+        });
+    }
     
     // Initialize Main Map (for Möglichmachen form)
     function initPotentialMap() {
@@ -223,7 +247,6 @@
                     parts.city || parts.town || parts.village || parts.county || '',
                     parts.state || '',
                 ].filter(Boolean).join(', ');
-                // Find the active form and update its location field
                 const activeForm = document.querySelector('.event-form[style*="display: block"], .event-form:not([style*="display: none"])');
                 if (activeForm) {
                     const locationInput = activeForm.querySelector('input[name="Location"]');
@@ -234,6 +257,49 @@
             }
         })
         .catch(err => console.error('Reverse geocoding failed:', err));
+    }
+    
+    function forwardGeocode(address, targetMap, targetMarker, latInputId, lngInputId) {
+        if (!address || address.trim() === '' || address.includes('<Bitte')) return;
+        
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}&limit=1&addressdetails=1`, {
+            headers: {
+                'User-Agent': 'BuendnisOstEventTool/1.0'
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data && data.length > 0) {
+                const result = data[0];
+                const lat = parseFloat(result.lat);
+                const lng = parseFloat(result.lon);
+                
+                if (targetMarker && targetMap.hasLayer(targetMarker)) {
+                    targetMap.removeLayer(targetMarker);
+                }
+                
+                const newMarker = L.marker([lat, lng], {draggable: true}).addTo(targetMap);
+                targetMap.setView([lat, lng], 13);
+                
+                document.getElementById(latInputId).value = lat.toFixed(6);
+                document.getElementById(lngInputId).value = lng.toFixed(6);
+                
+                if (targetMap === map) {
+                    marker = newMarker;
+                    marker.on('dragend', function(ev) {
+                        var pos = ev.target.getLatLng();
+                        setLatLng(pos.lat, pos.lng, latInputId, lngInputId, 'Location');
+                    });
+                } else if (targetMap === mapEvents) {
+                    markerEvents = newMarker;
+                    markerEvents.on('dragend', function(ev) {
+                        var pos = ev.target.getLatLng();
+                        setLatLng(pos.lat, pos.lng, latInputId, lngInputId, 'Location');
+                    });
+                }
+            }
+        })
+        .catch(err => console.error('Forward geocoding failed:', err));
     }
 
     // API Integration
