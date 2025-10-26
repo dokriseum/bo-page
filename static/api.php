@@ -277,9 +277,9 @@ class EventDatabase {
                 case 'organizer_phone': $insertFields[] = 'organizer_phone'; $params[] = $eventData['Organizer']['Contact']['Phone'] ?? null; break;
                 case 'event_type': $insertFields[] = 'event_type'; $params[] = $eventData['EventType'] ?? null; break;
                 case 'description': $insertFields[] = 'description'; $params[] = $eventData['Description'] ?? null; break;
-                case 'website_url': $insertFields[] = 'website_url'; $params[] = json_encode($eventData['WebsiteUrl'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?? null; break;
-                case 'wolke': $insertFields[] = 'wolke'; $params[] = $eventData['Wolke'] ?? null; break;
-                case 'chatbegruenung': $insertFields[] = 'chatbegruenung'; $params[] = $eventData['Chatbegruenung'] ?? null; break;
+                case 'website_url': $insertFields[] = 'website_url'; $params[] = isset($eventData['WebsiteUrl']) ? sanitizeUrl($eventData['WebsiteUrl']) : null; break;
+                case 'wolke': $insertFields[] = 'wolke'; $params[] = isset($eventData['Wolke']) ? sanitizeUrl($eventData['Wolke']) : null; break;
+                case 'chatbegruenung': $insertFields[] = 'chatbegruenung'; $params[] = isset($eventData['Chatbegruenung']) ? sanitizeUrl($eventData['Chatbegruenung']) : null; break;
                 case 'social_media_links': $insertFields[] = 'social_media_links'; $params[] = isset($eventData['SocialMediaLinks']) ? json_encode($eventData['SocialMediaLinks'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null; break;
                 case 'event_images': $insertFields[] = 'event_images'; $params[] = isset($eventData['EventImages']) ? json_encode($eventData['EventImages'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null; break;
                 case 'helpers_needed_minimum': $insertFields[] = 'helpers_needed_minimum'; $params[] = $eventData['HelpersNeededMinimum'] ?? $eventData['EventStatus']['HelpersNeededMinimum'] ?? null; break;
@@ -311,6 +311,20 @@ class EventDatabase {
             error_log("Failed to cleanup expired confirmations: " . $e->getMessage());
         }
     }
+}
+
+function sanitizeUrl($url) {
+    if (empty($url)) {
+        return $url;
+    }
+    
+    $url = trim($url);
+    
+    if (preg_match('/^["\'](.*)["\']$/', $url, $matches)) {
+        $url = $matches[1];
+    }
+    
+    return $url;
 }
 
 function loadTemplateData(string $path, array $variables = []): array {
