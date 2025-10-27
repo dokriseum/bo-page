@@ -197,6 +197,22 @@ class EventApp {
 
         listItem.querySelector('h4').textContent = event.Title;
 
+        if (event.Status === 'pending') {
+            const helpersInfo = listItem.querySelector('.event-helpers-info');
+            const requirementsInfo = listItem.querySelector('.event-requirements-info');
+
+            if (event.HelpersNeededMinimum && event.HelpersNeededMinimum > 0) {
+                const helpersText = `${event.HelpersNeededMinimum} Helfer*innen benötigt`;
+                listItem.querySelector('.helpers-needed').textContent = helpersText;
+                helpersInfo.style.display = 'block';
+            }
+
+            if (event.SpecialRequirements && event.SpecialRequirements.trim() !== '') {
+                listItem.querySelector('.special-requirements').textContent = event.SpecialRequirements;
+                requirementsInfo.style.display = 'block';
+            }
+        }
+
         return listItem;
     }
 
@@ -458,6 +474,35 @@ class EventApp {
             socialLinksContainer.style.display = 'flex';
         } else {
             socialLinksContainer.style.display = 'none';
+        }
+        
+        const helpersNeededContainer = detailsView.querySelector('.helpers-needed-container');
+        if (event.Status === 'pending' && event.HelpersNeededMinimum && event.HelpersNeededMinimum > 0) {
+            const helpersText = `Mindestens ${event.HelpersNeededMinimum} Helfer*innen werden für diese Veranstaltung benötigt.`;
+            detailsView.querySelector('.event-helpers-needed').textContent = helpersText;
+            helpersNeededContainer.style.display = 'flex';
+        } else {
+            helpersNeededContainer.style.display = 'none';
+        }
+
+        const requirementsContainer = detailsView.querySelector('.requirements-container');
+        if (event.Status === 'pending' && event.SpecialRequirements && event.SpecialRequirements.trim() !== '') {
+            detailsView.querySelector('.event-special-requirements').textContent = event.SpecialRequirements;
+            requirementsContainer.style.display = 'flex';
+        } else {
+            requirementsContainer.style.display = 'none';
+        }
+
+        const helpCtaContainer = detailsView.querySelector('.help-cta-container');
+        if (event.Status === 'pending') {
+            const eventTitle = encodeURIComponent(event.Title);
+            const eventId = encodeURIComponent(event.Id);
+            const mailtoLink = `mailto:info@buendnisost.de?subject=Helfen%20bei%3A%20${eventTitle}&body=Hallo%2C%0A%0Aich%20m%C3%B6chte%20gerne%20bei%20folgendem%20Event%20helfen%3A%0A%0AEvent%3A%20${eventTitle}%0AEvent-ID%3A%20${eventId}%0A%0AViele%20Gr%C3%BC%C3%9Fe`;
+            const ctaButton = helpCtaContainer.querySelector('.cta-btn');
+            ctaButton.setAttribute('onclick', `window.location.href='${mailtoLink}'`);
+            helpCtaContainer.style.display = 'block';
+        } else {
+            helpCtaContainer.style.display = 'none';
         }
         
         const backBtn = detailsView.querySelector('.back-btn');

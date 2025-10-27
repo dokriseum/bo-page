@@ -235,6 +235,28 @@
                 </div>
             </div>
 
+            <div class="meta-item helpers-needed-container" style="display: none;">
+                <div class="meta-icon helpers-icon">👥</div>
+                <div class="meta-text">
+                    <h4>Helfer*innen gesucht</h4>
+                    <p class="event-helpers-needed"></p>
+                </div>
+            </div>
+
+            <div class="meta-item requirements-container" style="display: none;">
+                <div class="meta-icon requirements-icon">📋</div>
+                <div class="meta-text">
+                    <h4>Benötigtes Material</h4>
+                    <p class="event-special-requirements"></p>
+                </div>
+            </div>
+
+            <div class="help-cta-container" style="display: none; margin: 20px 0;">
+                <button class="cta-btn" onclick="window.location.href='mailto:info@buendnisost.de?subject=Helfen%20bei%20Event'" style="width: 100%; font-size: 15px; padding: 14px 24px;">
+                    💚 Jetzt helfen und Möglichmachen
+                </button>
+            </div>
+
             <div class="description">
                 <h3>Beschreibung</h3>
                 <p class="event-description"></p>
@@ -311,6 +333,12 @@
                             <div class="event-list-info">
                                 <div class="event-list-date"></div>
                                 <h4></h4>
+                                <div class="event-helpers-info" style="display: none; margin-top: 8px; font-size: 13px; color: var(--diversity-turquoise); font-weight: 600;">
+                                    👥 <span class="helpers-needed"></span>
+                                </div>
+                                <div class="event-requirements-info" style="display: none; margin-top: 6px; font-size: 12px; color: var(--text-light);">
+                                    📋 <span class="special-requirements"></span>
+                                </div>
                             </div>
                         </div>
                     </template>
