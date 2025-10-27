@@ -6,6 +6,7 @@ class EventApp {
         this.currentFilter = 'all';
         this.currentTextFilter = '';
         this.showPastEvents = false;
+        this.eventsTabMode = 'events';
         this.init();
     }
 
@@ -29,6 +30,7 @@ class EventApp {
         window.showQRPopover = this.showQRPopover.bind(this);
         window.downloadICS = this.downloadICS.bind(this);
         window.downloadQRCode = this.downloadQRCode.bind(this);
+        window.switchEventsTab = this.switchEventsTab.bind(this);
     }
 
     bindEvents() {
@@ -105,16 +107,33 @@ class EventApp {
 
         if (!container || !template) return;
 
-        // Alte Events entfernen
         container.querySelectorAll('.event-list-item').forEach(item => item.remove());
 
-        // Events List View: Gefilterte Events zeigen
         const events = this.getFilteredEvents();
 
         events.forEach(event => {
             const listItem = this.createEventListItem(event, template);
             container.appendChild(listItem);
         });
+    }
+    
+    switchEventsTab(mode) {
+        this.eventsTabMode = mode;
+        
+        const tabs = document.querySelectorAll('#events-view .tab');
+        tabs.forEach(tab => tab.classList.remove('active'));
+        
+        const pendingHint = document.getElementById('pending-hint');
+        
+        if (mode === 'events') {
+            document.querySelector('#events-view .tab-events').classList.add('active');
+            if (pendingHint) pendingHint.style.display = 'none';
+        } else {
+            document.querySelector('#events-view .tab-cta').classList.add('active');
+            if (pendingHint) pendingHint.style.display = 'block';
+        }
+        
+        this.renderEventList('events-list-container');
     }
 
     createEventCard(event, template) {
@@ -181,9 +200,15 @@ class EventApp {
         return listItem;
     }
 
-    getFilteredEvents() {
+    getFilteredEvents() {       
         let filtered = window._eventsJson.filter(event => !event.draft);
         
+        if (this.eventsTabMode === 'pending') {
+            filtered = filtered.filter(event => event.Status === 'pending');
+        } else {
+            filtered = filtered.filter(event => event.Status === 'active');
+        }
+         
         // Filter by past events
         if (!this.showPastEvents) {
             const now = new Date();
@@ -219,15 +244,20 @@ class EventApp {
             this.currentView = viewName;
 
             if (viewName === 'events') {
-                // Reset search when switching to events view
                 this.resetSearchInput('events-search-input');
+                this.eventsTabMode = 'events';
+                const tabs = document.querySelectorAll('#events-view .tab');
+                tabs.forEach(tab => tab.classList.remove('active'));
+                document.querySelector('#events-view .tab-events')?.classList.add('active');
+                
+                const pendingHint = document.getElementById('pending-hint');
+                if (pendingHint) pendingHint.style.display = 'none';
+                
                 this.renderEventList('events-list-container');
             } else if (viewName === 'calendar') {
-                // Reset search when switching to calendar view
                 this.resetSearchInput('calendar-search-input');
             }
             
-            // Special handling for network view social media effects
             if (viewName === 'network') {
                 this.enhanceNetworkView();
             }
