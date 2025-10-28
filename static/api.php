@@ -110,7 +110,7 @@ class EventDatabase {
         }
     }
     
-    public function getAllEvents($status = 'active') {
+    public function getAllEvents() {
         try {
             $schema = [];
             if (file_exists(SCHEMA_PATH)) {
@@ -129,9 +129,9 @@ class EventDatabase {
                 }
             }
             
-            $sql = "SELECT * FROM `$table` WHERE status = ? ORDER BY event_time ASC";
+            $sql = "SELECT * FROM `$table` ORDER BY event_time ASC";
             $stmt = $this->db->prepare($sql);
-            $stmt->execute([$status]);
+            $stmt->execute();
             $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $formattedEvents = [];
             foreach ($events as $event) {
@@ -284,7 +284,7 @@ class EventDatabase {
                 case 'event_images': $insertFields[] = 'event_images'; $params[] = isset($eventData['EventImages']) ? json_encode($eventData['EventImages'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null; break;
                 case 'helpers_needed_minimum': $insertFields[] = 'helpers_needed_minimum'; $params[] = $eventData['HelpersNeededMinimum'] ?? $eventData['EventStatus']['HelpersNeededMinimum'] ?? null; break;
                 case 'special_requirements': $insertFields[] = 'special_requirements'; $params[] = $eventData['SpecialRequirements'] ?? $eventData['EventStatus']['SpecialRequirements'] ?? null; break;
-                case 'status': $insertFields[] = 'status'; $params[] = 'active'; break;
+                case 'status': $insertFields[] = 'status'; $params[] = $eventData['Status'] ?? 'active'; break;
             }
         }
         $sql = "INSERT INTO `$table` (" . implode(", ", $insertFields) . ") VALUES (" . rtrim(str_repeat('?, ', count($insertFields)), ', ') . ")";
@@ -295,7 +295,7 @@ class EventDatabase {
     
     public function updateEventsJson() {
         try {
-            $events = $this->getAllEvents('active');
+            $events = $this->getAllEvents();
             $jsonPath = __DIR__ . '/events.json';
             file_put_contents($jsonPath, json_encode($events, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
         } catch (Exception $e) {
@@ -534,7 +534,7 @@ try {
                 }
             } elseif ($path === '/export') {
                 $database->updateEventsJson();
-                $events = $database->getAllEvents('active');
+                $events = $database->getAllEvents();
                 echo json_encode([
                     'success' => true,
                     'message' => 'Events wurden erfolgreich nach events.json exportiert',

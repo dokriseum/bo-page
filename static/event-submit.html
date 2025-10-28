@@ -20,7 +20,7 @@
         </div>
         
         <!-- Events Form (simplified) -->
-        <form class="event-form" id="eventsForm">
+        <form class="event-form" id="activeEventsForm">
             <div id="map-select-container-events" style="margin: 16px 0 10px 0;">
                 <div id="map-select-map-events" style="height: 260px; border-radius: 7px; box-shadow: 0 1px 6px rgba(0,0,0,0.08);"></div>
                 <div style="font-size:0.95em; color:#256029; margin-top:4px;">Wähle einen Punkt auf der Karte aus. Die Koordinaten werden übernommen.</div>
@@ -58,7 +58,7 @@
         </form>
         
         <!-- Möglichmachen Form -->
-        <form class="event-form" id="eventForm" style="display: none;">
+        <form class="event-form" id="pendingEventsForm" style="display: none;">
             <a href="/" class="back-link">← Zurück zur Startseite</a>
             <div class="form-hint">
                 💡 <strong>Hinweis:</strong> Dieses Formular ist für Events gedacht, die <strong>potentiell stattfinden könnten</strong>, wenn sich noch die benötigten Helfer:innen und das notwendige Material finden. Trage hier ein, was du planst – andere können dich dann dabei unterstützen!
@@ -116,8 +116,8 @@
     // Tab Navigation
     document.addEventListener('DOMContentLoaded', function() {
         const allTabs = document.querySelectorAll('.tab-bar .tab');
-        const eventsForm = document.getElementById('eventsForm');
-        const eventForm = document.getElementById('eventForm');
+        const activeEventsForm = document.getElementById('activeEventsForm');
+        const pendingEventsForm = document.getElementById('pendingEventsForm');
         
         allTabs.forEach(tab => {
             tab.addEventListener('click', function() {
@@ -125,8 +125,8 @@
                 this.classList.add('active');
                 
                 if (this.classList.contains('tab-events')) {
-                    eventsForm.style.display = 'block';
-                    eventForm.style.display = 'none';
+                    activeEventsForm.style.display = 'block';
+                    pendingEventsForm.style.display = 'none';
                     // Initialize events map if not already done
                     setTimeout(() => {
                         if (!mapEvents) {
@@ -136,8 +136,8 @@
                         }
                     }, 100);
                 } else {
-                    eventsForm.style.display = 'none';
-                    eventForm.style.display = 'block';
+                    activeEventsForm.style.display = 'none';
+                    pendingEventsForm.style.display = 'block';
                     // Initialize main map if not already done
                     setTimeout(() => {
                         if (!map) {
@@ -168,10 +168,10 @@
     function setupLocationInputListeners() {
         let locationTimeout;
         
-        const eventsForm = document.getElementById('eventsForm');
-        const eventForm = document.getElementById('eventForm');
+        const activeEventsForm = document.getElementById('activeEventsForm');
+        const pendingEventsForm = document.getElementById('pendingEventsForm');
         
-        const eventsLocationInput = eventsForm.querySelector('input[name="Location"]');
+        const eventsLocationInput = activeEventsForm.querySelector('input[name="Location"]');
         eventsLocationInput.addEventListener('input', function(e) {
             clearTimeout(locationTimeout);
             locationTimeout = setTimeout(() => {
@@ -179,7 +179,7 @@
             }, 1500);
         });
         
-        const eventLocationInput = eventForm.querySelector('input[name="Location"]');
+        const eventLocationInput = pendingEventsForm.querySelector('input[name="Location"]');
         eventLocationInput.addEventListener('input', function(e) {
             clearTimeout(locationTimeout);
             locationTimeout = setTimeout(() => {
@@ -349,7 +349,6 @@
         statusDiv.style.display = 'none';
     }
 
-    // Form submission handler (shared by both forms)
     function setupFormSubmission(formId) {
         document.getElementById(formId).addEventListener('submit', async function(e) {
             e.preventDefault();
@@ -389,6 +388,7 @@
                     Time: f.Date.value + (f.Time.value ? ('T' + f.Time.value) : ''),
                     EventType: f.EventType.value,
                     Description: f.Description.value,
+                    Status: formId === 'activeEventsForm' ? 'active' : 'pending',
                     Organizer: {
                         Name: f.OrganizerName.value,
                         Contact: {
@@ -473,10 +473,10 @@
                 
                 // Reset form
                 f.reset();
-                if (formId === 'eventForm' && marker) {
+                if (formId === 'pendingEventsForm' && marker) {
                     map.removeLayer(marker);
                     marker = null;
-                } else if (formId === 'eventsForm' && markerEvents) {
+                } else if (formId === 'activeEventsForm' && markerEvents) {
                     mapEvents.removeLayer(markerEvents);
                     markerEvents = null;
                 }
@@ -498,10 +498,10 @@
 
     // Setup both forms
     document.addEventListener('DOMContentLoaded', function() {
-        setupFormSubmission('eventForm');
-        setupFormSubmission('eventsForm');
-        setupUrlValidation('eventForm');
-        setupUrlValidation('eventsForm');
+        setupFormSubmission('pendingEventsForm');
+        setupFormSubmission('activeEventsForm');
+        setupUrlValidation('pendingEventsForm');
+        setupUrlValidation('activeEventsForm');
     });
 
     function sanitizeUrl(url) {
