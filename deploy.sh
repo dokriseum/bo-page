@@ -19,6 +19,7 @@ NC='\033[0m' # No Color
 EXCLUDES=(
   '--exclude=event-admin/'
     '--exclude=config.php'
+    '--exclude=/media/'
 #   '--exclude=events.json'
 )
 
