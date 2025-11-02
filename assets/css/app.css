@@ -1333,6 +1333,25 @@ body {
   display: block;
 }
 
+/* Audio Player Image Responsive */
+.audio-image-desktop {
+  display: block;
+}
+
+.audio-image-mobile {
+  display: none !important;
+}
+
+@media (max-width: 1023px) {
+  .audio-image-desktop {
+    display: none !important;
+  }
+  
+  .audio-image-mobile {
+    display: block !important;
+  }
+}
+
 @media (min-width: 1024px) {
   .mobile-only {
     display: none !important;
