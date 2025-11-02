@@ -734,7 +734,8 @@ class EventApp {
         const formatICSDate = (date) => {
             return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
         };
-
+        const isAppleDevice = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent);
+        const appleLocation = event.Location.replace(',', '\\n').replace(/,/g, '\\,');
         const endDate = new Date(eventDate.getTime() + 2 * 60 * 60 * 1000);
 
         const icsContent = [
@@ -749,8 +750,17 @@ class EventApp {
             `DTSTAMP:${formatICSDate(new Date())}`,
             `UID:${event.Id}@buendnis-ost.de`,
             `SUMMARY:${event.Title}`,
+            `DESCRIPTION:${(event.Description || '').replace(/\n/g, '\\n').replace(/,/g, '\\,')}`,
+            `LOCATION:${event.Location.replace(/,/g, '\\,')}`,
+            `GEO:${event.Geolocation.Latitude};${event.Geolocation.Longitude}`,
+            `DTEND:${formatICSDate(endDate)}`,
+            `DTSTAMP:${formatICSDate(new Date())}`,
+            `UID:${event.Id}@buendnis-ost.de`,
+            `SUMMARY:${event.Title}`,
             `DESCRIPTION:${(event.Description || '').replace(/\n/g, '\\n')}`,
-            `LOCATION:${event.Location}`,
+            `LOCATION:${isAppleDevice ? appleLocation : event.Location}`,
+            `GEO:${event.Geolocation.Latitude};${event.Geolocation.Longitude}`,
+            `X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="${appleLocation}";X-APPLE-RADIUS=100;X-TITLE=${appleLocation}:geo:${event.Geolocation.Latitude},${event.Geolocation.Longitude}`,
             `ORGANIZER;CN=${event.Organizer.Name}:MAILTO:${event.Organizer.Email || 'info@buendnis-ost.de'}`,
             `URL:${window.location.origin}/?event=${event.Id}`,
             'STATUS:CONFIRMED',
