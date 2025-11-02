@@ -4,7 +4,8 @@
 <meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet">
 <meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
 <meta name="googlebot-news" content="noindex, nofollow">
-<title>{{ if .Title }}{{ .Title }} | {{ end }}{{ site.Title }}</title>
+<!-- <title>{{ if .Title }}{{ .Title }} | {{ end }}{{ site.Title }}</title> -->
+<title>{{ .Title }} </title>
 
 {{ $css := resources.Get "css/app.css" | css.PostCSS | resources.Minify | resources.Fingerprint }}
 <link rel="stylesheet" href="{{ $css.RelPermalink }}">
