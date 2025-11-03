@@ -190,7 +190,7 @@ class EventDatabase {
     public function createEventConfirmation($eventData) {
         try {
             $token = bin2hex(random_bytes(32));
-            $expiresAt = date('Y-m-d H:i:s', time() + 24 * 60 * 60);
+            $expiresAt = date('Y-m-d H:i:s', time() + 7 * 24 * 60 * 60);
             $stmt = $this->db->prepare("
                 INSERT INTO event_confirmations (token, event_data, email, expires_at)
                 VALUES (?, ?, ?, ?)
@@ -226,8 +226,9 @@ class EventDatabase {
             
             $eventData = json_decode($confirmation['event_data'], true);
             $eventId = $this->insertEvent($eventData);
-            $stmt = $this->db->prepare("DELETE FROM event_confirmations WHERE token = ?");
-            $stmt->execute([$token]);
+            
+            $stmt = $this->db->prepare("UPDATE event_confirmations SET event_id = ? WHERE token = ?");
+            $stmt->execute([$eventId, $token]);
             
             $this->db->commit();
             $this->updateEventsJson();
@@ -305,7 +306,11 @@ class EventDatabase {
     
     public function cleanupExpiredConfirmations() {
         try {
-            $stmt = $this->db->prepare("DELETE FROM event_confirmations WHERE expires_at < NOW()");
+            $stmt = $this->db->prepare("
+                DELETE FROM event_confirmations 
+                WHERE event_id IS NOT NULL 
+                AND expires_at < DATE_SUB(NOW(), INTERVAL 3 MONTH)
+            ");
             $stmt->execute();
         } catch (PDOException $e) {
             error_log("Failed to cleanup expired confirmations: " . $e->getMessage());

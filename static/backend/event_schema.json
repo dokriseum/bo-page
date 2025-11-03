@@ -33,12 +33,14 @@
         "token": { "type": "VARCHAR(64)", "required": true, "unique": true },
         "event_data": { "type": "JSON", "required": true },
         "email": { "type": "VARCHAR(255)", "required": true },
+        "event_id": { "type": "INT", "nullable": true },
         "expires_at": { "type": "TIMESTAMP", "required": true },
         "created_at": { "type": "TIMESTAMP", "default": "CURRENT_TIMESTAMP" }
       },
       "indexes": [
         { "name": "idx_token", "columns": ["token"] },
-        { "name": "idx_expires", "columns": ["expires_at"] }
+        { "name": "idx_expires", "columns": ["expires_at"] },
+        { "name": "idx_event_id", "columns": ["event_id"] }
       ],
       "options": {
         "engine": "InnoDB",
