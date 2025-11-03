@@ -382,14 +382,35 @@ function sendConfirmationEmail($email, $token, $eventTitle) {
         'eventTitle' => $eventTitle,
         'confirmUrl' => $confirmUrl
     ]);
+    
     $subject = $template['subject'] ?? '';
-    $message = $template['body'] ?? '';
-    if ($subject === '' || $message === '') {
+    $textBody = $template['text'] ?? '';
+    $htmlBody = $template['html'] ?? '';
+    
+    if ($subject === '' || $textBody === '') {
         throw new RuntimeException('Invalid confirmation email template content');
     }
+    
+    $boundary = md5(time());
+    
     $headers = "From: " . MAIL_FROM . "\r\n";
     $headers .= "Reply-To: " . MAIL_FROM . "\r\n";
-    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+    $headers .= "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: multipart/alternative; boundary=\"{$boundary}\"\r\n";
+    
+    $message = "--{$boundary}\r\n";
+    $message .= "Content-Type: text/plain; charset=UTF-8\r\n";
+    $message .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+    $message .= $textBody . "\r\n\r\n";
+    
+    if ($htmlBody !== '') {
+        $message .= "--{$boundary}\r\n";
+        $message .= "Content-Type: text/html; charset=UTF-8\r\n";
+        $message .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+        $message .= $htmlBody . "\r\n\r\n";
+    }
+    
+    $message .= "--{$boundary}--";
     
     return mail($email, $subject, $message, $headers);
 }
