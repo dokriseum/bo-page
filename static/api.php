@@ -375,12 +375,13 @@ function validateSubmissionToken($token) {
     return true;
 }
 
-function sendConfirmationEmail($email, $token, $eventTitle) {
+function sendConfirmationEmail($email, $token, $eventTitle, $eventData) {
     $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
     $confirmUrl = $protocol . $_SERVER['HTTP_HOST'] . "/api.php/confirm/" . $token;
     $template = loadTemplateData(TEMPLATE_ROOT . '/confirmation_email.php', [
         'eventTitle' => $eventTitle,
-        'confirmUrl' => $confirmUrl
+        'confirmUrl' => $confirmUrl,
+        'eventData' => $eventData
     ]);
     
     $subject = $template['subject'] ?? '';
@@ -548,7 +549,7 @@ try {
                 $confirmationToken = $database->createEventConfirmation($eventData);
                 $email = $eventData['Organizer']['Contact']['Email'];
                 
-                if (sendConfirmationEmail($email, $confirmationToken, $eventData['Title'])) {
+                if (sendConfirmationEmail($email, $confirmationToken, $eventData['Title'], $eventData)) {
                     echo json_encode([
                         'success' => true, 
                         'message' => 'Bestätigungs-E-Mail wurde versendet. Bitte prüfen Sie Ihr Postfach.',
