@@ -259,6 +259,10 @@ class EventApp {
             this.updateNavigation(viewName);
             this.currentView = viewName;
 
+            setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'instant' });
+            }, 0);
+
             if (viewName === 'events') {
                 this.resetSearchInput('events-search-input');
                 this.eventsTabMode = 'events';
@@ -278,7 +282,6 @@ class EventApp {
                 this.enhanceNetworkView();
             }
 
-            // URL aktualisieren
             if (updateUrl) {
                 this.updateUrlForView(viewName);
             }
