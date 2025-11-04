@@ -80,7 +80,12 @@ def get_opengraph_tags(url):
         headers = {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
         }
-        response = requests.get(url, headers=headers, timeout=10)
+        
+        try:
+            response = requests.get(url, headers=headers, timeout=10)
+        except requests.exceptions.SSLError:
+            response = requests.get(url, headers=headers, timeout=10, verify=False)
+        
         response.raise_for_status()
         
         html_content = response.content.decode('utf-8', errors='replace')
