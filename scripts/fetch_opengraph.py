@@ -83,7 +83,8 @@ def get_opengraph_tags(url):
         response = requests.get(url, headers=headers, timeout=10)
         response.raise_for_status()
         
-        soup = BeautifulSoup(response.text, 'html.parser')
+        html_content = response.content.decode('utf-8', errors='replace')
+        soup = BeautifulSoup(html_content, 'html.parser')
         
         og_data = {
             'url': url,

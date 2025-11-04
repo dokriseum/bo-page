@@ -1,6 +1,7 @@
 ---
 title: ""
 description: ""
+hint: "to update the content of this page, run from project root: python3 scripts/fetch_opengraph.py"
 ---
 Vernetze dich mit dem Osten! Folge uns und unseren Partnern in den jeweiligen Netzwerken.
 
@@ -20,6 +21,8 @@ Vernetze dich mit dem Osten! Folge uns und unseren Partnern in den jeweiligen Ne
 {{< og-link url="https://mitteldeutsche-stiftung.de/" >}}
 
 {{< og-link url="https://pixelgruene.gg/" >}}
+
+{{< og-link url="https://www.faktor-d.org" >}}
 
 {{< og-link url="https://weiterdenken.de/de/startseite" >}}
 {{< og-link url="https://www.boell.de/de/tags/sachsen" >}}

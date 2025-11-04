@@ -22,6 +22,14 @@
     "image:width": "1040",
     "image:height": "1040"
   },
+  "https://pixelgruene.gg/": {
+    "url": "https://pixelgruene.gg/",
+    "domain": "pixelgruene.gg",
+    "type": "website",
+    "title": "PIXELGRÜNE",
+    "description": "Herzlich Willkommen! bei der Gaming-Community von Bündnis 90/Die Grünen. Games sind Kultur. Games sind Sport. Games bieten Bildungspotenziale, Games lassen uns in andere Welten eintauchen und den Alltag mal ausblenden. […]",
+    "image": "https://pixelgruene.gg/wp-content/themes/sunflower/assets/img/sunflower1.jpg"
+  },
   "https://www.bpb.de": {
     "url": "https://www.bpb.de/2/bundeszentrale-fuer-politische-bildung-startseite/",
     "domain": "www.bpb.de",
@@ -62,7 +70,7 @@
     "type": "profile",
     "site_name": "social.bund.de",
     "title": "Bundeszentrale f. pol. Bildung (@bpb@social.bund.de)",
-    "description": "1.01K Posts, 13 Following, 10.4K Followers · * Politik verständlich machen\r\n* Demokratie stärken\r\n* Zivilgesellschaft fördern\r\n\r\nHier trötet das Social Media Team der Bundeszentrale für politische Bildung!\r\n\r\nIhr habt Fragen oder möchtet uns etwas sagen? Schreibt uns gern an: info@bpb.de.",
+    "description": "1.02K Posts, 13 Following, 10.5K Followers · * Politik verständlich machen\r\n* Demokratie stärken\r\n* Zivilgesellschaft fördern\r\n\r\nHier trötet das Social Media Team der Bundeszentrale für politische Bildung!\r\n\r\nIhr habt Fragen oder möchtet uns etwas sagen? Schreibt uns gern an: info@bpb.de.",
     "image": "https://social.bund.de/system/accounts/avatars/109/403/362/652/895/720/original/aaaa5540af31a744.png",
     "image:width": "400",
     "image:height": "400"
@@ -99,13 +107,13 @@
     "image": "https://mitteldeutsche-stiftung.de/wp-content/uploads/2025/04/P1149420-1024x683.jpg",
     "title": "Mitteldeutsche Stiftung Wissenschaft & Bildung"
   },
-  "https://pixelgruene.gg/": {
-    "url": "https://pixelgruene.gg/",
-    "domain": "pixelgruene.gg",
-    "type": "website",
-    "title": "PIXELGRÜNE",
-    "description": "Herzlich Willkommen! bei der Gaming-Community von Bündnis 90/Die Grünen. Games sind Kultur. Games sind Sport. Games bieten Bildungspotenziale, Games lassen uns in andere Welten eintauchen und den Alltag mal ausblenden. […]",
-    "image": "https://pixelgruene.gg/wp-content/themes/sunflower/assets/img/sunflower1.jpg"
+  "https://www.faktor-d.org": {
+    "url": "https://www.faktor-d.org",
+    "domain": "www.faktor-d.org",
+    "title": "Faktor D – Dein strategisches Netzwerk für Demokratie",
+    "description": "Faktor D: Wo sich demokratische Akteur*innen strategisch verbinden, entstehen Lösungen für eine Demokratie von morgen. Als Hub bauen wir dafür Schnittstellen zwischen Sektoren innerhalb des DACH-Raums.",
+    "image": "https://cdn.prod.website-files.com/6712652dd84856ffebdf5d62/68072ac2b8bdfd45a203e3cb_faktor-d_og-home.jpg",
+    "type": "website"
   },
   "https://www.boell.de/de/tags/sachsen": {
     "url": "https://www.boell.de/de/tags/sachsen",
