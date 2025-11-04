@@ -239,7 +239,7 @@ $htmlBody .= <<<HTML
                                 {$confirmUrl}
                             </p>
                             <p class="footer-text">
-                                Dieser Link ist 24 Stunden gültig.
+                                Dieser Link ist eine Woche gültig.
                             </p>
                             <p class="footer-text">
                                 Falls Sie dieses Event nicht eingetragen haben, ignorieren Sie diese E-Mail.
