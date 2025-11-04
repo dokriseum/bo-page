@@ -375,14 +375,31 @@ class EventApp {
         const bgImage = headerImage.querySelector('.event-header-bg-image');
         bgImage.style.display = 'none';
         
+        let centerImage = headerImage.querySelector('.event-header-center-image');
+        if (!centerImage) {
+            centerImage = document.createElement('img');
+            centerImage.className = 'event-header-center-image';
+            centerImage.setAttribute('referrerpolicy', 'no-referrer');
+            headerImage.appendChild(centerImage);
+        }
+        centerImage.style.display = 'none';
+        
         const imageToShow = this.getMainImageFromEvent(event);
         if (imageToShow) {
             bgImage.src = imageToShow;
             bgImage.alt = event.Title;
             bgImage.style.display = 'block';
+            
+            centerImage.src = imageToShow;
+            centerImage.alt = event.Title;
+            centerImage.style.display = 'block';
         }
         bgImage.onerror = () => {
-            imageContainer.style.background = event.FallbackGradient || 'var(--default-gradient)';
+            bgImage.style.display = 'none';
+            centerImage.style.display = 'none';
+        };
+        centerImage.onerror = () => {
+            centerImage.style.display = 'none';
         };
 
         detailsView.querySelector('.event-meta-title').textContent = event.Title;
