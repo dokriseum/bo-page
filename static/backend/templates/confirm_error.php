@@ -6,7 +6,7 @@ $errorText = htmlspecialchars($errorMessage ?? 'Unbekannter Fehler', ENT_QUOTES,
 <head>
     <meta charset="UTF-8">
     <title>Bestätigung fehlgeschlagen</title>
-    <link rel="stylesheet" href="/backend/css/confirmation.css">
+    <link rel="stylesheet" href="/css/confirmation.css">
 </head>
 <body class="confirm-error">
     <main class="confirmation-page">
