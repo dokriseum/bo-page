@@ -415,7 +415,7 @@ class EventApp {
 
         detailsView.querySelector('.event-location-name').textContent = event.Location;
         detailsView.querySelector('.event-organizer').textContent = event.Organizer.Name;
-        detailsView.querySelector('.event-description').textContent = event.Description || 'Keine Beschreibung verfügbar.';
+        detailsView.querySelector('.event-description').innerHTML = event.Description || 'Keine Beschreibung verfügbar.';
         
         const eventTypeContainer = detailsView.querySelector('.event-type-container');
         const eventTypeElement = detailsView.querySelector('.event-type');

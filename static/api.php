@@ -297,8 +297,16 @@ class EventDatabase {
     public function updateEventsJson() {
         try {
             $events = $this->getAllEvents();
+            
+            foreach ($events as &$event) {
+                if (isset($event['Description'])) {
+                    $event['Description'] = str_replace("\n", "<br/>", $event['Description']);
+                }
+            }
+            unset($event);
+            
             $jsonPath = __DIR__ . '/events.json';
-            file_put_contents($jsonPath, json_encode($events, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+            file_put_contents($jsonPath, json_encode($events, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
         } catch (Exception $e) {
             error_log("Failed to update events.json: " . $e->getMessage());
         }
