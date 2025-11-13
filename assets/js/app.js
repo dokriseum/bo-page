@@ -196,6 +196,8 @@ class EventApp {
             date.toLocaleDateString('de-DE', { weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' });
 
         listItem.querySelector('h4').textContent = event.Title;
+        
+        listItem.querySelector('.event-list-location .location-name').textContent = event.Location;
 
         if (event.Status === 'pending') {
             const helpersInfo = listItem.querySelector('.event-helpers-info');
