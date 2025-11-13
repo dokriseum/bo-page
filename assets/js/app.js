@@ -26,10 +26,12 @@ class EventApp {
         window.filterEventsByText = this.filterEventsByText.bind(this);
         window.togglePastEvents = this.togglePastEvents.bind(this);
         window.openLocation = this.openLocation.bind(this);
+        window.showSharePopover = this.showSharePopover.bind(this);
         window.showICSPopover = this.showICSPopover.bind(this);
         window.showQRPopover = this.showQRPopover.bind(this);
         window.downloadICS = this.downloadICS.bind(this);
         window.downloadQRCode = this.downloadQRCode.bind(this);
+        window.copyShareUrl = this.copyShareUrl.bind(this);
         window.switchEventsTab = this.switchEventsTab.bind(this);
     }
 
@@ -871,6 +873,43 @@ class EventApp {
                 document.body.removeChild(link);
             }
             return;
+        }
+    }
+
+    showSharePopover() {
+        if (!this.selectedEvent) return;
+        
+        const protocol = window.location.protocol;
+        const host = window.location.host;
+        const shareUrl = `${protocol}//${host}/event.php?id=${this.selectedEvent.Id}`;
+        
+        const input = document.getElementById('share-url-input');
+        if (input) {
+            input.value = shareUrl;
+        }
+        
+        document.getElementById('share-popover')?.showPopover();
+    }
+
+    copyShareUrl() {
+        const input = document.getElementById('share-url-input');
+        const btnText = document.getElementById('copy-btn-text');
+        
+        if (input) {
+            input.select();
+            input.setSelectionRange(0, 99999);
+            
+            navigator.clipboard.writeText(input.value).then(() => {
+                if (btnText) {
+                    const originalText = btnText.textContent;
+                    btnText.textContent = '✓ Kopiert!';
+                    setTimeout(() => {
+                        btnText.textContent = originalText;
+                    }, 2000);
+                }
+            }).catch(err => {
+                console.error('Fehler beim Kopieren:', err);
+            });
         }
     }
 }

@@ -178,6 +178,11 @@
 
             <!-- Share Bar -->
             <div class="event-share-bar">
+                <h4 style="color: var(--secondary);">Veranstaltung mit anderen teilen</h4>
+                <button class="share-btn" onclick="showSharePopover()" title="Event teilen">
+                    <span class="share-icon">🔗</span>
+                    <span>Link</span>
+                </button>
                 <button class="share-btn" onclick="showICSPopover()" title="Als Kalendereintrag herunterladen">
                     <span class="share-icon">📅</span>
                     <span>Kalender</span>
@@ -294,6 +299,25 @@
                         QR-Code herunterladen
                     </button>
                     <button class="popover-btn secondary" popovertarget="qr-popover">Schließen</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Share Popover -->
+        <div id="share-popover" class="event-popover" popover>
+            <div class="popover-content">
+                <button class="popover-close" popovertarget="share-popover">×</button>
+                <h3>🔗 Event teilen</h3>
+                <p>Teile das Event am besten mit diesem Link</p>
+                <div class="share-url-container">
+                    <input type="text" id="share-url-input" readonly class="share-url-input">
+                    <button class="popover-btn secondary" onclick="copyShareUrl()" style="margin-top: 12px; width: 100%;">
+                        <span class="btn-icon">📋</span>
+                        <span id="copy-btn-text">Link kopieren</span>
+                    </button>
+                </div>
+                <div class="popover-actions">
+                    <button class="popover-btn secondary" popovertarget="share-popover">Schließen</button>
                 </div>
             </div>
         </div>
