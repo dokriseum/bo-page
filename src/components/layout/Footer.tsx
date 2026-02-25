@@ -127,7 +127,7 @@ export default function Footer() {
             Made with{' '}
             <span style={{ color: '#e91e63' }}>♥</span>{' '}
             für lokale Bündnisse. by{' '}
-            <span style={{ color: '#0ea5e9' }}>KAEMPT</span>
+            <span style={{ color: '#0ea5e9' }}>Bündnis Ost</span>
           </p>
         </div>
       </div>
