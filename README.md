@@ -23,7 +23,7 @@
 |                     |                                                      |
 | ------------------- | ---------------------------------------------------- |
 | **Ziel**            | Politische Netzpräsenz für *Bündnis Ost*             |
-| **Technik-Stack**   | Hugo (extended) · Markdown Content · SCSS/CSS Assets |
+| **Technik-Stack**   | Hugo (extended) · Markdown-Inhalt · SCSS/CSS-Assets |
 | **Design-Leitbild** | ???                                                  |
 
 ---
@@ -37,7 +37,7 @@ cd website
 
 # 2 Hugo extended installieren  (siehe unten für OS-spezifische Befehle)
 
-# 3 Python-Dependencies installieren (für OpenGraph-Fetcher)
+# 3 Python-Abhängigkeiten installieren (für OpenGraph-Fetcher)
 pip3 install -r scripts/requirements.txt
 
 # 4 Lokalen Dev-Server starten
@@ -54,15 +54,13 @@ xdg-open http://localhost:1313 # Linux
 ## Installation von Hugo
 
 > **Wichtig:**  
-> *Wir benötigen die **extended-Variante** von Hugo, weil sie den integrierten SCSS/SASS-Compiler enthält.*
+> *Wir benötigen die **Extended-Variante** von Hugo, weil sie den integrierten SCSS/SASS-Compiler enthält.*
 
 ### Ubuntu / Debian 💻🐧
 
 | Variante | Befehl |
 |----------|--------|
 | **Snap (empfohlen)** | `doas snap install hugo --channel=extended` |
-| **APT-Repo** | `echo "deb [trusted=yes] https://apt.gohugo.io/ /" &#124; doas tee /etc/apt/sources.list.d/hugo.list` \n `doas apt update && doas apt install hugo` |
-| **APT-Repo** | ```echo "deb [trusted=yes] https://apt.gohugo.io/ /" &#124; doas tee /etc/apt/sources.list.d/hugo.list` <br> `doas apt update && doas apt install hugo` |
 | **Manuell** | Aktuelle `.deb` oder `.tar.gz` von <https://github.com/gohugoio/hugo/releases> laden und mit `dpkg -i …` (bzw. entpacken) installieren |
 
 
@@ -89,13 +87,13 @@ xdg-open http://localhost:1313 # Linux
 | Schritt | Befehl / Aktion |
 |---------|-----------------|
 | **Neue Seite** | `hugo new thema/mein-artikel.md` |
-| **Lokaler Live-Reload** | `hugo server` (ändere Dateien → Seite refresht automatisch) |
+| **Lokaler Live-Reload** | `hugo server` (ändere Dateien → Seite lädt automatisch neu) |
 | **OpenGraph-Daten aktualisieren** | `python3 scripts/fetch_opengraph.py` (lädt OpenGraph-Tags aus `netzwerk.md`) |
 | **Bauen für Prod** | `npm run prebuild && hugo --minify` → ergibt statisches HTML/CSS/JS in `public/` |
 
 ### Python-Abhängigkeit für OpenGraph-Fetcher
 
-Das Projekt nutzt ein Python-Script (`scripts/fetch_opengraph.py`), das OpenGraph-Tags aus verlinkten Seiten lädt:
+Das Projekt nutzt ein Python-Skript (`scripts/fetch_opengraph.py`), das OpenGraph-Tags aus verlinkten Seiten lädt:
 
 **Installation:**
 ```bash
@@ -106,7 +104,7 @@ pip3 install -r scripts/requirements.txt
 - Automatisch bei `npm run prebuild` (vor Hugo-Build)
 - Manuell mit `python3 scripts/fetch_opengraph.py`
 
-Das Script extrahiert URLs aus `content/netzwerk.md`, lädt deren OpenGraph-Metadaten und speichert sie in `data/opengraph.json` für die Verwendung in Hugo-Templates.
+Das Skript extrahiert URLs aus `content/netzwerk.md`, lädt deren OpenGraph-Metadaten und speichert sie in `data/opengraph.json` für die Verwendung in Hugo-Templates.
 
 ---
 
@@ -114,6 +112,7 @@ Das Script extrahiert URLs aus `content/netzwerk.md`, lädt deren OpenGraph-Meta
 
 ```text
 .
+├── assets/             # CSS und JavaScript (zur Verarbeitung in Hugo)
 ├── content/            # Markdown-Inhalte (Seiten & Blogposts)
 │   ├── _index.md       # Startseite
 │   └── thema/          # Beispiel-Sektion
@@ -122,7 +121,7 @@ Das Script extrahiert URLs aus `content/netzwerk.md`, lädt deren OpenGraph-Meta
 │   ├── index.html      # eigenes Layout für Startseite
 │   └── partials/       # head.html, header.html, footer.html, …
 ├── static/
-│   └── css/main.css    # Globales CSS  (wird 1:1 kopiert)
+│   └── css/main.css    # Globales CSS  (wird unverarbeitet 1:1 kopiert)
 ├── resources/          # ⚠️ Auto-generiert (SCSS-/Image-Pipeline)
 ├── public/             # ⚠️ Build-Ergebnis (im .gitignore)
 ├── hugo.toml           # Projekt-Config
@@ -138,7 +137,7 @@ Das Script extrahiert URLs aus `content/netzwerk.md`, lädt deren OpenGraph-Meta
 *© 2025 Bündnis Ost, BÜNDNIS 90/DIE GRÜNEN.*  
 Quellcode steht unter der **MIT-Lizenz** → siehe [`LICENSE`](LICENSE).
 
-> **Pull Requests / Issues welcome!**  
+> **Pull-Requests / Issues welcome!**  
 > Wir freuen uns über Feedback, Bugreports oder Layout-Verbesserungen. Schreib uns einfach ein Issue oder öffne direkt einen PR.
 
 ---
