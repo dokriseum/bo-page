@@ -129,11 +129,24 @@
             <label>E-Mail für Test: <input type="email" name="test_email" value="<?php echo htmlspecialchars(MAIL_TEST_TO) ?>" required></label>
             <label>Event Titel: <input type="text" name="title" value="API Test Event" required></label>
             <label>Ort: <input type="text" name="location" value="Berlin, Deutschland" required></label>
+            <label>Latitude: <input type="number" name="latitude" step="any" value="52.520008" placeholder="z.B. 52.520008"></label>
+            <label>Longitude: <input type="number" name="longitude" step="any" value="13.404954" placeholder="z.B. 13.404954"></label>
             <label>Datum/Zeit: <input type="datetime-local" name="time" required></label>
             <label>Veranstalter Name: <input type="text" name="organizer_name" value="Test Organizer" required></label>
+            <label>Veranstalter Email: <input type="email" name="test_email" value="<?php echo htmlspecialchars(MAIL_TEST_TO) ?>" required></label>
+            <label>Veranstalter Telefon: <input type="tel" name="organizer_phone" value="+49 30 12345678" placeholder="z.B. 0123 456789"></label>
             <label>Event Typ: <input type="text" name="event_type" value="Test" required></label>
             <label>Beschreibung: <textarea name="description" required>Dies ist ein Test Event für das Backend</textarea></label>
-            <label>Helfer benötigt: <input type="number" name="helpers" value="3"></label>
+            <label>Webseite: <input type="url" name="website_url" value="https://www.tolles-event-im-osten.de/#2138912jhdf"></label>
+            <label>Wolke-Link: <input type="url" name="wolke" value="https://wolke.netzbegruenung.de/test-ordner" placeholder="https://wolke.netzbegruenung.de/..."></label>
+            <label>Chatbegruenung-Link: <input type="url" name="chatbegruenung" value="https://chatbegruenung.de/channel/test" placeholder="https://chatbegruenung.de/..."></label>
+            <label>Social Media Links (ein Link pro Zeile): <textarea name="social_media_links" placeholder="Ein Link pro Zeile">https://facebook.com/test
+https://twitter.com/test
+https://instagram.com/test</textarea></label>
+            <label>Event-Bilder (URLs, ein Link pro Zeile): <textarea name="event_images" placeholder="Ein Bild-Link pro Zeile">https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Mar%C3%ADa_Corina_Machado_perfil.jpg/500px-Mar%C3%ADa_Corina_Machado_perfil.jpg
+https://upload.wikimedia.org/wikipedia/commons/f/f6/OTVbelweder-front.jpg</textarea></label>
+            <label>Helfer benötigt (Minimum): <input type="number" name="helpers" value="3" placeholder="z.B. 3"></label>
+            <label>Material/Sonderbedarf: <input type="text" name="special_requirements" value="Pavillon, Flyer, Banner" placeholder="z.B. Pavillon, Flyer"></label>
             
             <button type="submit" id="formSubmitBtn" disabled>Test Event einreichen (Token erforderlich)</button>
         </form>
@@ -242,6 +255,7 @@
                     "Time": "2025-12-15T14:00",
                     "EventType": "API Test",
                     "Description": "Dies ist ein automatischer Test des API Endpunkts",
+                    "WebsiteUrl": "https://example.com/test-event",
                     "Organizer": {
                         "Name": "API Tester",
                         "Contact": {
@@ -317,10 +331,54 @@
                 }
             };
             
-            if (formData.get('helpers')) {
-                eventData.event_data.EventStatus = {
-                    "HelpersNeededMinimum": parseInt(formData.get('helpers'))
+            // Geolocation
+            const lat = formData.get('latitude');
+            const lng = formData.get('longitude');
+            if (lat && lng) {
+                eventData.event_data.Geolocation = {
+                    "Latitude": parseFloat(lat),
+                    "Longitude": parseFloat(lng)
                 };
+            }
+            
+            // Organizer Phone
+            if (formData.get('organizer_phone')) {
+                eventData.event_data.Organizer.Contact.Phone = formData.get('organizer_phone');
+            }
+            
+            // Optional URL fields
+            if (formData.get('website_url')) {
+                eventData.event_data.WebsiteUrl = formData.get('website_url');
+            }
+            
+            if (formData.get('wolke')) {
+                eventData.event_data.Wolke = formData.get('wolke');
+            }
+            
+            if (formData.get('chatbegruenung')) {
+                eventData.event_data.Chatbegruenung = formData.get('chatbegruenung');
+            }
+            
+            // Social Media Links (array)
+            if (formData.get('social_media_links')) {
+                eventData.event_data.SocialMediaLinks = formData.get('social_media_links').split('\n').filter(link => link.trim());
+            }
+            
+            // Event Images (array)
+            if (formData.get('event_images')) {
+                eventData.event_data.EventImages = formData.get('event_images').split('\n').filter(link => link.trim());
+            }
+            
+            // EventStatus
+            const eventStatus = {};
+            if (formData.get('helpers')) {
+                eventStatus.HelpersNeededMinimum = parseInt(formData.get('helpers'));
+            }
+            if (formData.get('special_requirements')) {
+                eventStatus.SpecialRequirements = formData.get('special_requirements');
+            }
+            if (Object.keys(eventStatus).length > 0) {
+                eventData.event_data.EventStatus = eventStatus;
             }
             
             const resultsDiv = document.getElementById('email-test-results');

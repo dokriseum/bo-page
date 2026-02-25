@@ -6,6 +6,7 @@ class EventApp {
         this.currentFilter = 'all';
         this.currentTextFilter = '';
         this.showPastEvents = false;
+        this.eventsTabMode = 'events';
         this.init();
     }
 
@@ -25,6 +26,13 @@ class EventApp {
         window.filterEventsByText = this.filterEventsByText.bind(this);
         window.togglePastEvents = this.togglePastEvents.bind(this);
         window.openLocation = this.openLocation.bind(this);
+        window.showSharePopover = this.showSharePopover.bind(this);
+        window.showICSPopover = this.showICSPopover.bind(this);
+        window.showQRPopover = this.showQRPopover.bind(this);
+        window.downloadICS = this.downloadICS.bind(this);
+        window.downloadQRCode = this.downloadQRCode.bind(this);
+        window.copyShareUrl = this.copyShareUrl.bind(this);
+        window.switchEventsTab = this.switchEventsTab.bind(this);
     }
 
     bindEvents() {
@@ -76,7 +84,7 @@ class EventApp {
 
         container.querySelectorAll('.event-card').forEach(card => card.remove());
 
-        const maxEventsStartpage = 6;
+        const maxEventsStartpage = 4;
         const now = new Date();
         
         const allEvents = window._eventsJson.filter(event => {
@@ -101,16 +109,33 @@ class EventApp {
 
         if (!container || !template) return;
 
-        // Alte Events entfernen
         container.querySelectorAll('.event-list-item').forEach(item => item.remove());
 
-        // Events List View: Gefilterte Events zeigen
         const events = this.getFilteredEvents();
 
         events.forEach(event => {
             const listItem = this.createEventListItem(event, template);
             container.appendChild(listItem);
         });
+    }
+    
+    switchEventsTab(mode) {
+        this.eventsTabMode = mode;
+        
+        const tabs = document.querySelectorAll('#events-view .tab');
+        tabs.forEach(tab => tab.classList.remove('active'));
+        
+        const pendingHint = document.getElementById('pending-hint');
+        
+        if (mode === 'events') {
+            document.querySelector('#events-view .tab-events').classList.add('active');
+            if (pendingHint) pendingHint.style.display = 'none';
+        } else {
+            document.querySelector('#events-view .tab-cta').classList.add('active');
+            if (pendingHint) pendingHint.style.display = 'block';
+        }
+        
+        this.renderEventList('events-list-container');
     }
 
     createEventCard(event, template) {
@@ -173,13 +198,37 @@ class EventApp {
             date.toLocaleDateString('de-DE', { weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' });
 
         listItem.querySelector('h4').textContent = event.Title;
+        
+        listItem.querySelector('.event-list-location .location-name').textContent = event.Location;
+
+        if (event.Status === 'pending') {
+            const helpersInfo = listItem.querySelector('.event-helpers-info');
+            const requirementsInfo = listItem.querySelector('.event-requirements-info');
+
+            if (event.HelpersNeededMinimum && event.HelpersNeededMinimum > 0) {
+                const helpersText = `${event.HelpersNeededMinimum} Helfer*innen benötigt`;
+                listItem.querySelector('.helpers-needed').textContent = helpersText;
+                helpersInfo.style.display = 'block';
+            }
+
+            if (event.SpecialRequirements && event.SpecialRequirements.trim() !== '') {
+                listItem.querySelector('.special-requirements').textContent = event.SpecialRequirements;
+                requirementsInfo.style.display = 'block';
+            }
+        }
 
         return listItem;
     }
 
-    getFilteredEvents() {
+    getFilteredEvents() {       
         let filtered = window._eventsJson.filter(event => !event.draft);
         
+        if (this.eventsTabMode === 'pending') {
+            filtered = filtered.filter(event => event.Status === 'pending');
+        } else {
+            filtered = filtered.filter(event => event.Status === 'active');
+        }
+         
         // Filter by past events
         if (!this.showPastEvents) {
             const now = new Date();
@@ -214,21 +263,29 @@ class EventApp {
             this.updateNavigation(viewName);
             this.currentView = viewName;
 
+            setTimeout(() => {
+                window.scrollTo({ top: 0, behavior: 'instant' });
+            }, 0);
+
             if (viewName === 'events') {
-                // Reset search when switching to events view
                 this.resetSearchInput('events-search-input');
+                this.eventsTabMode = 'events';
+                const tabs = document.querySelectorAll('#events-view .tab');
+                tabs.forEach(tab => tab.classList.remove('active'));
+                document.querySelector('#events-view .tab-events')?.classList.add('active');
+                
+                const pendingHint = document.getElementById('pending-hint');
+                if (pendingHint) pendingHint.style.display = 'none';
+                
                 this.renderEventList('events-list-container');
             } else if (viewName === 'calendar') {
-                // Reset search when switching to calendar view
                 this.resetSearchInput('calendar-search-input');
             }
             
-            // Special handling for network view social media effects
             if (viewName === 'network') {
                 this.enhanceNetworkView();
             }
 
-            // URL aktualisieren
             if (updateUrl) {
                 this.updateUrlForView(viewName);
             }
@@ -244,7 +301,6 @@ class EventApp {
     }
 
     enhanceNetworkView() {
-        // Add click analytics for social media links
         const networkView = document.getElementById('network-view');
         if (!networkView) return;
 
@@ -272,45 +328,6 @@ class EventApp {
                 setTimeout(() => ripple.remove(), 600);
             });
         });
-
-        // Add hover tooltips for social media platforms
-        const tooltips = {
-            'mastodon': '🐘 Folge uns auf Mastodon',
-            'matrix': '💬 Chatte mit uns auf Matrix',
-            'discord': '🎮 Join unseren Discord Server',
-            'mailto': '📧 Schreib uns eine E-Mail',
-            'ostdeutschland.info': '🌐 Besuche Ostdeutschland.info',
-            'kreuzer': '📰 Lies den Kreuzer Leipzig',
-            'mdr.de': '📺 Schau MDR Sachsen'
-        };
-
-        Object.entries(tooltips).forEach(([platform, text]) => {
-            const links = networkView.querySelectorAll(`a[href*="${platform}"]`);
-            links.forEach(link => {
-                link.setAttribute('title', text);
-                link.style.position = 'relative';
-            });
-        });
-
-        // Add live counter animation for hashtag section
-        const hashtagSection = Array.from(networkView.querySelectorAll('h2, h3'))
-            .find(h => h.textContent.includes('#'));
-        
-        if (hashtagSection && !hashtagSection.querySelector('.live-badge')) {
-            const counter = document.createElement('span');
-            counter.className = 'live-badge';
-            counter.style.cssText = `
-                background: linear-gradient(135deg, #ff6b6b 0%, #ffa726 100%);
-                color: white;
-                padding: 0.2rem 0.5rem;
-                border-radius: 10px;
-                font-size: 0.7rem;
-                margin-left: 0.5rem;
-                animation: pulse 2s infinite;
-            `;
-            counter.textContent = 'LIVE';
-            hashtagSection.appendChild(counter);
-        }
     }
 
     showEventDetails(element) {
@@ -320,7 +337,7 @@ class EventApp {
             return;
 
         this.selectedEvent = event;
-        this.renderEventDetails(event, 'main'); // Standard: zurück zur Hauptseite
+        this.renderEventDetails(event, 'main'); 
         this.hideAllViews();
         this.updateUrlForEventDetails(eventId);
     }
@@ -332,10 +349,9 @@ class EventApp {
             return;
 
         this.selectedEvent = event;
-        this.renderEventDetails(event, 'calendar'); // Von Karte: zurück zur Karte
+        this.renderEventDetails(event, 'calendar'); 
         this.hideAllViews();
 
-        // URL für Event-Details aktualisieren
         this.updateUrlForEventDetails(eventId);
     }
 
@@ -366,14 +382,31 @@ class EventApp {
         const bgImage = headerImage.querySelector('.event-header-bg-image');
         bgImage.style.display = 'none';
         
+        let centerImage = headerImage.querySelector('.event-header-center-image');
+        if (!centerImage) {
+            centerImage = document.createElement('img');
+            centerImage.className = 'event-header-center-image';
+            centerImage.setAttribute('referrerpolicy', 'no-referrer');
+            headerImage.appendChild(centerImage);
+        }
+        centerImage.style.display = 'none';
+        
         const imageToShow = this.getMainImageFromEvent(event);
         if (imageToShow) {
             bgImage.src = imageToShow;
             bgImage.alt = event.Title;
             bgImage.style.display = 'block';
+            
+            centerImage.src = imageToShow;
+            centerImage.alt = event.Title;
+            centerImage.style.display = 'block';
         }
         bgImage.onerror = () => {
-            imageContainer.style.background = event.FallbackGradient || 'var(--default-gradient)';
+            bgImage.style.display = 'none';
+            centerImage.style.display = 'none';
+        };
+        centerImage.onerror = () => {
+            centerImage.style.display = 'none';
         };
 
         detailsView.querySelector('.event-meta-title').textContent = event.Title;
@@ -386,7 +419,7 @@ class EventApp {
 
         detailsView.querySelector('.event-location-name').textContent = event.Location;
         detailsView.querySelector('.event-organizer').textContent = event.Organizer.Name;
-        detailsView.querySelector('.event-description').textContent = event.Description || 'Keine Beschreibung verfügbar.';
+        detailsView.querySelector('.event-description').innerHTML = event.Description || 'Keine Beschreibung verfügbar.';
         
         const eventTypeContainer = detailsView.querySelector('.event-type-container');
         const eventTypeElement = detailsView.querySelector('.event-type');
@@ -395,6 +428,21 @@ class EventApp {
             eventTypeContainer.style.display = 'flex';
         } else {
             eventTypeContainer.style.display = 'none';
+        }
+        
+        const websiteUrlContainer = detailsView.querySelector('.website-url-container');
+        if (event.WebsiteUrl && event.WebsiteUrl.trim() !== '') {
+            
+            const websiteUrlElement = detailsView.querySelector('.event-website-url');
+            let displayUrl = event.WebsiteUrl.replace(/^https?:\/\//, '').replace(/\/$/, '');
+            if (displayUrl.length > 35) {
+                displayUrl = displayUrl.substring(0, 32) + '...';
+            }
+            websiteUrlElement.textContent = displayUrl;
+            websiteUrlElement.href = event.WebsiteUrl;
+            websiteUrlContainer.style.display = 'flex';
+        } else {
+            websiteUrlContainer.style.display = 'none';
         }
         
         const socialLinksContainer = detailsView.querySelector('.social-links-container');
@@ -414,30 +462,71 @@ class EventApp {
                 let icon = '🔗';
                 let platform = 'Link';
                 
-                if (link.includes('facebook.com')) {
-                    icon = '📘';
-                    platform = 'Facebook';
-                } else if (link.includes('instagram.com')) {
-                    icon = '📷';
-                    platform = 'Instagram';
-                } else if (link.includes('twitter.com') || link.includes('x.com')) {
-                    icon = '🐦';
-                    platform = 'Twitter/X';
-                } else if (link.includes('mastodon')) {
-                    icon = '🐘';
-                    platform = 'Mastodon';
-                } else if (link.includes('youtube.com')) {
-                    icon = '📹';
-                    platform = 'YouTube';
-                } else if (link.includes('linkedin.com')) {
-                    icon = '💼';
-                    platform = 'LinkedIn';
+                try {
+                    const url = new URL(link);
+                    const domain = url.hostname.replace('www.', '');
+                    platform = domain;
+                    
+                    if (link.includes('facebook.com')) {
+                        icon = '📘';
+                        platform = 'Facebook';
+                    } else if (link.includes('instagram.com')) {
+                        icon = '📷';
+                        platform = 'Instagram';
+                    } else if (link.includes('twitter.com') || link.includes('x.com')) {
+                        icon = '🐦';
+                        platform = 'Twitter/X';
+                    } else if (link.includes('mastodon')) {
+                        icon = '🐘';
+                        platform = 'Mastodon';
+                    } else if (link.includes('youtube.com')) {
+                        icon = '📹';
+                        platform = 'YouTube';
+                    } else if (link.includes('linkedin.com')) {
+                        icon = '💼';
+                        platform = 'LinkedIn';
+                    }
+                } catch (e) {
+                    platform = link.substring(0, 30) + (link.length > 30 ? '...' : '');
                 }
-                return `<a href="${link}" target="_blank" rel="noopener noreferrer" style="display: inline-block; margin: 4px 8px 4px 0; padding: 6px 12px; background: var(--primary-color); color: white; text-decoration: none; border-radius: 6px; font-size: 14px;">${icon} ${platform}</a>`;
+                
+                return `<a href="${link}" target="_blank" rel="noopener noreferrer" class="social-link-badge">
+                    <span class="social-icon">${icon}</span>
+                    <span>${platform}</span>
+                </a>`;
             }).join('');
             socialLinksContainer.style.display = 'flex';
         } else {
             socialLinksContainer.style.display = 'none';
+        }
+        
+        const helpersNeededContainer = detailsView.querySelector('.helpers-needed-container');
+        if (event.Status === 'pending' && event.HelpersNeededMinimum && event.HelpersNeededMinimum > 0) {
+            const helpersText = `Mindestens ${event.HelpersNeededMinimum} Helfer*innen werden für diese Veranstaltung benötigt.`;
+            detailsView.querySelector('.event-helpers-needed').textContent = helpersText;
+            helpersNeededContainer.style.display = 'flex';
+        } else {
+            helpersNeededContainer.style.display = 'none';
+        }
+
+        const requirementsContainer = detailsView.querySelector('.requirements-container');
+        if (event.Status === 'pending' && event.SpecialRequirements && event.SpecialRequirements.trim() !== '') {
+            detailsView.querySelector('.event-special-requirements').textContent = event.SpecialRequirements;
+            requirementsContainer.style.display = 'flex';
+        } else {
+            requirementsContainer.style.display = 'none';
+        }
+
+        const helpCtaContainer = detailsView.querySelector('.help-cta-container');
+        if (event.Status === 'pending') {
+            const eventTitle = encodeURIComponent(event.Title);
+            const eventId = encodeURIComponent(event.Id);
+            const mailtoLink = `mailto:info@buendnisost.de?subject=Helfen%20bei%3A%20${eventTitle}&body=Hallo%2C%0A%0Aich%20m%C3%B6chte%20gerne%20bei%20folgendem%20Event%20helfen%3A%0A%0AEvent%3A%20${eventTitle}%0AEvent-ID%3A%20${eventId}%0A%0AViele%20Gr%C3%BC%C3%9Fe`;
+            const ctaButton = helpCtaContainer.querySelector('.cta-btn');
+            ctaButton.setAttribute('onclick', `window.location.href='${mailtoLink}'`);
+            helpCtaContainer.style.display = 'block';
+        } else {
+            helpCtaContainer.style.display = 'none';
         }
         
         const backBtn = detailsView.querySelector('.back-btn');
@@ -650,6 +739,177 @@ class EventApp {
             } else {
                 window.open(osmUrl, '_blank');
             }
+        }
+    }
+
+    showICSPopover() {
+        const popover = document.getElementById('ics-popover');
+        if (popover) {
+            popover.showPopover();
+        }
+    }
+
+    downloadICS() {
+        if (!this.selectedEvent) return;
+
+        const event = this.selectedEvent;
+        const eventDate = new Date(event.Time);
+        
+        const formatICSDate = (date) => {
+            return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+        };
+        const isAppleDevice = /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent);
+        const appleLocation = event.Location.replace(',', '\\n').replace(/,/g, '\\,');
+        const endDate = new Date(eventDate.getTime() + 2 * 60 * 60 * 1000);
+
+        const icsContent = [
+            'BEGIN:VCALENDAR',
+            'VERSION:2.0',
+            'PRODID:-//Bündnis Ost//Event Calendar//DE',
+            'CALSCALE:GREGORIAN',
+            'METHOD:PUBLISH',
+            'BEGIN:VEVENT',
+            `DTSTART:${formatICSDate(eventDate)}`,
+            `DTEND:${formatICSDate(endDate)}`,
+            `DTSTAMP:${formatICSDate(new Date())}`,
+            `UID:${event.Id}@buendnis-ost.de`,
+            `SUMMARY:${event.Title}`,
+            `DESCRIPTION:${(event.Description || '').replace(/\n/g, '\\n').replace(/,/g, '\\,')}`,
+            `LOCATION:${event.Location.replace(/,/g, '\\,')}`,
+            `GEO:${event.Geolocation.Latitude};${event.Geolocation.Longitude}`,
+            `DTEND:${formatICSDate(endDate)}`,
+            `DTSTAMP:${formatICSDate(new Date())}`,
+            `UID:${event.Id}@buendnis-ost.de`,
+            `SUMMARY:${event.Title}`,
+            `DESCRIPTION:${(event.Description || '').replace(/\n/g, '\\n')}`,
+            `LOCATION:${isAppleDevice ? appleLocation : event.Location}`,
+            `GEO:${event.Geolocation.Latitude};${event.Geolocation.Longitude}`,
+            `X-APPLE-STRUCTURED-LOCATION;VALUE=URI;X-ADDRESS="${appleLocation}";X-APPLE-RADIUS=100;X-TITLE=${appleLocation}:geo:${event.Geolocation.Latitude},${event.Geolocation.Longitude}`,
+            `ORGANIZER;CN=${event.Organizer.Name}:MAILTO:${event.Organizer.Email || 'info@buendnis-ost.de'}`,
+            `URL:${window.location.origin}/?event=${event.Id}`,
+            'STATUS:CONFIRMED',
+            'END:VEVENT',
+            'END:VCALENDAR'
+        ].join('\r\n');
+
+        const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = `${event.Title.replace(/[^a-z0-9\-äöü]/gi, '_')}.ics`;
+        link.download = link.download.replaceAll('___', '_');
+        link.download = link.download.replaceAll('__', '_');
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        const popover = document.getElementById('ics-popover');
+        if (popover) {
+            popover.hidePopover();
+        }
+    }
+
+    showQRPopover() {
+        const popover = document.getElementById('qr-popover');
+        if (popover) {
+            this.loadQRCodeLibrary().then(() => {
+                this.generateQRCode();
+                popover.showPopover();
+            });
+        }
+    }
+
+    loadQRCodeLibrary() {
+        if (window.QRCode) {
+            return Promise.resolve();
+        }
+
+        return new Promise((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js';
+            script.onload = resolve;
+            script.onerror = reject;
+            document.head.appendChild(script);
+        });
+    }
+
+
+    generateQRCode() {
+        if (!this.selectedEvent) return;
+
+        const eventUrl = `${window.location.origin}/#detail-${this.selectedEvent.Id}`;
+        const container = document.getElementById('qr-code-container');
+        
+        container.innerHTML = '';
+
+        if (!window.QRCode) {
+            container.innerHTML = '<p>QR-Code-Bibliothek wird geladen...</p>';
+            return;
+        }
+
+        new QRCode(container, {
+            text: eventUrl,
+            width: 256,
+            height: 256,
+            colorDark: '#000000',
+            colorLight: '#ffffff',
+            correctLevel: QRCode.CorrectLevel.H
+        });
+    }
+
+    downloadQRCode() {
+        if (!this.selectedEvent) return;
+
+        const container = document.getElementById('qr-code-container');
+        const canvas = container.querySelector('canvas');
+        
+        if (!canvas) {
+            const img = container.querySelector('img');
+            if (img) {
+                const link = document.createElement('a');
+                link.href = img.src;
+                link.download = `qr-code-${this.selectedEvent.Title.replace(/[^a-z0-9]/gi, '_')}.png`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+            return;
+        }
+    }
+
+    showSharePopover() {
+        if (!this.selectedEvent) return;
+        
+        const protocol = window.location.protocol;
+        const host = window.location.host;
+        const shareUrl = `${protocol}//${host}/event.php?id=${this.selectedEvent.Id}`;
+        
+        const input = document.getElementById('share-url-input');
+        if (input) {
+            input.value = shareUrl;
+        }
+        
+        document.getElementById('share-popover')?.showPopover();
+    }
+
+    copyShareUrl() {
+        const input = document.getElementById('share-url-input');
+        const btnText = document.getElementById('copy-btn-text');
+        
+        if (input) {
+            input.select();
+            input.setSelectionRange(0, 99999);
+            
+            navigator.clipboard.writeText(input.value).then(() => {
+                if (btnText) {
+                    const originalText = btnText.textContent;
+                    btnText.textContent = '✓ Kopiert!';
+                    setTimeout(() => {
+                        btnText.textContent = originalText;
+                    }, 2000);
+                }
+            }).catch(err => {
+                console.error('Fehler beim Kopieren:', err);
+            });
         }
     }
 }

@@ -17,7 +17,8 @@ NC='\033[0m' # No Color
 
 # folders to be ignored during the rsync
 EXCLUDES=(
-  '--exclude=event-admin/'
+    '--exclude=config.php'
+    '--exclude=/media/'
 #   '--exclude=events.json'
 )
 
@@ -43,7 +44,6 @@ case $choice in
     1)
         TARGET_PATH="${DEV_PATH}"
         ENVIRONMENT="Development"
-        echo -e "${GREEN}Development-Deployment ausgewählt${NC}"
         ;;
     2)
         TARGET_PATH="${PROD_PATH}"
@@ -78,10 +78,22 @@ echo -e "${GREEN}Starte ${ENVIRONMENT}-Deployment...${NC}"
 echo -e "${GREEN}Ziel: ${TARGET_PATH}${NC}"
 echo ""
 
+# Development Build mit Hugo
+if [ "$ENVIRONMENT" = "Development" ]; then
+    echo -e "${YELLOW}Erstelle Development Build mit Hugo...${NC}"
+    hugo --cleanDestinationDir 
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}Hugo Build fehlgeschlagen!${NC}"
+        exit 1
+    fi
+    echo -e "${GREEN}Development Build erfolgreich abgeschlossen${NC}"
+    echo ""
+fi
+
 # Production Build mit Hugo
 if [ "$ENVIRONMENT" = "Production" ]; then
     echo -e "${YELLOW}Erstelle Production Build mit Hugo...${NC}"
-    hugo --minify
+    hugo --minify --cleanDestinationDir 
     if [ $? -ne 0 ]; then
         echo -e "${RED}Hugo Build fehlgeschlagen!${NC}"
         exit 1

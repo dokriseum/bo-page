@@ -110,7 +110,7 @@ class EventDatabase {
         }
     }
     
-    public function getAllEvents($status = 'active') {
+    public function getAllEvents() {
         try {
             $schema = [];
             if (file_exists(SCHEMA_PATH)) {
@@ -129,13 +129,14 @@ class EventDatabase {
                 }
             }
             
-            $sql = "SELECT * FROM `$table` WHERE status = ? ORDER BY event_time ASC";
+            $sql = "SELECT * FROM `$table` ORDER BY event_time ASC";
             $stmt = $this->db->prepare($sql);
-            $stmt->execute([$status]);
+            $stmt->execute();
             $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
             $formattedEvents = [];
             foreach ($events as $event) {
                 $formattedEvent = [];
+                $formattedEvent['Id'] = (string)$event['id'];
                 $formattedEvent['Title'] = $event['title'];
                 $formattedEvent['Location'] = $event['location'];
                 $formattedEvent['Time'] = $event['event_time'];
@@ -156,24 +157,23 @@ class EventDatabase {
                         'Longitude' => (float)$event['longitude']
                     ];
                 }
+                if (!empty($event['website_url'])) $formattedEvent['WebsiteUrl'] = $event['website_url'];
                 if (!empty($event['wolke'])) $formattedEvent['Wolke'] = $event['wolke'];
                 if (!empty($event['chatbegruenung'])) $formattedEvent['Chatbegruenung'] = $event['chatbegruenung'];
                 if (!empty($event['social_media_links'])) {
                     $formattedEvent['SocialMediaLinks'] = json_decode($event['social_media_links'], true);
                 }
                 if (!empty($event['event_images'])) {
-                    $formattedEvent['EventImages'] = json_decode($event['event_images'], true);
+                    $formattedEvent['event_images'] = json_decode($event['event_images'], true);
                 }
-                if (!empty($event['event_status'])) {
-                    $formattedEvent['EventStatus'] = json_decode($event['event_status'], true);
-                } else {
-                    $formattedEvent['EventStatus'] = [];
-                    if (!empty($event['helpers_needed_minimum'])) {
-                        $formattedEvent['EventStatus']['HelpersNeededMinimum'] = (int)$event['helpers_needed_minimum'];
-                    }
-                    if (!empty($event['special_requirements'])) {
-                        $formattedEvent['EventStatus']['SpecialRequirements'] = $event['special_requirements'];
-                    }
+                if (!empty($event['helpers_needed_minimum'])) {
+                    $formattedEvent['HelpersNeededMinimum'] = (int)$event['helpers_needed_minimum'];
+                }
+                if (!empty($event['special_requirements'])) {
+                    $formattedEvent['SpecialRequirements'] = $event['special_requirements'];
+                }
+                if (!empty($event['status'])) {
+                    $formattedEvent['Status'] = $event['status'];
                 }
                 $formattedEvents[] = $formattedEvent;
             }
@@ -190,7 +190,7 @@ class EventDatabase {
     public function createEventConfirmation($eventData) {
         try {
             $token = bin2hex(random_bytes(32));
-            $expiresAt = date('Y-m-d H:i:s', time() + 24 * 60 * 60);
+            $expiresAt = date('Y-m-d H:i:s', time() + 7 * 24 * 60 * 60);
             $stmt = $this->db->prepare("
                 INSERT INTO event_confirmations (token, event_data, email, expires_at)
                 VALUES (?, ?, ?, ?)
@@ -198,7 +198,7 @@ class EventDatabase {
             
             $stmt->execute([
                 $token,
-                json_encode($eventData, JSON_UNESCAPED_UNICODE),
+                json_encode($eventData),
                 $eventData['Organizer']['Contact']['Email'],
                 $expiresAt
             ]);
@@ -226,8 +226,9 @@ class EventDatabase {
             
             $eventData = json_decode($confirmation['event_data'], true);
             $eventId = $this->insertEvent($eventData);
-            $stmt = $this->db->prepare("DELETE FROM event_confirmations WHERE token = ?");
-            $stmt->execute([$token]);
+            
+            $stmt = $this->db->prepare("UPDATE event_confirmations SET event_id = ? WHERE token = ?");
+            $stmt->execute([$eventId, $token]);
             
             $this->db->commit();
             $this->updateEventsJson();
@@ -277,14 +278,14 @@ class EventDatabase {
                 case 'organizer_phone': $insertFields[] = 'organizer_phone'; $params[] = $eventData['Organizer']['Contact']['Phone'] ?? null; break;
                 case 'event_type': $insertFields[] = 'event_type'; $params[] = $eventData['EventType'] ?? null; break;
                 case 'description': $insertFields[] = 'description'; $params[] = $eventData['Description'] ?? null; break;
-                case 'wolke': $insertFields[] = 'wolke'; $params[] = $eventData['Wolke'] ?? null; break;
-                case 'chatbegruenung': $insertFields[] = 'chatbegruenung'; $params[] = $eventData['Chatbegruenung'] ?? null; break;
-                case 'social_media_links': $insertFields[] = 'social_media_links'; $params[] = isset($eventData['SocialMediaLinks']) ? json_encode($eventData['SocialMediaLinks']) : null; break;
-                case 'event_images': $insertFields[] = 'event_images'; $params[] = isset($eventData['EventImages']) ? json_encode($eventData['EventImages']) : null; break;
-                case 'helpers_needed_minimum': $insertFields[] = 'helpers_needed_minimum'; $params[] = $eventData['EventStatus']['HelpersNeededMinimum'] ?? null; break;
-                case 'special_requirements': $insertFields[] = 'special_requirements'; $params[] = $eventData['EventStatus']['SpecialRequirements'] ?? null; break;
-                case 'event_status': $insertFields[] = 'event_status'; $params[] = isset($eventData['EventStatus']) ? json_encode($eventData['EventStatus']) : null; break;
-                case 'status': $insertFields[] = 'status'; $params[] = 'active'; break;
+                case 'website_url': $insertFields[] = 'website_url'; $params[] = isset($eventData['WebsiteUrl']) ? sanitizeUrl($eventData['WebsiteUrl']) : null; break;
+                case 'wolke': $insertFields[] = 'wolke'; $params[] = isset($eventData['Wolke']) ? sanitizeUrl($eventData['Wolke']) : null; break;
+                case 'chatbegruenung': $insertFields[] = 'chatbegruenung'; $params[] = isset($eventData['Chatbegruenung']) ? sanitizeUrl($eventData['Chatbegruenung']) : null; break;
+                case 'social_media_links': $insertFields[] = 'social_media_links'; $params[] = isset($eventData['SocialMediaLinks']) ? json_encode($eventData['SocialMediaLinks'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null; break;
+                case 'event_images': $insertFields[] = 'event_images'; $params[] = isset($eventData['EventImages']) ? json_encode($eventData['EventImages'], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null; break;
+                case 'helpers_needed_minimum': $insertFields[] = 'helpers_needed_minimum'; $params[] = $eventData['HelpersNeededMinimum'] ?? $eventData['EventStatus']['HelpersNeededMinimum'] ?? null; break;
+                case 'special_requirements': $insertFields[] = 'special_requirements'; $params[] = $eventData['SpecialRequirements'] ?? $eventData['EventStatus']['SpecialRequirements'] ?? null; break;
+                case 'status': $insertFields[] = 'status'; $params[] = $eventData['Status'] ?? 'active'; break;
             }
         }
         $sql = "INSERT INTO `$table` (" . implode(", ", $insertFields) . ") VALUES (" . rtrim(str_repeat('?, ', count($insertFields)), ', ') . ")";
@@ -295,9 +296,17 @@ class EventDatabase {
     
     public function updateEventsJson() {
         try {
-            $events = $this->getAllEvents('active');
+            $events = $this->getAllEvents();
+            
+            foreach ($events as &$event) {
+                if (isset($event['Description'])) {
+                    $event['Description'] = str_replace("\n", "<br/>", $event['Description']);
+                }
+            }
+            unset($event);
+            
             $jsonPath = __DIR__ . '/events.json';
-            file_put_contents($jsonPath, json_encode($events, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+            file_put_contents($jsonPath, json_encode($events, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
         } catch (Exception $e) {
             error_log("Failed to update events.json: " . $e->getMessage());
         }
@@ -305,12 +314,30 @@ class EventDatabase {
     
     public function cleanupExpiredConfirmations() {
         try {
-            $stmt = $this->db->prepare("DELETE FROM event_confirmations WHERE expires_at < NOW()");
+            $stmt = $this->db->prepare("
+                DELETE FROM event_confirmations 
+                WHERE event_id IS NOT NULL 
+                AND expires_at < DATE_SUB(NOW(), INTERVAL 3 MONTH)
+            ");
             $stmt->execute();
         } catch (PDOException $e) {
             error_log("Failed to cleanup expired confirmations: " . $e->getMessage());
         }
     }
+}
+
+function sanitizeUrl($url) {
+    if (empty($url)) {
+        return $url;
+    }
+    
+    $url = trim($url);
+    
+    if (preg_match('/^["\'](.*)["\']$/', $url, $matches)) {
+        $url = $matches[1];
+    }
+    
+    return $url;
 }
 
 function loadTemplateData(string $path, array $variables = []): array {
@@ -356,21 +383,43 @@ function validateSubmissionToken($token) {
     return true;
 }
 
-function sendConfirmationEmail($email, $token, $eventTitle) {
+function sendConfirmationEmail($email, $token, $eventTitle, $eventData) {
     $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https://' : 'http://';
     $confirmUrl = $protocol . $_SERVER['HTTP_HOST'] . "/api.php/confirm/" . $token;
     $template = loadTemplateData(TEMPLATE_ROOT . '/confirmation_email.php', [
         'eventTitle' => $eventTitle,
-        'confirmUrl' => $confirmUrl
+        'confirmUrl' => $confirmUrl,
+        'eventData' => $eventData
     ]);
+    
     $subject = $template['subject'] ?? '';
-    $message = $template['body'] ?? '';
-    if ($subject === '' || $message === '') {
+    $textBody = $template['text'] ?? '';
+    $htmlBody = $template['html'] ?? '';
+    
+    if ($subject === '' || $textBody === '') {
         throw new RuntimeException('Invalid confirmation email template content');
     }
+    
+    $boundary = md5(time());
+    
     $headers = "From: " . MAIL_FROM . "\r\n";
     $headers .= "Reply-To: " . MAIL_FROM . "\r\n";
-    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+    $headers .= "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: multipart/alternative; boundary=\"{$boundary}\"\r\n";
+    
+    $message = "--{$boundary}\r\n";
+    $message .= "Content-Type: text/plain; charset=UTF-8\r\n";
+    $message .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+    $message .= $textBody . "\r\n\r\n";
+    
+    if ($htmlBody !== '') {
+        $message .= "--{$boundary}\r\n";
+        $message .= "Content-Type: text/html; charset=UTF-8\r\n";
+        $message .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+        $message .= $htmlBody . "\r\n\r\n";
+    }
+    
+    $message .= "--{$boundary}--";
     
     return mail($email, $subject, $message, $headers);
 }
@@ -392,6 +441,67 @@ try {
             } elseif ($path === '/token') {
                 $token = generateSubmissionToken();
                 echo json_encode(['token' => $token, 'expires_in' => 3600]);
+            } elseif ($path === '/validate-url') {
+                if (!isset($_GET['url'])) {
+                    http_response_code(400);
+                    echo json_encode(['error' => 'URL parameter missing']);
+                    break;
+                }
+                
+                $url = $_GET['url'];
+                
+                if (!filter_var($url, FILTER_VALIDATE_URL)) {
+                    echo json_encode([
+                        'valid' => false,
+                        'error' => 'Invalid URL format'
+                    ]);
+                    break;
+                }
+                
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+                curl_setopt($ch, CURLOPT_MAXREDIRS, 5);
+                curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+                curl_setopt($ch, CURLOPT_USERAGENT, 'BuendnisOst-EventValidator/1.0');
+                curl_setopt($ch, CURLOPT_HEADER, true);
+                curl_setopt($ch, CURLOPT_NOBODY, false);
+                
+                $response = curl_exec($ch);
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                $headerSize = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+                $body = substr($response, $headerSize);
+                $error = curl_error($ch);
+                curl_close($ch);
+                
+                if ($error) {
+                    echo json_encode([
+                        'valid' => false,
+                        'error' => $error,
+                        'title' => ''
+                    ]);
+                    break;
+                }
+                
+                $valid = ($httpCode >= 200 && $httpCode < 400);
+                
+                $title = '';
+                if ($valid && $body) {
+                    if (preg_match('/<title[^>]*>([^<]+)<\/title>/i', $body, $matches)) {
+                        $title = html_entity_decode(trim($matches[1]), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                    } elseif (preg_match('/<meta[^>]*property=["\']og:title["\'][^>]*content=["\']([^"\']+)["\'][^>]*>/i', $body, $matches)) {
+                        $title = html_entity_decode(trim($matches[1]), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+                    }
+                }
+                
+                echo json_encode([
+                    'valid' => $valid,
+                    'http_code' => $httpCode,
+                    'title' => $title,
+                    'error' => $valid ? '' : "HTTP $httpCode"
+                ]);
             } elseif (preg_match('/^\/confirm\/([a-f0-9]{64})$/', $path, $matches)) {
                 header('Content-Type: text/html; charset=utf-8');
                 $token = $matches[1];
@@ -447,7 +557,7 @@ try {
                 $confirmationToken = $database->createEventConfirmation($eventData);
                 $email = $eventData['Organizer']['Contact']['Email'];
                 
-                if (sendConfirmationEmail($email, $confirmationToken, $eventData['Title'])) {
+                if (sendConfirmationEmail($email, $confirmationToken, $eventData['Title'], $eventData)) {
                     echo json_encode([
                         'success' => true, 
                         'message' => 'Bestätigungs-E-Mail wurde versendet. Bitte prüfen Sie Ihr Postfach.',
@@ -459,7 +569,7 @@ try {
                 }
             } elseif ($path === '/export') {
                 $database->updateEventsJson();
-                $events = $database->getAllEvents('active');
+                $events = $database->getAllEvents();
                 echo json_encode([
                     'success' => true,
                     'message' => 'Events wurden erfolgreich nach events.json exportiert',

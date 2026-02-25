@@ -31,8 +31,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const links = [];
 
     // Universeller Karten-Link: geo: für mobile Apps, OSM als Fallback
-    const latitude = ev.Geolocation.Latitude;
-    const longitude = ev.Geolocation.Longitude;
+    const latitude = ev.Geolocation.Latitude ?? 0;
+    const longitude = ev.Geolocation.Longitude ?? 0;
     const isMobile = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
     let mapUrl;
@@ -72,6 +72,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const eventsToUse = events || window._eventsJson;
 
     eventsToUse.forEach(ev => {
+      if (!ev.Geolocation || ev.Geolocation.Latitude === null || ev.Geolocation.Longitude === null)
+        return;
+      
       const marker = L.circleMarker([ev.Geolocation.Latitude, ev.Geolocation.Longitude], {
         radius: 6,
         color: 'var(--eventMarkerColor)',

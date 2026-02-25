@@ -98,7 +98,57 @@ body::before {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin: 0;
+  margin: 0 0 12px 0;
+}
+
+/* ===== TAB BAR ===== */
+.tab-bar {
+  display: flex;
+}
+
+.tab {
+  flex: 1;
+  padding: 6px 5px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.3s;
+  border: 1px solid var(--border);
+}
+
+.tab-events {
+  background: var(--bg);
+  color: var(--text);
+  border-top-left-radius: 16px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.tab-cta {
+  background: linear-gradient(135deg, var(--diversity-turquoise), var(--diversity-green));
+  color: var(--white);
+  border-top-left-radius: 0px;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(22, 160, 133, 0.25);
+}
+
+.tab.active {
+  cursor: default;
+  font-weight: 600;
+}
+
+.tab-events.active {
+  background: var(--white);
+  border-color: var(--diversity-blue);
+  color: var(--diversity-blue);
+}
+
+.tab-cta.active {
+  box-shadow: 0 4px 15px rgba(22, 160, 133, 0.4);
 }
 
 /* ===== CONTAINER ===== */
@@ -116,7 +166,6 @@ body::before {
   color: var(--diversity-blue);
   text-decoration: none;
   font-weight: 500;
-  margin-bottom: 20px;
   transition: all 0.3s;
 }
 
@@ -130,7 +179,10 @@ body::before {
   max-width: 600px;
   margin: 0 auto;
   background: var(--white);
-  border-radius: 16px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 16px;
+  border-bottom-left-radius: 16px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.08);
   padding: 2em 2.2em 1.5em 2.2em;
   font-size: 1.08em;
@@ -144,6 +196,24 @@ body::before {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+/* ===== FORM HINT ===== */
+.form-hint {
+  background: linear-gradient(135deg, rgba(22, 160, 133, 0.1), rgba(39, 174, 96, 0.1));
+  border-left: 4px solid var(--diversity-turquoise);
+  border-radius: 8px;
+  padding: 10px 10px;
+  margin-bottom: 20px;
+  font-size: 0.75em;
+  line-height: 1.5;
+  color: var(--text);
+  margin-top: 12px;
+}
+
+.form-hint strong {
+  color: var(--diversity-turquoise);
+}
+
 .event-form label {
   display: block;
   margin-bottom: 0.7em;

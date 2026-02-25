@@ -1,12 +1,30 @@
 <div class="map-page">
   <div class="tabs">
       <button class="map-state-selection active" onclick="filterByCategory('all')">Ostdeutschland</button>
-      <button class="map-state-selection" onclick="filterByCategory('be')">Berlin</button>
-      <button class="map-state-selection" onclick="filterByCategory('bb')">Brandenburg</button>
-      <button class="map-state-selection" onclick="filterByCategory('mv')">Mecklenburg-Vorpommern</button>
-      <button class="map-state-selection" onclick="filterByCategory('sn')">Sachsen</button>
-      <button class="map-state-selection" onclick="filterByCategory('st')">Sachsen-Anhalt</button>
-      <button class="map-state-selection" onclick="filterByCategory('th')">Thüringen</button>
+      <button class="map-state-selection" onclick="filterByCategory('be')">
+          <img src="/images/coat-of-arms/be.png" alt="Berlin" class="state-coat-of-arms">
+          <span>BE</span>
+      </button>
+      <button class="map-state-selection" onclick="filterByCategory('bb')">
+          <img src="/images/coat-of-arms/bb.png" alt="Brandenburg" class="state-coat-of-arms">
+          <span>BB</span>
+      </button>
+      <button class="map-state-selection" onclick="filterByCategory('mv')">
+          <img src="/images/coat-of-arms/mv.png" alt="Mecklenburg-Vorpommern" class="state-coat-of-arms">
+          <span>MV</span>
+      </button>
+      <button class="map-state-selection" onclick="filterByCategory('sn')">
+          <img src="/images/coat-of-arms/sn.png" alt="Sachsen" class="state-coat-of-arms">
+          <span>SN</span>
+      </button>
+      <button class="map-state-selection" onclick="filterByCategory('st')">
+          <img src="/images/coat-of-arms/st.png" alt="Sachsen-Anhalt" class="state-coat-of-arms">
+          <span>ST</span>
+      </button>
+      <button class="map-state-selection" onclick="filterByCategory('th')">
+          <img src="/images/coat-of-arms/th.png" alt="Thüringen" class="state-coat-of-arms">
+          <span>TH</span>
+      </button>
   </div>
   <div id="map" class="event-map"></div>
 </div>

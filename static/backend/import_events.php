@@ -195,25 +195,12 @@ function mapEventToDbValues(array $event, array $columns, string $normalizedTime
 {
     $values = [];
     $links = [];
-    $statusPayload = [];
 
     if (!empty($event['SocialMediaLinks']) && is_array($event['SocialMediaLinks'])) {
         $links = array_merge($links, array_filter($event['SocialMediaLinks']));
     }
     if (!empty($event['Organizer']['SocialMediaLinks']) && is_array($event['Organizer']['SocialMediaLinks'])) {
         $links = array_merge($links, array_filter($event['Organizer']['SocialMediaLinks']));
-    }
-    if (!empty($event['EventStatus']) && is_array($event['EventStatus'])) {
-        $statusPayload = $event['EventStatus'];
-    }
-    if (!empty($event['Website'])) {
-        $statusPayload['Website'] = $event['Website'];
-    }
-    if (!empty($event['Image'])) {
-        $statusPayload['Image'] = $event['Image'];
-    }
-    if (!empty($event['Id'])) {
-        $statusPayload['SourceId'] = $event['Id'];
     }
 
     $links = array_values(array_unique($links));
@@ -255,6 +242,9 @@ function mapEventToDbValues(array $event, array $columns, string $normalizedTime
             case 'description':
                 $values[] = trimmedOrNull($event['Description'] ?? null) ?? 'Keine Beschreibung verfügbar';
                 break;
+            case 'website_url':
+                $values[] = trimmedOrNull($event['WebsiteUrl'] ?? $event['Website'] ?? null);
+                break;
             case 'wolke':
                 $values[] = trimmedOrNull($event['Wolke'] ?? null);
                 break;
@@ -262,16 +252,20 @@ function mapEventToDbValues(array $event, array $columns, string $normalizedTime
                 $values[] = trimmedOrNull($event['Chatbegruenung'] ?? null);
                 break;
             case 'social_media_links':
-                $values[] = !empty($links) ? json_encode($links, JSON_UNESCAPED_UNICODE) : null;
+                $values[] = (!empty($links) && count($links) > 0) ? json_encode($links, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null;
+                break;
+            case 'event_images':
+                $images = [];
+                if (!empty($event['event_images']) && is_array($event['event_images'])) {
+                    $images = array_values(array_filter(array_map('trim', $event['event_images'])));
+                }
+                $values[] = !empty($images) ? json_encode($images, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) : null;
                 break;
             case 'helpers_needed_minimum':
                 $values[] = isset($event['EventStatus']['HelpersNeededMinimum']) ? (int)$event['EventStatus']['HelpersNeededMinimum'] : null;
                 break;
             case 'special_requirements':
                 $values[] = trimmedOrNull($event['EventStatus']['SpecialRequirements'] ?? null);
-                break;
-            case 'event_status':
-                $values[] = !empty($statusPayload) ? json_encode($statusPayload, JSON_UNESCAPED_UNICODE) : null;
                 break;
             case 'status':
                 $values[] = 'active';
