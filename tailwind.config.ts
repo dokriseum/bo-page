@@ -53,6 +53,51 @@ const config: Config = {
           teal: '#0ea5e9',
           orange: '#f97316',
         },
+        // ===== Admin Panel Semantic Colors =====
+        // Mapped to existing Bündnis OST design tokens
+        background: '#0d1117',
+        foreground: '#e2e8f0',
+        card: {
+          DEFAULT: '#161b27',
+          foreground: '#e2e8f0',
+        },
+        popover: {
+          DEFAULT: '#161b27',
+          foreground: '#e2e8f0',
+        },
+        primary: {
+          DEFAULT: '#3B82F6',
+          foreground: '#ffffff',
+        },
+        secondary: {
+          DEFAULT: '#1e2535',
+          foreground: '#e2e8f0',
+        },
+        muted: {
+          DEFAULT: '#1a2235',
+          foreground: '#8892a4',
+        },
+        accent: {
+          DEFAULT: '#3B82F6',
+          foreground: '#ffffff',
+        },
+        destructive: {
+          DEFAULT: '#ef4444',
+          foreground: '#ffffff',
+        },
+        ring: '#3B82F6',
+        input: '#2d3748',
+        'switch-background': '#374151',
+        sidebar: {
+          DEFAULT: '#0f1623',
+          foreground: '#e2e8f0',
+          primary: '#3B82F6',
+          'primary-foreground': '#ffffff',
+          accent: '#1e2535',
+          'accent-foreground': '#e2e8f0',
+          border: '#2d3748',
+          ring: '#3B82F6',
+        },
       },
       fontFamily: {
         sans: [

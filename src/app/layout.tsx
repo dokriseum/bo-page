@@ -1,8 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import RainbowBar from '@/components/layout/RainbowBar'
-import Navigation from '@/components/layout/Navigation'
-import Footer from '@/components/layout/Footer'
+import LayoutWrapper from '@/components/layout/LayoutWrapper'
 
 export const metadata: Metadata = {
   title: 'Bündnis OST | OSTSICHT schärfen – Netzwerke stärken.',
@@ -35,19 +33,7 @@ export default function RootLayout({
   return (
     <html lang="de">
       <body className="antialiased" style={{ background: '#0d1117', color: '#e2e8f0' }}>
-        <RainbowBar />
-        <Navigation />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
-        {/* Floating Action Button */}
-        <a
-          href="/events/create"
-          className="floating-btn"
-          aria-label="Event erstellen"
-          title="Neues Event erstellen"
-        >
-          +
-        </a>
+        <LayoutWrapper>{children}</LayoutWrapper>
       </body>
     </html>
   )
